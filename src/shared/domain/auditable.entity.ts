@@ -1,4 +1,4 @@
-import { Users } from '@/users/domain/user.entity';
+import { User } from '@/users/domain/user.entity';
 
 export type AuditableProps = {
   createdAt?: Date;
@@ -19,15 +19,15 @@ export abstract class Auditable {
 }
 
 export type UserAuditableProps = AuditableProps & {
-  createdBy?: Users;
-  updatedBy?: Users;
-  deletedBy?: Users;
+  createdBy?: User;
+  updatedBy?: User;
+  deletedBy?: User;
 };
 
 export abstract class UserAuditable extends Auditable {
-  readonly createdBy?: Users;
-  readonly updatedBy?: Users;
-  readonly deletedBy?: Users;
+  readonly createdBy?: User;
+  readonly updatedBy?: User;
+  readonly deletedBy?: User;
 
   constructor(props: UserAuditableProps) {
     super(props);
