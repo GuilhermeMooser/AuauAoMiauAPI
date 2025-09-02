@@ -1,38 +1,74 @@
-import { User } from '@/users/domain/user.entity';
+import { Audit, BaseProps, Entity } from './entity';
 
-export type AuditableProps = {
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
-};
+export abstract class AuditableEntity<
+  Props extends BaseProps,
+> extends Entity<Props> {
+  constructor(
+    props: Props & {
+      id?: string;
+      audit?: Partial<Audit>;
+    },
+  ) {
+    super(props);
+  }
 
-export abstract class Auditable {
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
+  get createdAt() {
+    return this.props.audit.createdAt;
+  }
 
-  constructor(props: AuditableProps) {
-    this.createdAt = props?.createdAt;
-    this.updatedAt = props?.updatedAt;
-    this.deletedAt = props?.deletedAt;
+  get updatedAt() {
+    return this.props.audit.updatedAt;
+  }
+
+  get deletedAt() {
+    return this.props.audit.deletedAt;
+  }
+
+  isDeleted(): boolean {
+    return this.props.audit.deletedAt !== null;
   }
 }
 
-export type UserAuditableProps = AuditableProps & {
-  createdBy?: User;
-  updatedBy?: User;
-  deletedBy?: User;
+export type UserAuditableProps = {
+  createdByUserId?: string;
+  updatedByUserId?: string;
+  deletedByUserId?: string;
 };
 
-export abstract class UserAuditable extends Auditable {
-  readonly createdBy?: User;
-  readonly updatedBy?: User;
-  readonly deletedBy?: User;
-
-  constructor(props: UserAuditableProps) {
+export abstract class UserAuditableEntity<
+  Props extends BaseProps,
+> extends AuditableEntity<Props & UserAuditableProps> {
+  constructor(
+    props: Props &
+      UserAuditableProps & {
+        id?: string;
+        audit?: Partial<Audit>;
+      },
+  ) {
     super(props);
-    this.createdBy = props?.createdBy;
-    this.updatedBy = props?.updatedBy;
-    this.deletedBy = props?.deletedBy;
+  }
+
+  get createdByUserId() {
+    return this.props.createdByUserId;
+  }
+
+  get updatedByUserId() {
+    return this.props.updatedByUserId;
+  }
+
+  get deletedByUserId() {
+    return this.props.deletedByUserId;
+  }
+
+  isCreatedBy(userId: string): boolean {
+    return this.props.createdByUserId === userId;
+  }
+
+  isUpdatedBy(userId: string): boolean {
+    return this.props.updatedByUserId === userId;
+  }
+
+  isDeletedBy(userId: string): boolean {
+    return this.props.deletedByUserId === userId;
   }
 }
