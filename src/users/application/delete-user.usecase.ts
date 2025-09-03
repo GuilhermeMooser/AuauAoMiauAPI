@@ -1,12 +1,12 @@
-import { UseCase } from '@/shared/application/usecases/use-case';
-import { Injectable } from '@nestjs/common';
+// import { UseCase } from '@/shared/application/usecases/use-case';
+// import { Injectable } from '@nestjs/common';
 
-type Input = {};
-type Output = {};
+// type Input = {};
+// type Output = {};
 
-@Injectable()
-export class DeleteUserUseCase implements UseCase<Input, Output> {
-  execute(input: Input): Promise<Output> {
-    throw new Error('Method not implemented.');
-  }
-}
+// @Injectable()
+// export class DeleteUserUseCase implements UseCase<Input, Output> {
+//   execute(input: Input): Promise<Output> {
+//     throw new Error('Method not implemented.');
+//   }
+// }

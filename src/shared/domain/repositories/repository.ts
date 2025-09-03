@@ -5,7 +5,7 @@ export interface Repository<Entity>
     SoftDeleteRepository {}
 
 export interface FindByIdRepository<Entity> {
-  findById(id: number): Promise<Entity>;
+  findById(id: string): Promise<Entity>;
 }
 
 export interface CreateRepository<Entity> {
@@ -17,5 +17,5 @@ export interface UpdateRepository<Entity> {
 }
 
 export interface SoftDeleteRepository {
-  softDeleteById(categoryId: number): Promise<void>;
+  softDeleteById(id: string): Promise<void>;
 }

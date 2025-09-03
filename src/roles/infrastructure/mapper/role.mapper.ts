@@ -1,0 +1,34 @@
+import { RepositoryBaseMapper } from '@/shared/domain/repositories/repository-base-mapper';
+import { RoleSchema } from '../role.schema';
+import { Role } from '@/roles/domain/role.entity';
+
+export class RoleMapper extends RepositoryBaseMapper<RoleSchema, Role> {
+  private static _instance: RoleMapper;
+
+  static get instance(): RoleMapper {
+    if (!this._instance) {
+      this._instance = new RoleMapper();
+    }
+    return this._instance;
+  }
+
+  toEntity(schema: RoleSchema): Role | null {
+    if (!schema) return null;
+
+    return new Role({
+      id: schema.id,
+      displayName: schema.displayName,
+      description: schema.description,
+      name: schema.name,
+      audit: {
+        createdAt: schema.createdAt,
+        updatedAt: schema.updatedAt,
+        deletedAt: schema.deletedAt,
+      },
+    });
+  }
+
+  toEntityMany(schemas: RoleSchema[]): Role[] {
+    return super.toEntityMany(schemas);
+  }
+}

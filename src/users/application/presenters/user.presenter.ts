@@ -2,6 +2,6 @@ export class UserPresenter {
   id: number;
   name: string;
   email: string;
-  isActive: boolean;
+  active: boolean;
   // role: RolePresenter
 }

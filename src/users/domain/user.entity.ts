@@ -1,32 +1,94 @@
-import {
-  UserAuditable,
-  UserAuditableProps,
-} from '@/shared/domain/auditable.entity';
+import { Role } from '@/roles/domain/role.entity';
+import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
+import { Audit } from '@/shared/domain/entity';
+import { UserSessions } from '@/userSessions/domain/user-session.entity';
 
-type UserProps = UserAuditableProps & {
-  id?: number;
+type UserProps = {
   name: string;
   email: string;
   password: string;
-  isActive: boolean;
-  // role: UserRoles;
+  active: boolean;
+  refreshToken?: string;
+  lastLoginAt?: Date;
+  lastLoginIp?: string;
+  roles: Role[];
+  sessions?: UserSessions[];
 };
 
-export class User extends UserAuditable {
-  readonly id?: number;
-  readonly name: string;
-  readonly email: string;
-  readonly password: string;
-  readonly isActive: boolean;
-  // readonly role: UserRoles;
-
-  constructor(props: UserProps) {
+export class User extends UserAuditableEntity<UserProps> {
+  constructor(
+    props: UserProps & {
+      id?: string;
+      audit?: Partial<Audit>;
+      createdByUserId?: string;
+      updatedByUserId?: string;
+      deletedByUserId?: string;
+    },
+  ) {
     super(props);
-    this.id = props.id;
-    this.name = props.name;
-    this.email = props.email;
-    this.password = props.password;
-    this.isActive = props.isActive;
-    // this.role = props.role;
+  }
+  get name() {
+    return this.props.name;
+  }
+
+  get email() {
+    return this.props.email;
+  }
+
+  get password() {
+    return this.props.password;
+  }
+
+  get active() {
+    return this.props.active;
+  }
+
+  get refreshToken() {
+    return this.props.refreshToken;
+  }
+
+  get lastLoginAt() {
+    return this.props.lastLoginAt;
+  }
+
+  get lastLoginIp() {
+    return this.props.lastLoginIp;
+  }
+
+  get roles() {
+    return this.props.roles || [];
+  }
+
+  get sessions() {
+    return this.props.sessions || [];
+  }
+
+  hasRole(roleName: string): boolean {
+    return this.roles.some(role => role.name === roleName);
+  }
+
+  hasAnyRole(roleNames: string[]): boolean {
+    return this.roles.some(role => roleNames.includes(role.name));
+  }
+
+  isActive(): boolean {
+    return this.props.active && !this.isDeleted();
+  }
+
+  static create(
+    props: UserProps & {
+      createdByUserId?: string;
+    },
+  ): User {
+    return new User({
+      ...props,
+      roles: props.roles || [],
+      createdByUserId: props.createdByUserId,
+      audit: {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      },
+    });
   }
 }

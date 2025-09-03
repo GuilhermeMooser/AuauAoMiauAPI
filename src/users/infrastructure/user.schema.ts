@@ -13,8 +13,8 @@ import {
 
 @Entity('users')
 export class UserSchema extends UserAuditableSchema {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ name: 'name' })
   name: string;

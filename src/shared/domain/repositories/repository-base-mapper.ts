@@ -1,18 +1,12 @@
 export abstract class RepositoryBaseMapper<Schema, Entity> {
-  toEntity?(schema: Schema): Entity;
-  toSchema?(entity: Entity): Schema;
+  abstract toEntity(schema: Schema): Entity | null;
+  toSchema?(entity: Entity): Schema | null;
 
-  toEntityMany(
-    schemas: Schema[],
-    mapperFn: (schema: Schema) => Entity,
-  ): Entity[] {
-    return schemas.map(mapperFn).filter(Boolean);
+  toEntityMany(schemas: Schema[]): Entity[] {
+    return schemas.map(schema => this.toEntity(schema)).filter(Boolean);
   }
 
-  toSchemaMany(
-    entities: Entity[],
-    mapperFn: (entity: Entity) => Schema,
-  ): Schema[] {
-    return entities.map(mapperFn).filter(Boolean);
+  toSchemaMany(entities: Entity[]): Schema[] {
+    return entities.map(entity => this.toSchema(entity)).filter(Boolean);
   }
 }
