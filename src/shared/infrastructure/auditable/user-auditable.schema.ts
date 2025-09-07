@@ -3,11 +3,11 @@ import { AuditableSchema } from './auditable-schema';
 
 export abstract class UserAuditableSchema extends AuditableSchema {
   @Column({ name: 'createdByUserId', nullable: true })
-  createdByUserId: number;
+  createdByUserId: string;
 
   @Column({ name: 'updatedByUserId', nullable: true })
-  updatedByUserId: number;
+  updatedByUserId: string;
 
   @Column({ name: 'deletedByUserId', nullable: true })
-  deletedByUserId: number;
+  deletedByUserId: string;
 }

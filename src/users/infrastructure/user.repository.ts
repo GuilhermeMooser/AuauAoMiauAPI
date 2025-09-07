@@ -4,12 +4,17 @@ import { UserRepository } from '../domain/user.repository';
 import { Repository } from 'typeorm';
 import { UserSchema } from './user.schema';
 import { UserMapper } from './mapper/user.mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserRepositoryImpl implements UserRepository {
   constructor(
     @InjectRepository(UserSchema)
     private readonly userRepository: Repository<UserSchema>,
   ) {}
+  create(entity: Partial<User>): Promise<User> {
+    throw new Error('Method not implemented.');
+  }
 
   async findByUserEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({
@@ -31,21 +36,21 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.instance.toEntity(user);
   }
 
-  async create(entity: User): Promise<User> {
-    const userSchema = UserMapper.instance.toSchema(entity)
+  async 11(entity: User): Promise<User> {
+    const userSchema = UserMapper.instance.toSchema(entity);
 
-    const user = await this.userRepository.save(entity);
-    return user;
+    const user = await this.userRepository.save(userSchema);
+    return UserMapper.instance.toEntity(user);
   }
 
   update(entity: User): Promise<User> {
     // const user = await this.userRepository.save(entity);
     // return user;
-    return null
+    return null;
   }
 
   softDeleteById(id: string): Promise<void> {
     // await this.userRepository.softDelete({ id });
-    return null
+    return null;
   }
 }

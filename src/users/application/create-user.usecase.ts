@@ -1,11 +1,12 @@
 import { UseCase } from '@/shared/application/usecases/use-case';
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepository } from '../domain/user.repository';
 import { UserOutput } from '@/shared/application/dtos/user-output';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { User } from '../domain/user.entity';
 import * as bcrypt from 'bcrypt';
 import type { RoleRepository } from '@/roles/domain/role.repository';
+import { ConflictError } from '@/shared/application/errors/conflict-error';
 
 type Input = {
   name: string;
@@ -33,7 +34,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
   }: Input): Promise<Output> {
     const existingUser = await this.userRepository.findByUserEmail(email);
     if (existingUser) {
-      throw new ConflictException('Email já está em uso');
+      throw new ConflictError('Email já está em uso');
     }
 
     this.validatePassword(password);
@@ -44,7 +45,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     const roles = await this.roleRepository.findRolesByNames(roleNames);
 
     if (roles.length !== roleNames.length) {
-      throw new BadRequestError('Uma ou mais roles especificadas não existem');
+      throw new ConflictError('Uma ou mais roles especificadas não existem');
     }
 
     const user = await this.userRepository.create({
@@ -53,7 +54,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       name,
       roles,
     });
-
+    console.log(user)
     // return {
     //   user: this.sanitizeUser(user),
     //   message: 'Usuário criado com sucesso pelo administrador',

@@ -48,8 +48,15 @@ export class UserMapper extends RepositoryBaseMapper<UserSchema, User> {
       refreshToken: entity.refreshToken,
       lastLoginAt: entity.lastLoginAt,
       lastLoginIp: entity.lastLoginIp,
-      roles: entity.roles,
-      sessions: entity.sessions,
+      roles: RoleMapper.instance.toSchemaMany(entity.roles),
+      // sessions: entity.sessions,
+      sessions: [],
+      createdByUserId: entity.createdByUserId,
+      deletedByUserId: entity.deletedByUserId,
+      updatedByUserId: entity.updatedByUserId,
+      createdAt: entity.createdAt,
+      deletedAt: entity.deletedAt,
+      updatedAt: entity.updatedAt,
     };
   }
 }

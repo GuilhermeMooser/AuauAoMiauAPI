@@ -22,7 +22,7 @@ export class PermissionSchema {
   action: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  active: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

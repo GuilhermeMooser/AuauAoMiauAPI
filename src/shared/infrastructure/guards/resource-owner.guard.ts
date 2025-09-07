@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { RESOURCE_OWNER_KEY } from '../decorators/resource-owner.decorator';
+import { ForbiddenError } from '@/shared/application/errors/forbidden-error';
 
 @Injectable()
 export class ResourceOwnerGuard implements CanActivate {
@@ -16,18 +18,23 @@ export class ResourceOwnerGuard implements CanActivate {
       return true;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const request = context.switchToHttp().getRequest();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { user, params } = request;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (user.roles?.some(role => role.name === 'super-admin')) {
       return true;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const resourceId = params[ownershipConfig.param];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const userId = user[ownershipConfig.userField];
 
     if (resourceId !== userId) {
-      throw new ForbiddenException(
+      throw new ForbiddenError(
         'Acesso negado: você só pode acessar seus próprios recursos',
       );
     }
