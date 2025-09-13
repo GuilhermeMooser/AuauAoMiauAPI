@@ -1,4 +1,4 @@
-import { Permission } from '@/permission/domain/permission.entity';
+import { Permission } from '@/VER AINDA/permission/domain/permission.entity';
 import { AuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { User } from '@/users/domain/user.entity';

@@ -4,7 +4,7 @@ import { CreateUserUseCase } from '../application/create-user.usecase';
 import { UserRepositoryImpl } from './user.repository';
 import { UserSchema } from './user.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RoleModule } from '@/roles/infrastructure/role.module';
+import { RoleModule } from '@/VER AINDA/roles/infrastructure/role.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserSchema]), RoleModule],

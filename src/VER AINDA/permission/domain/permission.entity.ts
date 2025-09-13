@@ -1,4 +1,4 @@
-import { Role } from "@/roles/domain/role.entity";
+import { Role } from '@/VER AINDA/roles/domain/role.entity';
 
 type PermissionProps = {
   id?: string;
@@ -10,7 +10,7 @@ type PermissionProps = {
   active: boolean;
   createdAt: Date;
   roles: Role[];
-}
+};
 
 export class Permission {
   readonly id?: string;
@@ -24,14 +24,14 @@ export class Permission {
   readonly roles: Role[];
 
   constructor(props: PermissionProps) {
-  this.id = props.id;
-  this.name = props.name;
-  this.displayName = props.displayName;
-  this.description = props.description;
-  this.resource = props.resource;
-  this.action = props.action;
-  this.active = props.active;
-  this.createdAt = props.createdAt;
-  this.roles = props.roles;
+    this.id = props.id;
+    this.name = props.name;
+    this.displayName = props.displayName;
+    this.description = props.description;
+    this.resource = props.resource;
+    this.action = props.action;
+    this.active = props.active;
+    this.createdAt = props.createdAt;
+    this.roles = props.roles;
   }
 }

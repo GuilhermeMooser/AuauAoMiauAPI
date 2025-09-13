@@ -33,7 +33,7 @@ export class UserController {
 
   // constructor(private readonly registerUseCase: RegisterUseCase) {}
 
-  @Roles('admin', 'super-admin')
+  // @Roles('admin', 'super-admin')
   @Post('register')
   async create(@Body() createUserDto: CreateUserDto): Promise<UserPresenter> {
     return this.createUserUseCase.execute(createUserDto);

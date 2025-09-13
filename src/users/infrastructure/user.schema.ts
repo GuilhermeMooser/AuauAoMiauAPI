@@ -1,4 +1,4 @@
-import { RoleSchema } from '@/roles/infrastructure/role.schema';
+import { RoleSchema } from '@/VER AINDA/roles/infrastructure/role.schema';
 import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
 import { UserSessionSchema } from '@/userSessions/infrastructure/user-sessions.schema';
 import { Exclude } from 'class-transformer';

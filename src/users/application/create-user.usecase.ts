@@ -5,7 +5,7 @@ import { UserOutput } from '@/shared/application/dtos/user-output';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { User } from '../domain/user.entity';
 import * as bcrypt from 'bcrypt';
-import type { RoleRepository } from '@/roles/domain/role.repository';
+import type { RoleRepository } from '@/VER AINDA/roles/domain/role.repository';
 import { ConflictError } from '@/shared/application/errors/conflict-error';
 
 type Input = {
@@ -54,7 +54,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       name,
       roles,
     });
-    console.log(user)
+    console.log(user);
     // return {
     //   user: this.sanitizeUser(user),
     //   message: 'Usuário criado com sucesso pelo administrador',

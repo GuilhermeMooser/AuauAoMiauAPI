@@ -1,4 +1,4 @@
-import { Role } from '@/roles/domain/role.entity';
+import { Role } from '@/VER AINDA/roles/domain/role.entity';
 import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { UserSessions } from '@/userSessions/domain/user-session.entity';

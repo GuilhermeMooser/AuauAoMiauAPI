@@ -1,4 +1,4 @@
-import { PermissionSchema } from '@/permission/infrastructure/permission.schema';
+import { PermissionSchema } from '@/VER AINDA/permission/infrastructure/permission.schema';
 import { AuditableSchema } from '@/shared/infrastructure/auditable/auditable-schema';
 import { UserSchema } from '@/users/infrastructure/user.schema';
 import {

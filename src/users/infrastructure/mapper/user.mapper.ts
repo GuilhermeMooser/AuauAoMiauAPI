@@ -1,7 +1,7 @@
 import { User } from '@/users/domain/user.entity';
 import { UserSchema } from '../user.schema';
 import { RepositoryBaseMapper } from '@/shared/domain/repositories/repository-base-mapper';
-import { RoleMapper } from '@/roles/infrastructure/mapper/role.mapper';
+import { RoleMapper } from '@/VER AINDA/roles/infrastructure/mapper/role.mapper';
 
 export class UserMapper extends RepositoryBaseMapper<UserSchema, User> {
   private static _instance: UserMapper;

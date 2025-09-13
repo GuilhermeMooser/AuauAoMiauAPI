@@ -1,4 +1,4 @@
-import { RoleSchema } from '@/roles/infrastructure/role.schema';
+import { RoleSchema } from '@/VER AINDA/roles/infrastructure/role.schema';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 @Entity('permissions')

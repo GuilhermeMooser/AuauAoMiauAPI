@@ -1,6 +1,6 @@
 import { RepositoryBaseMapper } from '@/shared/domain/repositories/repository-base-mapper';
 import { RoleSchema } from '../role.schema';
-import { Role } from '@/roles/domain/role.entity';
+import { Role } from '@/VER AINDA/roles/domain/role.entity';
 import { UserMapper } from '@/users/infrastructure/mapper/user.mapper';
 
 export class RoleMapper extends RepositoryBaseMapper<RoleSchema, Role> {
