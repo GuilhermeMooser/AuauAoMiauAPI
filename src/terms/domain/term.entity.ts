@@ -1,8 +1,11 @@
+import { Adopter } from '@/adopter/domain/adopter.entity';
+import { Animal } from '@/animals/domain/animal.entity';
 import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 
 type TermProps = {
-  teste: string; //AJUSTAR
+  adopter: Adopter;
+  animal: Animal;
 };
 
 export class Term extends UserAuditableEntity<TermProps> {

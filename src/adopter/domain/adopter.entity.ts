@@ -5,7 +5,7 @@ import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { Term } from '@/terms/domain/term.entity';
 
-type MaritalStatusUnion =
+export type MaritalStatusUnion =
   | 'solteiro'
   | 'casado'
   | 'divorciado'
@@ -17,14 +17,14 @@ type AdopterProps = {
   name: string;
   dtOfBirth: Date;
   rg: string;
-  cpf: string;
-  email: string;
-  contact: AdopterContact[];
+  cpf: string; //UNIQUE
+  email: string; //UNIQUE
+  contacts: AdopterContact[];
   profession: string;
   civilState: MaritalStatusUnion;
-  address: AdopterAddress[];
+  addresses: AdopterAddress[];
   activeNotification: boolean;
-  dtToNotify: Date;
+  dtToNotify?: Date; //Controlled by activeNotification
   animals?: Animal[];
   terms?: Term[];
 };
@@ -58,8 +58,8 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
     return this.props.cpf;
   }
 
-  get contact() {
-    return this.props.contact;
+  get contacts() {
+    return this.props.contacts;
   }
   get profession() {
     return this.props.profession;
@@ -68,8 +68,8 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
     return this.props.civilState;
   }
 
-  get address() {
-    return this.props.address;
+  get addresses() {
+    return this.props.addresses;
   }
 
   get activeNotification() {
