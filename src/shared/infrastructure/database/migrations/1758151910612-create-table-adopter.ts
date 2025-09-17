@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateTableAdopter1757882896263 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableAdopter1758151910612 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'adopter',
@@ -30,6 +31,7 @@ export class CreateTableAdopter1757882896263 implements MigrationInterface {
             name: 'cpf',
             type: 'varchar',
             isUnique: true,
+            length: '14',
             isNullable: false,
           },
           {

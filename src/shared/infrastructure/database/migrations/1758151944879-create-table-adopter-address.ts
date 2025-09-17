@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableAddress1758071474499 implements MigrationInterface {
-public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableAdopterAddress1758151944879 implements MigrationInterface {
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'adopter_address',

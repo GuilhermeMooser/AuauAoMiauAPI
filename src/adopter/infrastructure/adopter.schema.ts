@@ -19,7 +19,7 @@ export class AdopterSchema extends UserAuditableSchema {
   @Column({ name: 'rg' })
   rg: string;
 
-  @Column({ name: 'cpf', unique: true })
+  @Column({ name: 'cpf', unique: true, length: 14 })
   cpf: string;
 
   @Column({ name: 'email', unique: true })

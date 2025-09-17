@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableContacts1758071559566 implements MigrationInterface {
+export class CreateTableAdopterContact1758151970477 implements MigrationInterface {
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
+     public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'adopter_contact',
