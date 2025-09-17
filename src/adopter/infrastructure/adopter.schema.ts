@@ -1,11 +1,11 @@
-import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-adress.schema';
+import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
 import { AdopterContactSchema } from '@/adopter-contacts/infrastructure/adopter-contact.schema';
 import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
 import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
 import { TermSchema } from '@/terms/infrastructure/term.schema';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('adopters')
+@Entity('adopter')
 export class AdopterSchema extends UserAuditableSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -28,28 +28,38 @@ export class AdopterSchema extends UserAuditableSchema {
   @Column({ name: 'profession' })
   profession: string;
 
-  @Column({ name: 'civilState' }) //ENUM
+  @Column({ name: 'civilState' })
   civilState: string;
 
   @Column({ name: 'activeNotification' })
   activeNotification: boolean;
 
-  @Column({ name: 'dtToNotify' })
+  @Column({ name: 'dtToNotify', nullable: true })
   dtToNotify: Date;
 
-  @OneToMany(() => AdopterAddressSchema, address => address.adopter)
+  @OneToMany(() => AdopterAddressSchema, address => address.adopter, {
+    cascade: true,
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   addresses: AdopterAddressSchema[];
 
-  @OneToMany(() => AdopterContactSchema, contact => contact.adopter)
+  @OneToMany(() => AdopterContactSchema, contact => contact.adopter, {
+    cascade: true,
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   contacts: AdopterContactSchema[];
 
   @OneToMany(() => TermSchema, term => term.adopter, {
     nullable: true,
+    cascade: false,
   })
   terms: TermSchema[];
 
   @OneToMany(() => AnimalSchema, animal => animal.adopter, {
     nullable: true,
+    cascade: false,
   })
   animals: AnimalSchema[];
 }

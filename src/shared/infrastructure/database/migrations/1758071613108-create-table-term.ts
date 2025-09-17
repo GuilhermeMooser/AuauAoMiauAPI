@@ -1,12 +1,8 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableTerm1757883674155 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableTerm1758071613108 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'term',
@@ -17,12 +13,12 @@ export class CreateTableTerm1757883674155 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'adopter',
+            name: 'adopter_id',
             type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'animal',
+            name: 'animal_id',
             type: 'uuid',
             isNullable: false,
           },
@@ -65,13 +61,13 @@ export class CreateTableTerm1757883674155 implements MigrationInterface {
 
     await queryRunner.createForeignKeys('term', [
       new TableForeignKey({
-        columnNames: ['adopter'],
+        columnNames: ['adopter_id'],
         referencedTableName: 'adopter',
         referencedColumnNames: ['id'],
         onDelete: 'CASCADE',
       }),
       new TableForeignKey({
-        columnNames: ['animal'],
+        columnNames: ['animal_id'],
         referencedTableName: 'animal',
         referencedColumnNames: ['id'],
         onDelete: 'CASCADE',

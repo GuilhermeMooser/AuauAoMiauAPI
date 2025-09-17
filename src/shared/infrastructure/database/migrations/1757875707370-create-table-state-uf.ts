@@ -5,9 +5,9 @@ export class CreateTableStateUf1757875707370 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE state_uf (
           id INTEGER PRIMARY KEY,
-          name VARCHAR(75),
-          uf VARCHAR(2),
-          ibge INTEGER,
+          name VARCHAR(75) NOT NULL,
+          uf VARCHAR(2) NOT NULL,
+          ibge INTEGER NOT NULL,
           country INTEGER,
           ddd VARCHAR(50)
       );

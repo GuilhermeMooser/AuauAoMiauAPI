@@ -4,6 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvConfigService } from '../env-config/env-config.service';
 import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
+import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
+import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
+import { AdopterContactSchema } from '@/adopter-contacts/infrastructure/adopter-contact.schema';
+import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
+import { TermSchema } from '@/terms/infrastructure/term.schema';
+import { CitySchema } from '@/city/infrastructure/city.schema';
+import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
 
 @Module({
   imports: [
@@ -18,16 +25,22 @@ import { DataSourceOptions } from 'typeorm';
           password: configService.getDbPassword(),
           database: configService.getDbName(),
 
-          entities: configService.isDevelopment()
-            ? [join(__dirname, '/../../**/*.schema{.ts,.js}')]
-            : [join(__dirname, '/../../**/*.schema.js')],
+          entities: [
+            AdopterSchema,
+            AdopterAddressSchema,
+            AdopterContactSchema,
+            AnimalSchema,
+            TermSchema,
+            CitySchema,
+            StateUfSchema,
+          ],
 
           migrations: [join(__dirname, '/migrations/*{.ts,.js}')],
           migrationsTableName: 'migrations_history',
           migrationsRun: configService.getDbMigrationsRun(),
           migrationsTransactionMode: 'each',
 
-          synchronize: configService.getDbSynchronize(),
+          synchronize: false,
           // dropSchema: configService.getDbDropSchema(),
           logging: configService.getDbLogs()
             ? configService.isProduction()

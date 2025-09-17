@@ -3,12 +3,14 @@ import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-audi
 import { TermSchema } from '@/terms/infrastructure/term.schema';
 import {
   Column,
+  Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity('animal')
 export class AnimalSchema extends UserAuditableSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -40,7 +42,7 @@ export class AnimalSchema extends UserAuditableSchema {
   @Column({ name: 'locationOfRescue', nullable: true })
   locationOfRescue: string;
 
-  @JoinColumn({ name: 'adopter' })
+  @JoinColumn({ name: 'adopter_id' })
   @ManyToOne(() => AdopterSchema, adopter => adopter.animals, {
     nullable: true,
   })

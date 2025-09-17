@@ -1,14 +1,7 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableAdopterAddress1757883102831
-  implements MigrationInterface
-{
-  public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableAddress1758071474499 implements MigrationInterface {
+public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'adopter_address',
@@ -34,12 +27,12 @@ export class CreateTableAdopterAddress1757883102831
             isNullable: true,
           },
           {
-            name: 'adopter',
+            name: 'adopter_id',
             type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'city',
+            name: 'city_id',
             type: 'int',
             isNullable: false,
           },
@@ -55,16 +48,18 @@ export class CreateTableAdopterAddress1757883102831
 
     await queryRunner.createForeignKeys('adopter_address', [
       new TableForeignKey({
-        columnNames: ['adopter'],
+        columnNames: ['adopter_id'],
         referencedTableName: 'adopter',
         referencedColumnNames: ['id'],
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
       new TableForeignKey({
-        columnNames: ['city'],
+        columnNames: ['city_id'],
         referencedTableName: 'city',
         referencedColumnNames: ['id'],
-        onDelete: 'CASCADE',
+        onDelete: 'RESTRICT',
+        onUpdate: 'CASCADE',
       }),
     ]);
   }

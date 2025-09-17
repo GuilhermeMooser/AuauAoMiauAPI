@@ -1,6 +1,13 @@
-import { AdopterAddressSchema } from "@/adopter-address/infrastructure/adopter-adress.schema";
-import { StateUfSchema } from "@/state-uf/infrastructure/state-uf.schema";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
+import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('city')
 export class CitySchema {

@@ -1,7 +1,8 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableAnimal1757883602575 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableAnimal1758071589787 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'animal',
@@ -57,7 +58,7 @@ export class CreateTableAnimal1757883602575 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'adopter',
+            name: 'adopter_id',
             type: 'uuid',
             isNullable: true,
           },
@@ -116,7 +117,7 @@ export class CreateTableAnimal1757883602575 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'animal',
       new TableForeignKey({
-        columnNames: ['adopter'],
+        columnNames: ['adopter_id'],
         referencedTableName: 'adopter',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',

@@ -54,7 +54,6 @@
 //       name,
 //       roles,
 //     });
-//     console.log(user);
 //     // return {
 //     //   user: this.sanitizeUser(user),
 //     //   message: 'Usuário criado com sucesso pelo administrador',
