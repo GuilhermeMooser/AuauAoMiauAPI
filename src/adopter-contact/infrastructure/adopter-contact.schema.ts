@@ -1,8 +1,8 @@
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
-import { AuditableSchema } from '@/shared/infrastructure/auditable/auditable-schema';
 import { CreatedAtAuditableSchema } from '@/shared/infrastructure/auditable/created-at-auditable-schema';
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -28,4 +28,7 @@ export class AdopterContactSchema extends CreatedAtAuditableSchema {
     onDelete: 'CASCADE',
   })
   adopter: AdopterSchema;
+
+  @DeleteDateColumn({ name: 'deletedAt' })
+  deletedAt?: Date;
 }

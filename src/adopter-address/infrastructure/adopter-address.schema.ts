@@ -3,6 +3,7 @@ import { CitySchema } from '@/city/infrastructure/city.schema';
 import { CreatedAtAuditableSchema } from '@/shared/infrastructure/auditable/created-at-auditable-schema';
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -32,4 +33,7 @@ export class AdopterAddressSchema extends CreatedAtAuditableSchema {
     onDelete: 'CASCADE',
   })
   city: CitySchema;
+
+  @DeleteDateColumn({ name: 'deletedAt' })
+  deletedAt?: Date;
 }

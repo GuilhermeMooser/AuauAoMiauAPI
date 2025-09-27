@@ -1,36 +1,39 @@
-import { Injectable } from "@nestjs/common";
-import { AnimalRepository } from "../domain/animal.repository";
-import { Animal } from "../domain/animal.entity";
-import { AnimalSchema } from "./animal.schema";
-import { In, Repository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from '@nestjs/common';
+import { AnimalRepository } from '../domain/animal.repository';
+import { Animal } from '../domain/animal.entity';
+import { AnimalSchema } from './animal.schema';
+import { In, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AnimalRepositoryImpl implements AnimalRepository {
   constructor(
-      @InjectRepository(AnimalSchema)
-      private readonly animalRepository: Repository<AnimalSchema>,
-    ) {}
+    @InjectRepository(AnimalSchema)
+    private readonly animalRepository: Repository<AnimalSchema>,
+  ) {}
+
+  softDeleteByUserId(id: string, userId: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
 
   async findAllByIds(ids: string[]): Promise<Animal[]> {
     const animals = await this.animalRepository.find({
-      where: {id: In(ids)}
-    })
+      where: { id: In(ids) },
+    });
 
     return animals as unknown as Animal[]; //ARRUMAR
   }
 
   findById(id: string): Promise<Animal> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   create(entity: Partial<Animal>): Promise<Animal> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   update(entity: Animal): Promise<Animal> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
   softDeleteById(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
-
 }

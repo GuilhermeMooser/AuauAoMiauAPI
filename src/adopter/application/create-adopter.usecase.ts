@@ -1,4 +1,4 @@
-import { AdopterContact } from '@/adopter-contacts/domain/adopter-contact.entity';
+import { AdopterContact } from '@/adopter-contact/domain/adopter-contact.entity';
 import { ConflictError } from '@/shared/application/errors/conflict-error';
 import { UseCase } from '@/shared/application/usecases/use-case';
 import { Adopter, MaritalStatusUnion } from '../domain/adopter.entity';
@@ -64,7 +64,7 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
     private readonly adopterRepository: AdopterRepository,
-    private readonly adopterOutputMapper: AdopterOutputMapper
+    private readonly adopterOutputMapper: AdopterOutputMapper,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -112,12 +112,12 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
       addresses: addresses,
       contacts: contacts,
       animals: animals,
-      terms: terms, 
+      terms: terms,
     });
 
     const entityAdopter = await this.adopterRepository.create(adopter.toJSON());
-    console.log('entityAdopter', JSON.stringify(entityAdopter, null, 3))
-    return this.adopterOutputMapper.toOutput(adopter)
+    console.log('entityAdopter', JSON.stringify(entityAdopter, null, 3));
+    return this.adopterOutputMapper.toOutput(adopter);
   }
 
   private validateNotificationSetting(input: Input) {

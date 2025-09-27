@@ -1,5 +1,5 @@
 import { AdopterAddress } from '@/adopter-address/domain/adopter-address.entity';
-import { AdopterContact } from '@/adopter-contacts/domain/adopter-contact.entity';
+import { AdopterContact } from '@/adopter-contact/domain/adopter-contact.entity';
 import { Animal } from '@/animals/domain/animal.entity';
 import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';

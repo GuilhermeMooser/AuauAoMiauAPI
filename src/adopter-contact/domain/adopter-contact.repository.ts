@@ -1,3 +1,3 @@
 import { SoftDeleteRepository } from '@/shared/domain/repositories/repository';
 
-export interface AdopterAddressRepository extends SoftDeleteRepository {}
+export interface AdopterContactRepository extends SoftDeleteRepository {}

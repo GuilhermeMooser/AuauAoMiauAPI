@@ -42,6 +42,11 @@ export class CreateTableAdopterAddress1758151944879 implements MigrationInterfac
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
           },
+          {
+            name: 'deletedAt',
+            type: 'timestamp',
+            isNullable: true,
+          },
         ],
       }),
       true,

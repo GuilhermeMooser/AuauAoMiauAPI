@@ -6,7 +6,7 @@ import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
 import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
-import { AdopterContactSchema } from '@/adopter-contacts/infrastructure/adopter-contact.schema';
+import { AdopterContactSchema } from '@/adopter-contact/infrastructure/adopter-contact.schema';
 import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
 import { TermSchema } from '@/terms/infrastructure/term.schema';
 import { CitySchema } from '@/city/infrastructure/city.schema';

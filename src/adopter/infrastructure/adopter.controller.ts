@@ -4,7 +4,7 @@ import { CreateAdopterUseCase } from '../application/create-adopter.usecase';
 import { SoftDeleteAdopterUseCase } from '../application/soft-delete-adopter.usecase';
 
 @Controller('api/adopter/v1')
-export class AdopoterController {
+export class AdopterController {
   constructor(
     private readonly createAdopterUseCase: CreateAdopterUseCase,
     private readonly softDeleteAdopterUseCase: SoftDeleteAdopterUseCase,

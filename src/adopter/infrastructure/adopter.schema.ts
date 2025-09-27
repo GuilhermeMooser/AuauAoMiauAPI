@@ -1,5 +1,5 @@
 import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
-import { AdopterContactSchema } from '@/adopter-contacts/infrastructure/adopter-contact.schema';
+import { AdopterContactSchema } from '@/adopter-contact/infrastructure/adopter-contact.schema';
 import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
 import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
 import { TermSchema } from '@/terms/infrastructure/term.schema';

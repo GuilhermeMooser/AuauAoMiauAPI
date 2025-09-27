@@ -1,7 +1,7 @@
 import { AuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 
-type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
+export type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
 type AdopterContactProps = {
   value: string;

@@ -1,5 +1,5 @@
 import { AdopterAddressDto } from '@/adopter-address/infrastructure/dto/adopter-address.dto';
-import { AdopterContactDto } from '@/adopter-contacts/infrastructure/dto/adopter-contact.dto';
+import { AdopterContactDto } from '@/adopter-contact/infrastructure/dto/adopter-contact.dto';
 import type { MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
 import { AnimalDto } from '@/animals/infrastructure/dto/animal.dto';
 import { TermDto } from '@/terms/infrastructure/dto/term.dto';

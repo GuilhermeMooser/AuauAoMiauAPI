@@ -2,7 +2,8 @@ export interface Repository<Entity>
   extends FindByIdRepository<Entity>,
     CreateRepository<Entity>,
     UpdateRepository<Entity>,
-    SoftDeleteRepository {}
+    SoftDeleteRepository,
+    SoftDeleteByUserIdRepository {}
 
 export interface FindByIdRepository<Entity> {
   findById(id: string): Promise<Entity>;
@@ -18,4 +19,8 @@ export interface UpdateRepository<Entity> {
 
 export interface SoftDeleteRepository {
   softDeleteById(id: string): Promise<void>;
+}
+
+export interface SoftDeleteByUserIdRepository {
+  softDeleteByUserId(id: string, userId: string): Promise<void>;
 }
