@@ -6,13 +6,11 @@ import { AdopterAddress } from '@/adopter-address/domain/adopter-address.entity'
 import { ResourceFoundError } from '@/shared/application/errors/resource-found-error';
 import type { AdopterRepository } from '../domain/adopter.repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { City } from '@/city/domain/city.entity';
-import { StateUF } from '@/state-uf/domain/state-uf.entity';
 import { AnimalDto } from '@/animals/infrastructure/dto/animal.dto';
 import { TermDto } from '@/terms/infrastructure/dto/term.dto';
 import { Animal } from '@/animals/domain/animal.entity';
 import { Term } from '@/terms/domain/term.entity';
-import { join } from 'path';
+import { AdopterOutputMapper } from './outputs/adopter.output';
 
 type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
@@ -66,6 +64,7 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
     private readonly adopterRepository: AdopterRepository,
+    private readonly adopterOutputMapper: AdopterOutputMapper
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -113,10 +112,12 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
       addresses: addresses,
       contacts: contacts,
       animals: animals,
-      terms: terms,
+      terms: terms, 
     });
 
     const entityAdopter = await this.adopterRepository.create(adopter.toJSON());
+    console.log('entityAdopter', JSON.stringify(entityAdopter, null, 3))
+    return this.adopterOutputMapper.toOutput(adopter)
   }
 
   private validateNotificationSetting(input: Input) {

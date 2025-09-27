@@ -4,7 +4,17 @@ import type { MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
 import { AnimalDto } from '@/animals/infrastructure/dto/animal.dto';
 import { TermDto } from '@/terms/infrastructure/dto/term.dto';
 import { Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+  ValidateNested,
+} from 'class-validator';
 
 export class CreateAdopterDto {
   @IsString()
@@ -21,6 +31,7 @@ export class CreateAdopterDto {
 
   @IsString()
   @IsNotEmpty()
+  @Length(14, 14)
   cpf: string;
 
   @IsEmail()
@@ -36,7 +47,14 @@ export class CreateAdopterDto {
   profession: string;
 
   @IsString()
-  @IsIn(['solteiro', 'casado', 'divorciado', 'viúvo', 'separado', 'união_estável'])
+  @IsIn([
+    'solteiro',
+    'casado',
+    'divorciado',
+    'viúvo',
+    'separado',
+    'união_estável',
+  ])
   civilState: MaritalStatusUnion;
 
   @ValidateNested({ each: true })
