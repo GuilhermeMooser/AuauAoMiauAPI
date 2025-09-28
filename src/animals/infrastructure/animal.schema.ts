@@ -53,13 +53,13 @@ export class AnimalSchema extends UserAuditableSchema {
   })
   terms: TermSchema[];
 
-  @Column({ name: 'type' })  //ENUM
+  @Column({ name: 'type' })
   type: string;
 
-  @Column({ name: 'size' })  //ENUM
+  @Column({ name: 'size' })
   size: string;
 
-  @Column({ name: 'gender' }) //ENUM
+  @Column({ name: 'gender' })
   gender: string;
 
   // photos
@@ -68,4 +68,5 @@ export class AnimalSchema extends UserAuditableSchema {
   //mother AUTORELACIONAMENTO
   //documents
   //expenses
+  //historic os photos, etc
 }

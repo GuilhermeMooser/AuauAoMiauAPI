@@ -6,11 +6,11 @@ import { AdopterAddress } from '@/adopter-address/domain/adopter-address.entity'
 import { ResourceFoundError } from '@/shared/application/errors/resource-found-error';
 import type { AdopterRepository } from '../domain/adopter.repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { AnimalDto } from '@/animals/infrastructure/dto/animal.dto';
-import { TermDto } from '@/terms/infrastructure/dto/term.dto';
 import { Animal } from '@/animals/domain/animal.entity';
 import { Term } from '@/terms/domain/term.entity';
-import { AdopterOutputMapper } from './outputs/adopter.output';
+import { AdopterOutput, AdopterOutputMapper } from './outputs/adopter.output';
+import type { AnimalRepository } from '@/animals/domain/animal.repository';
+import type { TermRepository } from '@/terms/domain/term.repository';
 
 type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
@@ -53,17 +53,20 @@ type Input = {
   addresses: AdopterAddressDto[];
   activeNotification: boolean;
   dtToNotify?: Date;
-  animals?: AnimalDto[]; //TODO VERIFICAR AINDA
-  terms?: TermDto[]; //TODO VERIFICAR AINDA
+  animalsIds?: string[];
 };
 
-type Output = any;
+type Output = AdopterOutput;
 
 @Injectable()
 export class CreateAdopterUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
     private readonly adopterRepository: AdopterRepository,
+    @Inject('AnimalRepository')
+    private readonly animalRepository: AnimalRepository,
+    @Inject('TermRepository')
+    private readonly termRepository: TermRepository,
     private readonly adopterOutputMapper: AdopterOutputMapper,
   ) {}
 
@@ -88,16 +91,14 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
 
     const contacts = this.createContacts(input.contacts);
     let animals: Animal[];
-    // if(input.animals && input.animals.length > 0) {
-    //   const ids = input.animals.map((animal) => animal.id)
-    //   animals = await this.animalRepository.findAllByIds(ids)
-    // }
+    if (input.animalsIds && input.animalsIds.length > 0) {
+      animals = await this.animalRepository.findAllByIds(input.animalsIds);
+      if (animals.length <= 0)
+        throw new ResourceFoundError(
+          `Nenhum animal foi encontrado para realizar o vínculo.`,
+        );
+    }
 
-    let terms: Term[];
-    // if(input.animals && input.animals.length > 0) {
-    //   const ids = input.animals.map((animal) => animal.id)
-    //   animals = await this.animalRepository.findAllByIds(ids)
-    // }
     const adopter = Adopter.create({
       activeNotification: input.activeNotification,
       dtToNotify: input.activeNotification ? input.dtToNotify : null,
@@ -112,11 +113,10 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
       addresses: addresses,
       contacts: contacts,
       animals: animals,
-      terms: terms,
     });
 
-    const entityAdopter = await this.adopterRepository.create(adopter.toJSON());
-    console.log('entityAdopter', JSON.stringify(entityAdopter, null, 3));
+    await this.adopterRepository.create(adopter.toJSON());
+
     return this.adopterOutputMapper.toOutput(adopter);
   }
 

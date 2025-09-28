@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { CreateAdopterDto } from './dto/create-adopter.dto';
 import { CreateAdopterUseCase } from '../application/create-adopter.usecase';
 import { SoftDeleteAdopterUseCase } from '../application/soft-delete-adopter.usecase';
+import { AdopterPresenter } from './presenters/adopter.presenter';
 
 @Controller('api/adopter/v1')
 export class AdopterController {

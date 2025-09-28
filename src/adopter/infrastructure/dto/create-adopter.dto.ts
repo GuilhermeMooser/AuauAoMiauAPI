@@ -1,8 +1,6 @@
 import { AdopterAddressDto } from '@/adopter-address/infrastructure/dto/adopter-address.dto';
 import { AdopterContactDto } from '@/adopter-contact/infrastructure/dto/adopter-contact.dto';
 import type { MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
-import { AnimalDto } from '@/animals/infrastructure/dto/animal.dto';
-import { TermDto } from '@/terms/infrastructure/dto/term.dto';
 import { Type } from 'class-transformer';
 import {
   IsBoolean,
@@ -71,12 +69,5 @@ export class CreateAdopterDto {
   dtToNotify?: Date;
 
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => AnimalDto)
-  animals?: AnimalDto[];
-
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => TermDto)
-  terms?: TermDto[];
+  animalsIds?: string[];
 }

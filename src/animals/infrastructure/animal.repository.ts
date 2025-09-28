@@ -4,6 +4,7 @@ import { Animal } from '../domain/animal.entity';
 import { AnimalSchema } from './animal.schema';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AnimalMapper } from './mapper/animal.mapper';
 
 @Injectable()
 export class AnimalRepositoryImpl implements AnimalRepository {
@@ -19,9 +20,10 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   async findAllByIds(ids: string[]): Promise<Animal[]> {
     const animals = await this.animalRepository.find({
       where: { id: In(ids) },
+      relations: ['adopter', 'terms'],
     });
 
-    return animals as unknown as Animal[]; //ARRUMAR
+    return AnimalMapper.instance.toEntityMany(animals);
   }
 
   findById(id: string): Promise<Animal> {
