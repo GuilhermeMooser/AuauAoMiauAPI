@@ -34,7 +34,7 @@ export class SoftDeleteAdopterUseCase implements UseCase<Input, Output> {
       this.adopterContactRepository.softDeleteById(input.id),
     ]);
 
-    const userId = '3038c222-58c4-4bfb-a213-650ca92d9d4c'; //TODO AJUSTAR
+    const userId = '3038c222-58c4-4bfb-a213-650ca92d9d4c'; //TODO AJUSTAR E VERIFICAR SE N TEM QUE EXCLUIR LOGIGAMENTE O TERM ASSOCIADO AO ADOTANTE
     await this.adopterRepository.softDeleteByUserId(input.id, userId);
   }
 }

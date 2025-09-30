@@ -11,6 +11,10 @@ export class AdopterAddressRepositoryImpl implements AdopterAddressRepository {
     private readonly adopterAddressRepository: Repository<AdopterAddressSchema>,
   ) {}
 
+  async removeAllByIds(ids: string[]) {
+    await this.adopterAddressRepository.delete(ids);
+  }
+
   async softDeleteById(id: string): Promise<void> {
     await this.adopterAddressRepository.softDelete({ adopter: { id } });
   }

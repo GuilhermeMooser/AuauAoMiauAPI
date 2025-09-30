@@ -46,6 +46,10 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
     return this.props.name;
   }
 
+  get email() {
+    return this.props.email;
+  }
+
   get dtOfBirth() {
     return this.props.dtOfBirth;
   }
@@ -102,5 +106,59 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
         deletedAt: null,
       },
     });
+  }
+
+  update(
+    props: Partial<AdopterProps> & {
+      updatedByUserId?: string;
+    },
+  ): void {
+    if (props.name !== undefined) {
+      this.props.name = props.name;
+    }
+    if (props.dtOfBirth !== undefined) {
+      this.props.dtOfBirth = props.dtOfBirth;
+    }
+    if (props.rg !== undefined) {
+      this.props.rg = props.rg;
+    }
+    if (props.cpf !== undefined) {
+      this.props.cpf = props.cpf;
+    }
+    if (props.email !== undefined) {
+      this.props.email = props.email;
+    }
+    if (props.contacts !== undefined) {
+      this.props.contacts = props.contacts;
+    }
+    if (props.profession !== undefined) {
+      this.props.profession = props.profession;
+    }
+    if (props.civilState !== undefined) {
+      this.props.civilState = props.civilState;
+    }
+    if (props.addresses !== undefined) {
+      this.props.addresses = props.addresses;
+    }
+    if (props.activeNotification !== undefined) {
+      this.props.activeNotification = props.activeNotification;
+    }
+    if (props.dtToNotify !== undefined) {
+      this.props.dtToNotify = props.dtToNotify;
+    }
+    if (props.animals !== undefined) {
+      this.props.animals = props.animals;
+    }
+    if (props.terms !== undefined) {
+      this.props.terms = props.terms;
+    }
+
+    if (props.updatedByUserId) {
+      this.props.updatedByUserId = props.updatedByUserId;
+    }
+
+    if (this.audit) {
+      this.audit.updatedAt = new Date();
+    }
   }
 }

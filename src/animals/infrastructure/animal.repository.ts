@@ -13,8 +13,13 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     private readonly animalRepository: Repository<AnimalSchema>,
   ) {}
 
-  softDeleteByUserId(id: string, userId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async removeAdopterReference(ids: string[]): Promise<void> {
+    await this.animalRepository
+    .createQueryBuilder()
+    .update()
+    .set({ adopter: null } as any) //TODO
+    .whereInIds(ids)
+    .execute();
   }
 
   async findAllByIds(ids: string[]): Promise<Animal[]> {
@@ -24,6 +29,10 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     });
 
     return AnimalMapper.instance.toEntityMany(animals);
+  }
+
+  softDeleteByUserId(id: string, userId: string): Promise<void> {
+    throw new Error('Method not implemented.');
   }
 
   findById(id: string): Promise<Animal> {

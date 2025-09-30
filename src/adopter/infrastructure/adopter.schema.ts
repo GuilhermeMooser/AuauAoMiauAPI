@@ -54,12 +54,14 @@ export class AdopterSchema extends UserAuditableSchema {
   @OneToMany(() => TermSchema, term => term.adopter, {
     nullable: true,
     cascade: false,
+    eager: false,
   })
   terms: TermSchema[];
 
   @OneToMany(() => AnimalSchema, animal => animal.adopter, {
     nullable: true,
     cascade: false,
+    eager: false,
   })
   animals: AnimalSchema[];
 }

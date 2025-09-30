@@ -10,6 +10,7 @@ import { AdopterAddressModule } from '@/adopter-address/infrastructure/adopter-a
 import { SoftDeleteAdopterUseCase } from './application/soft-delete-adopter.usecase';
 import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalModule } from '@/animals/infrastructure/animal.module';
+import { UpdateAdopterUseCase } from './application/update-adopter.usecase';
 
 @Module({
   imports: [
@@ -22,8 +23,9 @@ import { AnimalModule } from '@/animals/infrastructure/animal.module';
   controllers: [AdopterController],
   providers: [
     CreateAdopterUseCase,
-    AdopterOutputMapper,
     SoftDeleteAdopterUseCase,
+    UpdateAdopterUseCase,
+    AdopterOutputMapper,
     {
       provide: 'AdopterRepository',
       useClass: AdopterRepositoryImpl,

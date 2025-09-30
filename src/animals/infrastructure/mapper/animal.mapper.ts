@@ -26,7 +26,9 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
       name: schema.name,
       size: schema.size,
       type: schema.type,
-      adopter: AdopterMapper.instance.toEntity(schema.adopter),
+      adopter: schema.adopter
+        ? AdopterMapper.instance.toEntity(schema.adopter)
+        : null,
       audit: {
         createdAt: schema.createdAt,
         deletedAt: schema.deletedAt,
@@ -40,7 +42,10 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
       dtOfDeath: schema.dtOfDeath,
       dtOfRescue: schema.dtOfRescue,
       locationOfRescue: schema.locationOfRescue,
-      terms: TermMapper.instance.toEntityMany(schema.terms),
+      terms:
+        schema.terms && schema.terms.length > 0
+          ? TermMapper.instance.toEntityMany(schema.terms)
+          : null,
     });
   }
 

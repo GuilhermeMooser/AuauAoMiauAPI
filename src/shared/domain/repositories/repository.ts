@@ -14,7 +14,7 @@ export interface CreateRepository<Entity> {
 }
 
 export interface UpdateRepository<Entity> {
-  update(entity: Entity): Promise<Entity>;
+  update(entity: Partial<Entity>): Promise<Entity>;
 }
 
 export interface SoftDeleteRepository {

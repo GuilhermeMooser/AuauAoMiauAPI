@@ -11,6 +11,10 @@ export class AdopterContactRepositoryImpl implements AdopterContactRepository {
     private readonly adopterContactRepository: Repository<AdopterContactSchema>,
   ) {}
 
+  async removeAllByIds(ids: string[]) {
+    await this.adopterContactRepository.delete(ids);
+  }
+
   async softDeleteById(id: string): Promise<void> {
     await this.adopterContactRepository.softDelete({ adopter: { id } });
   }

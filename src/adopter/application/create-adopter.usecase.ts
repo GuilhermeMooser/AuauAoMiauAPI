@@ -7,10 +7,8 @@ import { ResourceFoundError } from '@/shared/application/errors/resource-found-e
 import type { AdopterRepository } from '../domain/adopter.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { Animal } from '@/animals/domain/animal.entity';
-import { Term } from '@/terms/domain/term.entity';
 import { AdopterOutput, AdopterOutputMapper } from './outputs/adopter.output';
 import type { AnimalRepository } from '@/animals/domain/animal.repository';
-import type { TermRepository } from '@/terms/domain/term.repository';
 
 type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
@@ -65,8 +63,6 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
     private readonly adopterRepository: AdopterRepository,
     @Inject('AnimalRepository')
     private readonly animalRepository: AnimalRepository,
-    @Inject('TermRepository')
-    private readonly termRepository: TermRepository,
     private readonly adopterOutputMapper: AdopterOutputMapper,
   ) {}
 
@@ -88,9 +84,9 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
     this.validateNotificationSetting(input);
 
     const addresses = this.createAddresses(input.addresses);
-
     const contacts = this.createContacts(input.contacts);
-    let animals: Animal[];
+
+    let animals: Animal[] | undefined;
     if (input.animalsIds && input.animalsIds.length > 0) {
       animals = await this.animalRepository.findAllByIds(input.animalsIds);
       if (animals.length <= 0)

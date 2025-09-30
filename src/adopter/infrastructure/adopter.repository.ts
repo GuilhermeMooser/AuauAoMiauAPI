@@ -26,7 +26,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       where: { id },
       relations: ['addresses', 'contacts', 'terms', 'animals'],
     });
-    console.log(adopter);
     return AdopterMapper.instance.toEntity(adopter);
   }
 
@@ -35,8 +34,9 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     return adopter;
   }
 
-  update(entity: Adopter): Promise<Adopter> {
-    throw new Error('Method not implemented.');
+  async update(entity: Adopter): Promise<Adopter> {
+    const adopter = await this.adopterRepository.save(entity);
+    return adopter;
   }
 
   async softDeleteById(id: string): Promise<void> {
