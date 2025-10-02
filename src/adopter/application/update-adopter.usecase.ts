@@ -221,12 +221,12 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
   }
 
   private async removeAddresses(addresses: AdopterAddress[]) {
-    const ids = addresses.map(address => address.id);
+    const ids = addresses?.map(address => address.id);
     await this.adopterAddressRepository.removeAllByIds(ids);
   }
 
   private async removeContacts(contacts: AdopterContact[]) {
-    const ids = contacts.map(contact => contact.id);
+    const ids = contacts?.map(contact => contact.id);
     await this.adopterContactRepository.removeAllByIds(ids);
   }
 }

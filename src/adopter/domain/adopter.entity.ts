@@ -146,9 +146,10 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
     if (props.dtToNotify !== undefined) {
       this.props.dtToNotify = props.dtToNotify;
     }
-    if (props.animals !== undefined) {
-      this.props.animals = props.animals;
-    }
+
+    /**In case there is no animal, set it to undefined */
+    this.props.animals = props.animals;
+
     if (props.terms !== undefined) {
       this.props.terms = props.terms;
     }

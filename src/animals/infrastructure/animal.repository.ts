@@ -15,11 +15,11 @@ export class AnimalRepositoryImpl implements AnimalRepository {
 
   async removeAdopterReference(ids: string[]): Promise<void> {
     await this.animalRepository
-    .createQueryBuilder()
-    .update()
-    .set({ adopter: null } as any) //TODO
-    .whereInIds(ids)
-    .execute();
+      .createQueryBuilder()
+      .update()
+      .set({ adopter: null })
+      .where('id IN (:...ids)', { ids })
+      .execute();
   }
 
   async findAllByIds(ids: string[]): Promise<Animal[]> {
