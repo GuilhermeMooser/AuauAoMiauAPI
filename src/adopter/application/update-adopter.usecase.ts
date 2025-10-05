@@ -156,9 +156,9 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
   }
 
   private async removeAllAnimalRelationships(animals: Animal[]): Promise<void> {
-    const animalIds = animals.map(animal => animal.id);
+    const animalIds = animals?.map(animal => animal.id);
 
-    if (animalIds.length > 0) {
+    if (animalIds && animalIds.length > 0) {
       await this.animalRepository.removeAdopterReference(animalIds);
     }
   }
@@ -167,13 +167,13 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
     adopterAnimals: Animal[],
     newAnimalIds: string[],
   ) {
-    const currentAnimalsIds = adopterAnimals.map(animal => animal.id);
+    const currentAnimalsIds = adopterAnimals?.map(animal => animal.id);
 
-    const animalsToRemove = currentAnimalsIds.filter(
+    const animalsToRemove = currentAnimalsIds?.filter(
       id => !newAnimalIds.includes(id),
     );
 
-    if (animalsToRemove.length > 0) {
+    if (animalsToRemove && animalsToRemove.length > 0) {
       await this.animalRepository.removeAdopterReference(animalsToRemove);
     }
   }

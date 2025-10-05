@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AdopterController } from './infrastructure/adopter.controller';
-import { AdopterSchema } from './infrastructure/adopter.schema';
+import { AdopterController } from './adopter.controller';
+import { AdopterSchema } from './adopter.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdopterRepositoryImpl } from './infrastructure/adopter.repository';
-import { CreateAdopterUseCase } from './application/create-adopter.usecase';
-import { AdopterOutputMapper } from './application/outputs/adopter.output';
+import { AdopterRepositoryImpl } from './adopter.repository';
+import { CreateAdopterUseCase } from '../application/create-adopter.usecase';
+import { AdopterOutputMapper } from '../application/outputs/adopter.output';
 import { AdopterContactModule } from '@/adopter-contact/infrastructure/adopter-contact.module';
 import { AdopterAddressModule } from '@/adopter-address/infrastructure/adopter-address.module';
-import { SoftDeleteAdopterUseCase } from './application/soft-delete-adopter.usecase';
+import { SoftDeleteAdopterUseCase } from '../application/soft-delete-adopter.usecase';
 import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalModule } from '@/animals/infrastructure/animal.module';
-import { UpdateAdopterUseCase } from './application/update-adopter.usecase';
+import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
+import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { UpdateAdopterUseCase } from './application/update-adopter.usecase';
     AdopterContactModule,
     AdopterAddressModule,
     AnimalModule,
-    TermModule
+    TermModule,
   ],
   controllers: [AdopterController],
   providers: [
@@ -26,6 +27,7 @@ import { UpdateAdopterUseCase } from './application/update-adopter.usecase';
     SoftDeleteAdopterUseCase,
     UpdateAdopterUseCase,
     AdopterOutputMapper,
+    FindAllAdoptersPaginatedUseCase,
     {
       provide: 'AdopterRepository',
       useClass: AdopterRepositoryImpl,

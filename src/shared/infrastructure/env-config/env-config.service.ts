@@ -79,4 +79,12 @@ export class EnvConfigService implements EnvConfig {
   isDevelopment(): boolean {
     return this.getNodeEnv() === 'development';
   }
+
+  getOrigin(): string {
+    return this.configService.get<string>('ORIGINS');
+  }
+
+  getAllowedMethods(): string {
+    return this.configService.get<string>('ALLOWED_METHODS');
+  }
 }

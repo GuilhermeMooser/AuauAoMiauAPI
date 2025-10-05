@@ -5,6 +5,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdopterSchema } from './adopter.schema';
 import { AdopterMapper } from './mapper/adopter.mapper';
+import { Pagination } from '@/shared/application/pagination/pagination';
+import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
+import { paginate } from 'nestjs-typeorm-paginate';
+import {
+  MetaPresenter,
+  PaginationPresenter,
+} from '@/shared/infrastructure/presenters/pagination.presenter';
 
 @Injectable()
 export class AdopterRepositoryImpl implements AdopterRepository {
@@ -12,6 +19,30 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     @InjectRepository(AdopterSchema)
     private readonly adopterRepository: Repository<AdopterSchema>,
   ) {}
+
+  async findAllPaginated(
+    pagination: PaginationDto,
+  ): Promise<Pagination<Adopter>> {
+    const queryBuilder = this.adopterRepository.createQueryBuilder('a');
+
+    const adoptersDb = await paginate<AdopterSchema>(queryBuilder, pagination);
+
+    const adoptersPaginated = new PaginationPresenter<AdopterSchema>(
+      adoptersDb.items,
+      new MetaPresenter(
+        adoptersDb.meta.totalItems,
+        adoptersDb.meta.itemCount,
+        adoptersDb.meta.itemsPerPage,
+        adoptersDb.meta.totalPages,
+        adoptersDb.meta.currentPage,
+      ),
+    );
+
+    return {
+      items: AdopterMapper.instance.toEntityMany(adoptersPaginated.items),
+      meta: adoptersPaginated.meta,
+    };
+  }
 
   async existsCpf(cpf: string): Promise<boolean> {
     return this.adopterRepository.exists({ where: { cpf } });

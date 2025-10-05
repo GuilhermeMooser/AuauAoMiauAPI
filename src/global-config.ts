@@ -8,8 +8,13 @@ import { ConflictErrorFilter } from './shared/infrastructure/exception-filters/c
 import { ResourceFoundErrorFilter } from './shared/infrastructure/exception-filters/resource-found-error.filter';
 import { ForbiddenErrorFilter } from './shared/infrastructure/exception-filters/forbidden.filter';
 import { NotFoundErrorFilter } from './shared/infrastructure/exception-filters/not-found-error.filter';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { EnvConfigService } from './shared/infrastructure/env-config/env-config.service';
 
-export function applyGlobalConfig(app: INestApplication) {
+export function applyGlobalConfig(
+  app: NestFastifyApplication,
+  envConfigService: EnvConfigService,
+) {
   app.useGlobalPipes(
     new ValidationPipe({
       errorHttpStatusCode: 422,
@@ -27,4 +32,12 @@ export function applyGlobalConfig(app: INestApplication) {
     new ForbiddenErrorFilter(),
     new NotFoundErrorFilter(),
   );
+
+  app.enableCors({
+    origin: envConfigService.getOrigin().split(','),
+    methods: envConfigService.getAllowedMethods(),
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    // credentials: true,
+  });
 }
