@@ -1,16 +1,16 @@
-import { StateUF } from '@/state-uf/domain/state-uf.entity';
+import { StateUf } from '@/state-uf/domain/state-uf.entity';
 
 type CityProps = {
   id?: number;
   name: string;
-  stateUf: StateUF;
+  stateUf: StateUf;
   ibge: number;
 };
 
 export class City {
   id: number;
   name: string;
-  stateUf: StateUF;
+  stateUf: StateUf;
   ibge: number;
 
   constructor(props?: CityProps) {

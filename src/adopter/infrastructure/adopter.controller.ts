@@ -16,7 +16,6 @@ import { UpdateAdopterDto } from './dto/update-adopter.dto';
 import { PaginationLimitPipe } from '@/shared/infrastructure/pipes/pagination-limit.pipe';
 import { PaginationDirectionPipe } from '@/shared/infrastructure/pipes/pagination-direction.pipe';
 import { PaginationPresenter } from '@/shared/infrastructure/presenters/pagination.presenter';
-import { Adopter } from '../domain/adopter.entity';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 
 @Controller('api/adopter/v1')

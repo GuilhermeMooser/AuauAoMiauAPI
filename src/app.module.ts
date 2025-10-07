@@ -5,6 +5,8 @@ import { AdopterModule } from './adopter/infrastructure/adopter.module';
 import { AdopterContactModule } from './adopter-contact/infrastructure/adopter-contact.module';
 import { AdopterAddressModule } from './adopter-address/infrastructure/adopter-address.module';
 import { TermModule } from './terms/infrastructure/term.module';
+import { CityModule } from './city/infrastructure/city.module';
+import { StateUfModule } from './state-uf/infrastructure/state-uf.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { TermModule } from './terms/infrastructure/term.module';
     AdopterContactModule,
     AdopterAddressModule,
     TermModule,
+    CityModule,
+    StateUfModule,
   ],
 })
 export class AppModule {}

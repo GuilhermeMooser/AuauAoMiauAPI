@@ -5,7 +5,7 @@ type StateProps = {
   country: string;
 };
 
-export class StateUF {
+export class StateUf {
   id: number;
   name: string;
   acronym: string;
