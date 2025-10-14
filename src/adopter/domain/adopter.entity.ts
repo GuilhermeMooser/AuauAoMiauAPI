@@ -17,14 +17,14 @@ type AdopterProps = {
   name: string;
   dtOfBirth: Date;
   rg: string;
-  cpf: string; //UNIQUE
-  email: string; //UNIQUE
+  cpf: string;
+  email: string;
   contacts: AdopterContact[];
   profession: string;
   civilState: MaritalStatusUnion;
   addresses: AdopterAddress[];
   activeNotification: boolean;
-  dtToNotify?: Date; //Controlled by activeNotification
+  dtToNotify?: Date;
   animals?: Animal[];
   terms?: Term[];
 };

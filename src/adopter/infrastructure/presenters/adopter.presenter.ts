@@ -1,46 +1,57 @@
-// import { MaritalStatusUnion } from "@/adopter/domain/adopter.entity";
-// import { ApiProperty } from "@nestjs/swagger";
+import { AdopterAddressPresenter } from "@/adopter-address/infrastructure/presenters/adopter-address.presenter";
+import { AdopterContactPresenter } from "@/adopter-contact/infrastructure/presenters/adopter-contact.presenter";
+import { AnimalPresenter } from "@/animals/infrastructure/presenters/animal.presenter";
+import { TermPresenter } from "@/terms/infrastructure/presenters/term.presenter";
+import { ApiProperty } from "@nestjs/swagger";
 
-// export class AdopterPresenter {
-//   @ApiProperty({description: ''})
-//   id: string;
+type MaritalStatusUnion =
+  | 'solteiro'
+  | 'casado'
+  | 'divorciado'
+  | 'viúvo'
+  | 'separado'
+  | 'união_estável';
 
-//   @ApiProperty({description: ''})
-//   name: string;
+export class AdopterPresenter {
+  @ApiProperty({description: 'ID'})
+  id: string;
 
-//   @ApiProperty({description: ''})
-//   dtOfBirth: Date;
+  @ApiProperty({description: 'Name'})
+  name: string;
 
-//   @ApiProperty({description: ''})
-//   rg: string;
+  @ApiProperty({description: 'Date of birth'})
+  dtOfBirth: Date;
 
-//   @ApiProperty({description: ''})
-//   cpf: string;
+  @ApiProperty({description: 'Register'})
+  rg: string;
 
-//   @ApiProperty({description: ''})
-//   email: string;
+  @ApiProperty({description: 'Brazilian Tax ID'})
+  cpf: string;
 
-//   @ApiProperty({description: ''})
-//   contacts: AdopterContactPresenter[];
+  @ApiProperty({description: 'Email'})
+  email: string;
 
-//   @ApiProperty({description: ''})
-//   profession: string;
+  @ApiProperty({description: 'Adopter contacts'})
+  contacts: AdopterContactPresenter[];
 
-//   @ApiProperty({description: ''})
-//   civilState: MaritalStatusUnion;
+  @ApiProperty({description: 'Adopter profession'})
+  profession: string;
 
-//   @ApiProperty({description: ''})
-//   addresses: AdopterAddressPresenter[];
+  @ApiProperty({description: 'Marital status'})
+  civilState: MaritalStatusUnion;
 
-//   @ApiProperty({description: ''})
-//   activeNotification: boolean;
+  @ApiProperty({description: 'Adopter addresses'})
+  addresses: AdopterAddressPresenter[];
 
-//   @ApiProperty({description: ''})
-//   dtToNotify?: Date;
+  @ApiProperty({description: 'Notification active'})
+  activeNotification: boolean;
 
-//   @ApiProperty({description: ''})
-//   animals?: AnimalPresenter[];
+  @ApiProperty({description: 'Date to notify'})
+  dtToNotify?: Date;
 
-//   @ApiProperty({description: ''})
-//   terms?: TermPresenter[];
-// }
+  @ApiProperty({description: 'Animals'})
+  animals?: AnimalPresenter[];
+
+  @ApiProperty({description: 'Terms'})
+  terms?: TermPresenter[];
+}

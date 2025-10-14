@@ -17,6 +17,7 @@ import { PaginationLimitPipe } from '@/shared/infrastructure/pipes/pagination-li
 import { PaginationDirectionPipe } from '@/shared/infrastructure/pipes/pagination-direction.pipe';
 import { PaginationPresenter } from '@/shared/infrastructure/presenters/pagination.presenter';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
+import { AdopterPresenter } from './presenters/adopter.presenter';
 
 @Controller('api/adopter/v1')
 export class AdopterController {
@@ -28,7 +29,7 @@ export class AdopterController {
   ) {}
 
   @Post()
-  create(@Body() createAdopterDto: CreateAdopterDto) {
+  create(@Body() createAdopterDto: CreateAdopterDto): Promise<AdopterPresenter> {
     return this.createAdopterUseCase.execute(createAdopterDto);
   }
 
@@ -41,7 +42,7 @@ export class AdopterController {
   update(
     @Param('id') id: string,
     @Body() updateAdopterDto: UpdateAdopterDto,
-  ): Promise<any> {
+  ): Promise<AdopterPresenter> {
     return this.updateAdopterUseCase.execute({ id, ...updateAdopterDto });
   }
 
@@ -51,7 +52,7 @@ export class AdopterController {
     @Query('limit', PaginationLimitPipe) limit: number,
     @Query('direction', PaginationDirectionPipe)
     direction: 'ASC' | 'DESC' | null,
-  ): Promise<PaginationPresenter<any>> {
+  ): Promise<PaginationPresenter<AdopterPresenter>> {
     return this.findAllAdoptersPaginatedUseCase.execute({
       paginate: { limit, page, direction },
     });
