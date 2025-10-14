@@ -12,6 +12,7 @@ import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalModule } from '@/animals/infrastructure/animal.module';
 import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
+import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopter
     UpdateAdopterUseCase,
     AdopterOutputMapper,
     FindAllAdoptersPaginatedUseCase,
+    FindAdopterByIdUseCase,
     {
       provide: 'AdopterRepository',
       useClass: AdopterRepositoryImpl,

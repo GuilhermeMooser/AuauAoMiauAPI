@@ -18,6 +18,7 @@ import { PaginationDirectionPipe } from '@/shared/infrastructure/pipes/paginatio
 import { PaginationPresenter } from '@/shared/infrastructure/presenters/pagination.presenter';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { AdopterPresenter } from './presenters/adopter.presenter';
+import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 
 @Controller('api/adopter/v1')
 export class AdopterController {
@@ -26,10 +27,13 @@ export class AdopterController {
     private readonly softDeleteAdopterUseCase: SoftDeleteAdopterUseCase,
     private readonly updateAdopterUseCase: UpdateAdopterUseCase,
     private readonly findAllAdoptersPaginatedUseCase: FindAllAdoptersPaginatedUseCase,
+    private readonly findByIdUseCase: FindAdopterByIdUseCase,
   ) {}
 
   @Post()
-  create(@Body() createAdopterDto: CreateAdopterDto): Promise<AdopterPresenter> {
+  create(
+    @Body() createAdopterDto: CreateAdopterDto,
+  ): Promise<AdopterPresenter> {
     return this.createAdopterUseCase.execute(createAdopterDto);
   }
 
@@ -47,7 +51,7 @@ export class AdopterController {
   }
 
   @Get()
-  async findAllPaginated(
+  findAllPaginated(
     @Query('page') page = 1,
     @Query('limit', PaginationLimitPipe) limit: number,
     @Query('direction', PaginationDirectionPipe)
@@ -56,5 +60,10 @@ export class AdopterController {
     return this.findAllAdoptersPaginatedUseCase.execute({
       paginate: { limit, page, direction },
     });
+  }
+
+  @Get('/:id')
+  findById(@Param('id') id: string): Promise<AdopterPresenter> {
+    return this.findByIdUseCase.execute({ id });
   }
 }
