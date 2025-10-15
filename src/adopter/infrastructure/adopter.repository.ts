@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AdopterRepository } from '../domain/adopter.repository';
+import {
+  AdopterRepository,
+  FiltersAdopter,
+} from '../domain/adopter.repository';
 import { Adopter } from '../domain/adopter.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,6 +28,42 @@ export class AdopterRepositoryImpl implements AdopterRepository {
   ): Promise<Pagination<Adopter>> {
     const queryBuilder = this.adopterRepository.createQueryBuilder('a');
 
+    const adoptersDb = await paginate<AdopterSchema>(queryBuilder, pagination);
+
+    const adoptersPaginated = new PaginationPresenter<AdopterSchema>(
+      adoptersDb.items,
+      new MetaPresenter(
+        adoptersDb.meta.totalItems,
+        adoptersDb.meta.itemCount,
+        adoptersDb.meta.itemsPerPage,
+        adoptersDb.meta.totalPages,
+        adoptersDb.meta.currentPage,
+      ),
+    );
+
+    return {
+      items: AdopterMapper.instance.toEntityMany(adoptersPaginated.items),
+      meta: adoptersPaginated.meta,
+    };
+  }
+
+  async search(
+    pagination: PaginationDto,
+    search?: string,
+    filters?: FiltersAdopter,
+  ): Promise<Pagination<Adopter>> {
+    const queryBuilder = this.adopterRepository.createQueryBuilder('a');
+
+    if(search) {
+      queryBuilder.where(
+        `LOWER(a.name) LIKE LOWER(:search) OR LOWER(a.cpf) LIKE LOWER(:search)`,
+        {
+          search: `%${search}%`
+        }
+      )
+    }
+
+    /** Pagination */
     const adoptersDb = await paginate<AdopterSchema>(queryBuilder, pagination);
 
     const adoptersPaginated = new PaginationPresenter<AdopterSchema>(

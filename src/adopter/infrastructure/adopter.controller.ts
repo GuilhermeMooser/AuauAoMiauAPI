@@ -19,6 +19,7 @@ import { PaginationPresenter } from '@/shared/infrastructure/presenters/paginati
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { AdopterPresenter } from './presenters/adopter.presenter';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
+import { AdopterFilterDto } from './dto/adopter-filter.dto';
 
 @Controller('api/adopter/v1')
 export class AdopterController {
@@ -52,13 +53,18 @@ export class AdopterController {
 
   @Get()
   findAllPaginated(
+    @Query('s') search: string,
     @Query('page') page = 1,
     @Query('limit', PaginationLimitPipe) limit: number,
     @Query('direction', PaginationDirectionPipe)
     direction: 'ASC' | 'DESC' | null,
+    @Body()
+    adopterFilterDto?: AdopterFilterDto,
   ): Promise<PaginationPresenter<AdopterPresenter>> {
     return this.findAllAdoptersPaginatedUseCase.execute({
+      search,
       paginate: { limit, page, direction },
+      filters: adopterFilterDto,
     });
   }
 
