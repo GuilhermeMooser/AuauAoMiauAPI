@@ -53,18 +53,14 @@ export class AdopterController {
 
   @Get()
   findAllPaginated(
-    @Query('s') search: string,
-    @Query('page') page = 1,
-    @Query('limit', PaginationLimitPipe) limit: number,
-    @Query('direction', PaginationDirectionPipe)
-    direction: 'ASC' | 'DESC' | null,
-    @Body()
-    adopterFilterDto?: AdopterFilterDto,
+    @Query() adopterFiltersDto: AdopterFilterDto,
   ): Promise<PaginationPresenter<AdopterPresenter>> {
+    const { s, page, limit, direction, ...filters } = adopterFiltersDto;
+
     return this.findAllAdoptersPaginatedUseCase.execute({
-      search,
+      search: s,
       paginate: { limit, page, direction },
-      filters: adopterFilterDto,
+      filters: filters,
     });
   }
 

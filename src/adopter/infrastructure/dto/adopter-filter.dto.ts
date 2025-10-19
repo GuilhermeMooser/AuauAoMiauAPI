@@ -1,24 +1,19 @@
-import { CityDto } from '@/city/infrastructure/dto/city.dto';
-import { StateUfDto } from '@/state-uf/infrastructure/dto/state-uf.dto';
+import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
 import { Type } from 'class-transformer';
 import {
-  IsDate,
+  IsDateString,
   IsIn,
+  IsInt,
   IsOptional,
   IsString,
-  ValidateNested,
 } from 'class-validator';
 
 export type StatusType = 'all' | 'active' | 'inactive';
 
-export class AdopterFilterDto {
+export class AdopterFilterDto extends PaginationDto {
   @IsOptional()
   @IsString()
-  name?: string;
-
-  @IsOptional()
-  @IsString()
-  cpf?: string;
+  s?: string;
 
   @IsOptional()
   @IsIn(['all', 'active', 'inactive'], {
@@ -27,22 +22,20 @@ export class AdopterFilterDto {
   status?: StatusType;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => StateUfDto)
-  stateUf?: StateUfDto;
+  @IsInt()
+  @Type(() => Number)
+  cityId?: number;
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => CityDto)
-  city?: CityDto;
+  @IsInt()
+  @Type(() => Number)
+  stateUfId?: number;
 
   @IsOptional()
-  @Type(() => Date)
-  @IsDate()
-  createdAt?: Date;
+  @IsDateString()
+  createdAt?: string;
 
   @IsOptional()
-  @Type(() => Date)
-  @IsDate()
-  dtToNotify?: Date;
+  @IsDateString()
+  dtToNotify?: string;
 }

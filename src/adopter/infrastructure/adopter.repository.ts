@@ -52,15 +52,47 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     search?: string,
     filters?: FiltersAdopter,
   ): Promise<Pagination<Adopter>> {
-    const queryBuilder = this.adopterRepository.createQueryBuilder('a');
+    const queryBuilder = this.adopterRepository
+      .createQueryBuilder('a')
+      .leftJoin('a.addresses', 'add')
+      .leftJoin('add.city', 'c')
+      .leftJoin('c.stateUf', 's');
 
-    if(search) {
+    if (filters?.status === 'all' || filters?.status === 'inactive') {
+      queryBuilder.withDeleted();
+    }
+
+    if (search) {
       queryBuilder.where(
         `LOWER(a.name) LIKE LOWER(:search) OR LOWER(a.cpf) LIKE LOWER(:search)`,
         {
-          search: `%${search}%`
-        }
-      )
+          search: `%${search}%`,
+        },
+      );
+    }
+
+    if (filters) {
+      if (filters.stateUfId) {
+        queryBuilder.andWhere('s.id = :stateUfId', {
+          stateUfId: filters.stateUfId,
+        });
+      }
+      if (filters.cityId) {
+        queryBuilder.andWhere('c.id = :cityId', { cityId: filters.cityId });
+      }
+      if (filters.createdAt) {
+        queryBuilder.andWhere('DATE(a.createdAt) = :createdAt', {
+          createdAt: filters.createdAt,
+        });
+      }
+      if (filters.dtToNotify) {
+        queryBuilder.andWhere('DATE(a.dtToNotify) = :dtToNotify', {
+          dtToNotify: filters.dtToNotify,
+        });
+      }
+      if (filters.status === 'inactive') {
+        queryBuilder.andWhere('a.deletedAt IS NOT NULL');
+      }
     }
 
     /** Pagination */

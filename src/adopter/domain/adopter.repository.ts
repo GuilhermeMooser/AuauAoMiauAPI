@@ -4,28 +4,12 @@ import { Pagination } from '@/shared/application/pagination/pagination';
 import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
 import { StatusType } from '../infrastructure/dto/adopter-filter.dto';
 
-type StateUfDto = {
-  id: number;
-  name: string;
-  acronym: string;
-  country: string;
-};
-
-type CityDto = {
-  id: number;
-  name: string;
-  stateUf: StateUfDto;
-  ibge: number;
-};
-
 export type FiltersAdopter = {
-  name?: string;
-  cpf?: string;
   status?: StatusType;
-  stateUf?: StateUfDto;
-  city?: CityDto;
-  createdAt?: Date;
-  dtToNotify?: Date;
+  stateUfId?: number;
+  cityId?: number;
+  createdAt?: string;
+  dtToNotify?: string;
 };
 
 export interface AdopterRepository extends Repository<Adopter> {
