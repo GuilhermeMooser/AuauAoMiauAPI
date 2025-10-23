@@ -13,11 +13,6 @@ export class CityPresenter {
   name: string;
 
   @ApiProperty({
-    description: 'IBGE code',
-  })
-  ibge: number;
-
-  @ApiProperty({
     description: 'State',
   })
   stateUf: StateUfPresenter;

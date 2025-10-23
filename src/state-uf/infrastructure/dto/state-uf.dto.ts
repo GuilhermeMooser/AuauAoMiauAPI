@@ -9,7 +9,4 @@ export class StateUfDto {
 
   @IsString()
   acronym: string;
-
-  @IsString()
-  country: string;
 }

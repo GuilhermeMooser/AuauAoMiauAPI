@@ -22,14 +22,12 @@ type StateUfDto = {
   id: number;
   name: string;
   acronym: string;
-  country: string;
 };
 
 type CityDto = {
   id: number;
   name: string;
   stateUf: StateUfDto;
-  ibge: number;
 };
 
 type AdopterAddressDto = {

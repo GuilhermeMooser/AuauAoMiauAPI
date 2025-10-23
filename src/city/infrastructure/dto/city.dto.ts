@@ -12,7 +12,4 @@ export class CityDto {
   @ValidateNested()
   @Type(() => StateUfDto)
   stateUf: StateUfDto;
-
-  @IsInt()
-  ibge: number;
 }

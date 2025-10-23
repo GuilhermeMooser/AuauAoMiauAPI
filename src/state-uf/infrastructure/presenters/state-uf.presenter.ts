@@ -15,9 +15,4 @@ export class StateUfPresenter {
     description: 'Acronym',
   })
   acronym: string;
-
-  @ApiProperty({
-    description: 'Country',
-  })
-  country: string;
 }

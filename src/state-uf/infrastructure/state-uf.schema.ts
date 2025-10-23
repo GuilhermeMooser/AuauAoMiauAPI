@@ -12,9 +12,6 @@ export class StateUfSchema {
   @Column({ name: 'uf' })
   acronym: string;
 
-  @Column({ name: 'country' })
-  country: string;
-
   @OneToMany(() => CitySchema, city => city.stateUf)
   cities?: CitySchema[];
 }

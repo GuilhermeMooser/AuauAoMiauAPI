@@ -17,9 +17,6 @@ export class CitySchema {
   @Column({ name: 'name' })
   name: string;
 
-  @Column({ name: 'ibge' })
-  ibge: number;
-
   @JoinColumn({ name: 'uf' })
   @ManyToOne(() => StateUfSchema, state => state.cities)
   stateUf: StateUfSchema;

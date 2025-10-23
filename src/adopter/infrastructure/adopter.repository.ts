@@ -54,9 +54,10 @@ export class AdopterRepositoryImpl implements AdopterRepository {
   ): Promise<Pagination<Adopter>> {
     const queryBuilder = this.adopterRepository
       .createQueryBuilder('a')
-      .leftJoin('a.addresses', 'add')
-      .leftJoin('add.city', 'c')
-      .leftJoin('c.stateUf', 's');
+      .leftJoinAndSelect('a.addresses', 'add')
+      .leftJoinAndSelect('a.contacts', 'ac')
+      .leftJoinAndSelect('add.city', 'c')
+      .leftJoinAndSelect('c.stateUf', 's');
 
     if (filters?.status === 'all' || filters?.status === 'inactive') {
       queryBuilder.withDeleted();
@@ -109,6 +110,7 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       ),
     );
 
+    console.log(JSON.stringify(adoptersPaginated.items, null, 3))
     return {
       items: AdopterMapper.instance.toEntityMany(adoptersPaginated.items),
       meta: adoptersPaginated.meta,
