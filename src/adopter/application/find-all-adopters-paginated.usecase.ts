@@ -9,6 +9,7 @@ import type {
   AdopterRepository,
   FiltersAdopter,
 } from '../domain/adopter.repository';
+import { MinimalAdopterOutput, MinimalAdopterOutputMapper } from './outputs/minimal-adopter.output';
 
 type Input = {
   paginate: PaginationInput;
@@ -16,14 +17,14 @@ type Input = {
   filters?: FiltersAdopter;
 };
 
-type Output = Pagination<AdopterOutput>;
+type Output = Pagination<MinimalAdopterOutput>;
 
 @Injectable()
 export class FindAllAdoptersPaginatedUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
     private readonly adopterRepository: AdopterRepository,
-    private readonly adopterOutputMapper: AdopterOutputMapper,
+    private readonly minimalAdopterOutputMapper: MinimalAdopterOutputMapper,
   ) {}
 
   async execute({ search, paginate, filters }: Input): Promise<Output> {
@@ -35,7 +36,7 @@ export class FindAllAdoptersPaginatedUseCase implements UseCase<Input, Output> {
 
     return {
       items: adoptersPagination.items.map(adopter => {
-        return this.adopterOutputMapper.toOutput(adopter);
+        return this.minimalAdopterOutputMapper.toOutput(adopter);
       }),
       meta: adoptersPagination.meta,
     };

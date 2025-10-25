@@ -17,6 +17,7 @@ import { AdopterContactOutputMapper } from '@/adopter-contact/application/output
 import { AdopterAddressOutputMapper } from '@/adopter-address/application/outputs/adopter-address.output';
 import { AnimalOutputMapper } from '@/animals/application/outputs/animal.output';
 import { TermOutputMapper } from '@/terms/application/outputs/term.output';
+import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopter.output';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TermOutputMapper } from '@/terms/application/outputs/term.output';
     SoftDeleteAdopterUseCase,
     UpdateAdopterUseCase,
     AdopterOutputMapper,
+    MinimalAdopterOutputMapper,
     FindAllAdoptersPaginatedUseCase,
     FindAdopterByIdUseCase,
     {

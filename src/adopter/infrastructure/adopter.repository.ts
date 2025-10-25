@@ -55,7 +55,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     const queryBuilder = this.adopterRepository
       .createQueryBuilder('a')
       .leftJoinAndSelect('a.addresses', 'add')
-      .leftJoinAndSelect('a.contacts', 'ac')
       .leftJoinAndSelect('add.city', 'c')
       .leftJoinAndSelect('c.stateUf', 's');
 

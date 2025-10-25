@@ -20,6 +20,7 @@ import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopter
 import { AdopterPresenter } from './presenters/adopter.presenter';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 import { AdopterFilterDto } from './dto/adopter-filter.dto';
+import { MinimalAdopterPresenter } from './presenters/minimal-adopter.presenter';
 
 @Controller('api/adopter/v1')
 export class AdopterController {
@@ -54,7 +55,7 @@ export class AdopterController {
   @Get()
   findAllPaginated(
     @Query() adopterFiltersDto: AdopterFilterDto,
-  ): Promise<PaginationPresenter<AdopterPresenter>> {
+  ): Promise<PaginationPresenter<MinimalAdopterPresenter>> {
     const { s, page, limit, direction, ...filters } = adopterFiltersDto;
 
     return this.findAllAdoptersPaginatedUseCase.execute({
