@@ -46,7 +46,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       meta: adoptersPaginated.meta,
     };
   }
-
   async search(
     pagination: PaginationDto,
     search?: string,
@@ -55,8 +54,11 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     const queryBuilder = this.adopterRepository
       .createQueryBuilder('a')
       .leftJoinAndSelect('a.addresses', 'add')
+      .leftJoinAndSelect('a.contacts', 'ac')
       .leftJoinAndSelect('add.city', 'c')
-      .leftJoinAndSelect('c.stateUf', 's');
+      .leftJoinAndSelect('c.stateUf', 's')
+      .leftJoin('a.animals', 'an')
+      .addSelect(['an.name']);
 
     if (filters?.status === 'all' || filters?.status === 'inactive') {
       queryBuilder.withDeleted();
@@ -97,7 +99,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
 
     /** Pagination */
     const adoptersDb = await paginate<AdopterSchema>(queryBuilder, pagination);
-
     const adoptersPaginated = new PaginationPresenter<AdopterSchema>(
       adoptersDb.items,
       new MetaPresenter(
@@ -126,7 +127,14 @@ export class AdopterRepositoryImpl implements AdopterRepository {
   async findById(id: string): Promise<Adopter> {
     const adopter = await this.adopterRepository.findOne({
       where: { id },
-      relations: ['addresses', 'contacts', 'terms', 'animals'],
+      relations: [
+        'addresses',
+        'addresses.city',
+        'addresses.city.stateUf',
+        'contacts',
+        'terms',
+        'animals',
+      ],
     });
     return AdopterMapper.instance.toEntity(adopter);
   }

@@ -8,9 +8,9 @@ type MaritalStatusUnion =
   | 'solteiro'
   | 'casado'
   | 'divorciado'
-  | 'viúvo'
+  | 'viuvo'
   | 'separado'
-  | 'união_estável';
+  | 'uniao_estavel';
 
 export class AdopterPresenter {
   @ApiProperty({description: 'ID'})

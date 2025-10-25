@@ -6,23 +6,26 @@ import {
   AdopterContactOutput,
   AdopterContactOutputMapper,
 } from '@/adopter-contact/application/outputs/adopter-contact.output';
-import { Adopter, MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
+import { Adopter } from '@/adopter/domain/adopter.entity';
 import {
   AnimalOutput,
   AnimalOutputMapper,
 } from '@/animals/application/outputs/animal.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
+import { Audit } from '@/shared/domain/entity';
 import { Injectable } from '@nestjs/common';
 
 export type MinimalAdopterOutput = {
   id: string;
   name: string;
   cpf: string;
-  profession: string;
+  email: string;
   addresses: AdopterAddressOutput[];
+  contacts: AdopterContactOutput[];
   activeNotification: boolean;
   dtToNotify?: Date;
-  animals?: AnimalOutput[];
+  animals?: (Partial<AnimalOutput> & Pick<AnimalOutput, 'name'>)[];
+  audit: Audit;
 };
 @Injectable()
 export class MinimalAdopterOutputMapper extends OutputMapper<
@@ -32,6 +35,7 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
   constructor(
     private readonly addressMapper: AdopterAddressOutputMapper,
     private readonly animalMapper: AnimalOutputMapper,
+    private readonly contactMapper: AdopterContactOutputMapper,
   ) {
     super();
   }
@@ -41,11 +45,13 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
       id: entity.id,
       name: entity.props.name,
       cpf: entity.props.cpf,
-      profession: entity.props.profession,
+      email: entity.props.email,
+      contacts: this.toOutputArray(entity.props.contacts, this.contactMapper),
       activeNotification: entity.props.activeNotification,
       dtToNotify: entity.props.dtToNotify,
       addresses: this.toOutputArray(entity.props.addresses, this.addressMapper),
       animals: this.toOutputArray(entity.props.animals, this.animalMapper),
+      audit: entity.props.audit,
     };
   }
 }

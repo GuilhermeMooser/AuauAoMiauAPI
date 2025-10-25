@@ -49,9 +49,9 @@ export class CreateAdopterDto {
     'solteiro',
     'casado',
     'divorciado',
-    'viúvo',
+    'viuvo',
     'separado',
-    'união_estável',
+    'uniao_estavel',
   ])
   civilState: MaritalStatusUnion;
 
