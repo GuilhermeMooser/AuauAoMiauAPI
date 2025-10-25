@@ -6,7 +6,7 @@ export class AdopterContactPresenter {
   @ApiProperty({
     description: 'Id',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Value',

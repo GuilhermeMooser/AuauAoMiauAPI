@@ -110,7 +110,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       ),
     );
 
-    console.log(JSON.stringify(adoptersPaginated.items, null, 3))
     return {
       items: AdopterMapper.instance.toEntityMany(adoptersPaginated.items),
       meta: adoptersPaginated.meta,

@@ -1,7 +1,7 @@
-import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
+import { StateUfOutput } from "@/state-uf/application/outputs/state-uf.output";
 
 export class CityOutput {
   id: number;
   name: string;
-  stateUf: StateUfSchema;
+  stateUf: StateUfOutput;
 }
