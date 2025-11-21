@@ -12,6 +12,7 @@ import {
   AnimalOutputMapper,
 } from '@/animals/application/outputs/animal.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
+import { Audit } from '@/shared/domain/entity';
 import {
   TermOutput,
   TermOutputMapper,
@@ -30,6 +31,7 @@ export type AdopterOutput = {
   civilState: MaritalStatusUnion;
   addresses: AdopterAddressOutput[];
   activeNotification: boolean;
+  audit: Audit;
   dtToNotify?: Date;
   animals?: AnimalOutput[];
   terms?: TermOutput[];
@@ -61,6 +63,7 @@ export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {
       addresses: this.toOutputArray(entity.props.addresses, this.addressMapper),
       animals: this.toOutputArray(entity.props.animals, this.animalMapper),
       terms: this.toOutputArray(entity.props.terms, this.termMapper),
+      audit: entity.props.audit,
     };
   }
 }
