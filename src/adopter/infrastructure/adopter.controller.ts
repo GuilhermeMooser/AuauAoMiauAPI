@@ -44,12 +44,11 @@ export class AdopterController {
     return this.softDeleteAdopterUseCase.execute({ id });
   }
 
-  @Put('/:id')
+  @Put()
   update(
-    @Param('id') id: string,
     @Body() updateAdopterDto: UpdateAdopterDto,
   ): Promise<AdopterPresenter> {
-    return this.updateAdopterUseCase.execute({ id, ...updateAdopterDto });
+    return this.updateAdopterUseCase.execute({ ...updateAdopterDto });
   }
 
   @Get()
