@@ -2,6 +2,8 @@ import { UseCase } from '@/shared/application/usecases/use-case';
 import { Inject, Injectable } from '@nestjs/common';
 import type { StateUfRepository } from '../domain/state-uf.repository';
 import { StateUfOutput } from './outputs/state-uf.output';
+import { NotFoundError } from '@/shared/application/errors/not-found-error';
+import { ForbiddenError } from '@/shared/application/errors/forbidden-error';
 
 type Input = null;
 type Output = StateUfOutput[];

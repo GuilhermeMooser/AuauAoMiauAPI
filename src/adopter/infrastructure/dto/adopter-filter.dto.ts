@@ -8,18 +8,10 @@ import {
   IsString,
 } from 'class-validator';
 
-export type StatusType = 'all' | 'active' | 'inactive';
-
 export class AdopterFilterDto extends PaginationDto {
   @IsOptional()
   @IsString()
   s?: string;
-
-  @IsOptional()
-  @IsIn(['all', 'active', 'inactive'], {
-    message: 'Status should be all, active ou inactive',
-  })
-  status?: StatusType;
 
   @IsOptional()
   @IsInt()

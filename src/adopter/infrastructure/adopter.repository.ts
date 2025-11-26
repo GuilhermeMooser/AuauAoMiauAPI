@@ -60,10 +60,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       .leftJoin('a.animals', 'an')
       .addSelect(['an.name']);
 
-    if (filters?.status === 'all' || filters?.status === 'inactive') {
-      queryBuilder.withDeleted();
-    }
-
     if (search) {
       queryBuilder.where(
         `LOWER(a.name) LIKE LOWER(:search) OR LOWER(a.cpf) LIKE LOWER(:search)`,
@@ -91,9 +87,6 @@ export class AdopterRepositoryImpl implements AdopterRepository {
         queryBuilder.andWhere('DATE(a.dtToNotify) = :dtToNotify', {
           dtToNotify: filters.dtToNotify,
         });
-      }
-      if (filters.status === 'inactive') {
-        queryBuilder.andWhere('a.deletedAt IS NOT NULL');
       }
     }
 
