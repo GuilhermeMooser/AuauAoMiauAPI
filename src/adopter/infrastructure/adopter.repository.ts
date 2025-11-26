@@ -62,7 +62,7 @@ export class AdopterRepositoryImpl implements AdopterRepository {
 
     if (search) {
       queryBuilder.where(
-        `LOWER(a.name) LIKE LOWER(:search) OR LOWER(a.cpf) LIKE LOWER(:search)`,
+        `LOWER(a.name) LIKE LOWER(:search) OR LOWER(a.cpf) LIKE LOWER(:search) OR LOWER(a.email) LIKE LOWER(:search)`,
         {
           search: `%${search}%`,
         },
