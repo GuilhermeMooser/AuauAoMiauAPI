@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EnvConfig, NodeEnv } from './env-config.interface';
+import { CookiesSameSite, EnvConfig, NodeEnv } from './env-config.interface';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -86,5 +86,33 @@ export class EnvConfigService implements EnvConfig {
 
   getAllowedMethods(): string {
     return this.configService.get<string>('ALLOWED_METHODS');
+  }
+
+  getCookieSecret(): string {
+    return this.configService.get<string>('COOKIE_SECRET');
+  }
+
+  getEncryptionSalts(): number {
+    return +this.configService.get<string>('ENCRYPTION_SALTS');
+  }
+
+  getJwtExpiresInSeconds(): number {
+    return +this.configService.get<string>('JWT_EXPIRES_IN');
+  }
+
+  getJwtSecret(): string {
+    return this.configService.get<string>('JWT_SECRET');
+  }
+
+  getCookieSecure(): boolean {
+    return this.configService.get<string>('COOKIE_SECURE') === 'true';
+  }
+
+  getCookieDomain(): string {
+    return this.configService.get<string>('COOKIE_DOMAIN');
+  }
+
+  getCookieSameSite(): CookiesSameSite {
+    return this.configService.get<CookiesSameSite>('COOKIE_SAME_SITE');
   }
 }

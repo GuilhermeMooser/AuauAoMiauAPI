@@ -5,8 +5,11 @@ import { EnvConfigService } from './env-config.service';
 
 @Module({
   imports: [ConfigModule],
-  providers: [EnvConfigService],
-  exports: [EnvConfigService],
+  providers: [
+    EnvConfigService,
+    { provide: 'EnvConfig', useClass: EnvConfigService },
+  ],
+  exports: [EnvConfigService, 'EnvConfig'],
 })
 export class EnvConfigModule extends ConfigModule {
   static async forRoot(

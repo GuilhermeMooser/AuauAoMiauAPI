@@ -15,8 +15,8 @@ async function bootstrap() {
 
   const envConfigService = app.get(EnvConfigService);
 
-  applyGlobalConfig(app, envConfigService);
+  await applyGlobalConfig(app, envConfigService);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(envConfigService.getAppPort() ?? 3000);
 }
 bootstrap();

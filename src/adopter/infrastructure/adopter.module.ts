@@ -13,10 +13,6 @@ import { AnimalModule } from '@/animals/infrastructure/animal.module';
 import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
-import { AdopterContactOutputMapper } from '@/adopter-contact/application/outputs/adopter-contact.output';
-import { AdopterAddressOutputMapper } from '@/adopter-address/application/outputs/adopter-address.output';
-import { AnimalOutputMapper } from '@/animals/application/outputs/animal.output';
-import { TermOutputMapper } from '@/terms/application/outputs/term.output';
 import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopter.output';
 
 @Module({

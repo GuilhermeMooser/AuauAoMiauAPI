@@ -1,4 +1,4 @@
-import { Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Column } from 'typeorm';
 import { AuditableSchema } from './auditable-schema';
 
 export abstract class UserAuditableSchema extends AuditableSchema {

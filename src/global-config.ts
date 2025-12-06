@@ -10,8 +10,10 @@ import { ForbiddenErrorFilter } from './shared/infrastructure/exception-filters/
 import { NotFoundErrorFilter } from './shared/infrastructure/exception-filters/not-found-error.filter';
 import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { EnvConfigService } from './shared/infrastructure/env-config/env-config.service';
+import fastifyCookie from '@fastify/cookie';
+import { UnauthorizedErrorFilter } from './shared/infrastructure/exception-filters/unauthorized-error.filter';
 
-export function applyGlobalConfig(
+export async function applyGlobalConfig(
   app: NestFastifyApplication,
   envConfigService: EnvConfigService,
 ) {
@@ -31,6 +33,7 @@ export function applyGlobalConfig(
     new ResourceFoundErrorFilter(),
     new ForbiddenErrorFilter(),
     new NotFoundErrorFilter(),
+    new UnauthorizedErrorFilter(),
   );
 
   app.enableCors({
@@ -39,5 +42,9 @@ export function applyGlobalConfig(
     preflightContinue: false,
     optionsSuccessStatus: 204,
     // credentials: true,
+  });
+
+  await app.register(fastifyCookie, {
+    secret: envConfigService.getCookieSecret(),
   });
 }

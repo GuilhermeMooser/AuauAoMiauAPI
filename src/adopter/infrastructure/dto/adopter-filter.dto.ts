@@ -1,12 +1,6 @@
 import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
 import { Type } from 'class-transformer';
-import {
-  IsDateString,
-  IsIn,
-  IsInt,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsDateString, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class AdopterFilterDto extends PaginationDto {
   @IsOptional()

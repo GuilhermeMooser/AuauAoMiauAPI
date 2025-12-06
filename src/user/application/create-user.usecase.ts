@@ -1,0 +1,78 @@
+import { UseCase } from '@/shared/application/usecases/use-case';
+import { Inject, Injectable } from '@nestjs/common';
+import type { UserRepository } from '../domain/user.repository';
+import { UserRole } from '@/user-role/domain/user-role.entity';
+import { ResourceFoundError } from '@/shared/application/errors/resource-found-error';
+import type { UserRoleRepository } from '@/user-role/domain/user-role.repository';
+import { ResourceNotFoundError } from '@/shared/application/errors/resource-not-found-error';
+import type { Encryption } from '@/shared/application/utils/encryption';
+import { User } from '../domain/user.entity';
+import { UserOutput, UserOutputMapper } from './outputs/user.output';
+
+type Input = {
+  user: string;
+  password: string;
+  email: string;
+  cpf: string;
+  role: UserRole;
+};
+type Output = UserOutput;
+
+@Injectable()
+export class CreateUserUseCase implements UseCase<Input, Output> {
+  constructor(
+    @Inject('UserRepository')
+    private readonly userRepository: UserRepository,
+    @Inject('UserRoleRepository')
+    private readonly userRoleRepository: UserRoleRepository,
+    @Inject('Encryption') private readonly encryption: Encryption,
+    private readonly userOutputMapper: UserOutputMapper,
+  ) {}
+
+  async execute(input: Input): Promise<Output> {
+    const userExists = await this.userRepository.userLoginExists(input.user);
+
+    if (userExists) {
+      throw new ResourceFoundError(`Usuário ${input.user} já existe`);
+    }
+
+    const emailExists = await this.userRepository.userEmailExists(input.email);
+
+    if (emailExists) {
+      throw new ResourceFoundError(
+        `Usuário com email ${input.email} já existe`,
+      );
+    }
+
+    const cpfExists = await this.userRepository.userCpfExists(input.cpf);
+
+    if (cpfExists) {
+      throw new ResourceFoundError(`Usuário com CPF ${input.cpf} já existe`);
+    }
+
+    const userType = await this.userRoleRepository.findByTypeId(input.role.id);
+
+    if (!userType) {
+      throw new ResourceNotFoundError(
+        `Tipo de usuário com código ${input.role.id} não existe`,
+      );
+    }
+
+    const hashPassword = this.encryption.generateHash(input.password);
+
+    const userEntity = User.create({
+      cpf: input.cpf,
+      email: input.email,
+      name: input.user,
+      password: hashPassword,
+      role: input.role,
+      active: true,
+      createdByUserId: '3038c222-58c4-4bfb-a213-650ca92d9d4c', //TODO AJUSTAR
+    });
+
+    const createdUser = await this.userRepository.create(userEntity.toJSON());
+    delete createdUser.props.password; //TODO Verificar esse bgl das props
+
+    return this.userOutputMapper.toOutput(createdUser);
+  }
+}

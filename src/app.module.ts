@@ -7,6 +7,11 @@ import { AdopterAddressModule } from './adopter-address/infrastructure/adopter-a
 import { TermModule } from './terms/infrastructure/term.module';
 import { CityModule } from './city/infrastructure/city.module';
 import { StateUfModule } from './state-uf/infrastructure/state-uf.module';
+import { AuthModule } from './auth/infrastructure/auth.module';
+import { UserModule } from './user/infrastructure/user.module';
+import { UserRoleModule } from './user-role/infrastructure/user-role.module';
+import { UtilsModule } from './shared/infrastructure/utils/utils.module';
+import { SessionModule } from './session/infrastructure/session.module';
 
 @Module({
   imports: [
@@ -18,6 +23,11 @@ import { StateUfModule } from './state-uf/infrastructure/state-uf.module';
     TermModule,
     CityModule,
     StateUfModule,
+    AuthModule,
+    UserModule,
+    UserRoleModule,
+    UtilsModule,
+    SessionModule,
   ],
 })
 export class AppModule {}

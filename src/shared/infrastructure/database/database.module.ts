@@ -11,6 +11,9 @@ import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
 import { TermSchema } from '@/terms/infrastructure/term.schema';
 import { CitySchema } from '@/city/infrastructure/city.schema';
 import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
+import { UserSchema } from '@/user/infrastructure/user.schema';
+import { UserRoleSchema } from '@/user-role/infrastructure/user-role.schema';
+import { SessionSchema } from '@/session/infrastructure/session.schema';
 
 @Module({
   imports: [
@@ -33,6 +36,9 @@ import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
             TermSchema,
             CitySchema,
             StateUfSchema,
+            UserSchema,
+            UserRoleSchema,
+            SessionSchema,
           ],
 
           migrations: [join(__dirname, '/migrations/*{.ts,.js}')],

@@ -1,9 +1,11 @@
 export type NodeEnv = 'production' | 'development';
+export type CookiesSameSite = 'lax' | 'none' | 'strict';
 
 export interface EnvConfig {
   //App
   getAppPort(): number;
   getNodeEnv(): NodeEnv;
+  getCookieSecret(): string;
 
   //Database
   getDbPort(): number;
@@ -22,4 +24,11 @@ export interface EnvConfig {
   getDbSynchronize(): boolean;
   getDbMigrationsRun(): boolean;
   // getDbDropSchema(): boolean;
+  getCookieSecret(): string;
+  getEncryptionSalts(): number;
+  getJwtExpiresInSeconds(): number;
+  getJwtSecret(): string;
+  getCookieSecure(): boolean;
+  getCookieDomain(): string;
+  getCookieSameSite(): CookiesSameSite;
 }
