@@ -7,6 +7,7 @@ import { UserModule } from '@/user/infrastructure/user.module';
 import { SessionModule } from '@/session/infrastructure/session.module';
 import { UtilsModule } from '@/shared/infrastructure/utils/utils.module';
 import { LoginOutputMapper } from '../application/outputs/login.output';
+import { LogoutUseCase } from '../application/logout.usecase';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { LoginOutputMapper } from '../application/outputs/login.output';
     UserModule,
     SessionModule,
   ],
-  providers: [LoginUseCase, LoginOutputMapper],
+  providers: [LoginUseCase, LogoutUseCase, LoginOutputMapper],
   controllers: [AuthController],
   exports: [],
 })

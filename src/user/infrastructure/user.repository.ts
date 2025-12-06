@@ -13,6 +13,15 @@ export class UserRepositoryImpl implements UserRepository {
     private userRepository: Repository<UserSchema>,
   ) {}
 
+  async findUserLoginById(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['role'],
+    });
+
+    return UserMapper.instance.toEntity(user);
+  }
+
   async userCpfExists(cpf: string): Promise<boolean> {
     const cpfExists = await this.userRepository.existsBy({ cpf });
     return cpfExists;

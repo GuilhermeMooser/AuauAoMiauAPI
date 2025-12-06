@@ -4,6 +4,7 @@ import { Session } from '../domain/session.entity';
 import { Repository } from 'typeorm';
 import { SessionSchema } from './session.schema';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserMapper } from '@/user/infrastructure/mapper/user.mapper';
 
 @Injectable()
 export class SessionRepositoryImpl implements SessionRepository {
@@ -12,20 +13,33 @@ export class SessionRepositoryImpl implements SessionRepository {
     private readonly sessionRepository: Repository<SessionSchema>,
   ) {}
 
+  findByUserId(userId: string): Promise<Session | null> {
+    throw new Error('Method not implemented.');
+  }
+
+  async findByUserIdAndJti(
+    userId: string,
+    jti: string,
+  ): Promise<Session | null> {
+    const session = await this.sessionRepository.findOneBy({
+      user: { id: userId },
+      jti,
+    });
+
+    return { ...session, user: UserMapper.instance.toEntity(session.user) };
+  }
+
+  async deleteByUserId(userId: string): Promise<void> {
+    await this.sessionRepository.delete({
+      user: { id: userId },
+    });
+  }
+
   async create(entity: Partial<Session>): Promise<Session> {
     const session = await this.sessionRepository.save(entity);
     return session;
   }
 
-  findByUserId(userId: number): Promise<Session | null> {
-    throw new Error('Method not implemented.');
-  }
-  findByUserIdAndJti(userId: number, jti: string): Promise<Session | null> {
-    throw new Error('Method not implemented.');
-  }
-  deleteByUserId(userId: number): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
   deleteByJti(jti: string): Promise<void> {
     throw new Error('Method not implemented.');
   }

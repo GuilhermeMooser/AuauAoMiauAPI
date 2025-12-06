@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Module } from '@nestjs/common';
 import { EnvConfigModule } from '../env-config/env-config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvConfigService } from '../env-config/env-config.service';
 import { join } from 'path';
-import { DataSourceOptions } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
 import { AdopterAddressSchema } from '@/adopter-address/infrastructure/adopter-address.schema';
 import { AdopterContactSchema } from '@/adopter-contact/infrastructure/adopter-contact.schema';
@@ -14,6 +16,7 @@ import { StateUfSchema } from '@/state-uf/infrastructure/state-uf.schema';
 import { UserSchema } from '@/user/infrastructure/user.schema';
 import { UserRoleSchema } from '@/user-role/infrastructure/user-role.schema';
 import { SessionSchema } from '@/session/infrastructure/session.schema';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 @Module({
   imports: [
@@ -76,6 +79,13 @@ import { SessionSchema } from '@/session/infrastructure/session.schema';
         };
 
         return baseConfig;
+      },
+      async dataSourceFactory(options) {
+        if (!options) {
+          throw new Error('Invalid options passed');
+        }
+
+        return addTransactionalDataSource(new DataSource(options));
       },
       inject: [EnvConfigService],
     }),

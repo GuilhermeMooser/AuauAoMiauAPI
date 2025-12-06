@@ -12,6 +12,7 @@ import { UserModule } from './user/infrastructure/user.module';
 import { UserRoleModule } from './user-role/infrastructure/user-role.module';
 import { UtilsModule } from './shared/infrastructure/utils/utils.module';
 import { SessionModule } from './session/infrastructure/session.module';
+import { UserServiceModule } from './shared/infrastructure/user-service/user-service.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SessionModule } from './session/infrastructure/session.module';
     UserRoleModule,
     UtilsModule,
     SessionModule,
+    UserServiceModule,
   ],
 })
 export class AppModule {}
