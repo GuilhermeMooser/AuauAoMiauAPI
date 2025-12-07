@@ -41,7 +41,7 @@ export async function applyGlobalConfig(
     methods: envConfigService.getAllowedMethods(),
     preflightContinue: false,
     optionsSuccessStatus: 204,
-    // credentials: true,
+    credentials: true,
   });
 
   await app.register(fastifyCookie, {
