@@ -7,6 +7,9 @@ import { UtilsModule } from '@/shared/infrastructure/utils/utils.module';
 import { UserRoleModule } from '@/user-role/infrastructure/user-role.module';
 import { CreateUserUseCase } from '../application/create-user.usecase';
 import { UserOutputMapper } from '../application/outputs/user.output';
+import { FindAllUsersPaginatedUseCase } from '../application/find-all-users-paginated.usecase';
+import { MinimalAdopterOutputMapper } from '@/adopter/application/outputs/minimal-adopter.output';
+import { MinimalUserOutputMapper } from '../application/outputs/minimal-user.output';
 
 @Global()
 @Module({
@@ -19,6 +22,8 @@ import { UserOutputMapper } from '../application/outputs/user.output';
   providers: [
     CreateUserUseCase,
     UserOutputMapper,
+    MinimalUserOutputMapper,
+    FindAllUsersPaginatedUseCase,
     {
       provide: 'UserRepository',
       useClass: UserRepositoryImpl,

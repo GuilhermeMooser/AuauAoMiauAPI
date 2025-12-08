@@ -34,4 +34,8 @@ export class UserMapper extends RepositoryBaseMapper<UserSchema, User> {
       updatedByUserId: schema.updatedByUserId,
     });
   }
+
+  toEntityMany(schemas: UserSchema[]): User[] {
+    return super.toEntityMany(schemas);
+  }
 }
