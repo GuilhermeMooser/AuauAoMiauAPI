@@ -1,15 +1,17 @@
-// import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { UserRolePresenter } from './presenters/user-role.presenter';
+import { AuthGuard } from '@/auth/infrastructure/auth.guard';
+import { FindAllUserRolesUseCase } from '../application/find-all-user-roles.usecase';
 
-// @Controller()
-// export class UserRoleController {
-//   constructor(
-//     private createUserRoleUseCase: CreateUserRoleUseCase
-//   ) {}
+@UseGuards(AuthGuard)
+@Controller('/api/user-role/v1')
+export class UserRoleController {
+  constructor(
+    private findAllUserRolesUseCase: FindAllUserRolesUseCase
+  ) {}
 
-//   @Post()
-//   create(
-//     @Body() createUserRoleDto: CreateUserRoleDto,
-//   ): Promise<UserRolePresenter> {
-//     return this.createUserRoleUseCase.execute();
-//   }
-// }
+  @Get()
+  findAllUserRoles( ): Promise<UserRolePresenter[]> {
+    return this.findAllUserRolesUseCase.execute();
+  }
+}

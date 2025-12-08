@@ -4,6 +4,7 @@ import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsString,
   Length,
   MinLength,
@@ -30,7 +31,7 @@ export class CreateUserDto {
   @Length(14)
   cpf: string;
 
-  @ValidateNested()
-  @Type(() => UserRoleDto)
-  role: UserRoleDto;
+  @IsNumber()
+  @IsNotEmpty()
+  roleId: number;
 }

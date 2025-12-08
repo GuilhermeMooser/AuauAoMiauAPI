@@ -14,7 +14,7 @@ type Input = {
   password: string;
   email: string;
   cpf: string;
-  role: UserRole;
+  roleId: number;
 };
 type Output = UserOutput;
 
@@ -50,11 +50,11 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       throw new ResourceFoundError(`Usuário com CPF ${input.cpf} já existe`);
     }
 
-    const userType = await this.userRoleRepository.findByTypeId(input.role.id);
+    const userType = await this.userRoleRepository.findByTypeId(input.roleId);
 
     if (!userType) {
       throw new ResourceNotFoundError(
-        `Tipo de usuário com código ${input.role.id} não existe`,
+        `Tipo de usuário com código ${input.roleId} não existe`,
       );
     }
 
@@ -65,7 +65,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       email: input.email,
       name: input.user,
       password: hashPassword,
-      role: input.role,
+      role: userType,
       active: true,
       createdByUserId: '3038c222-58c4-4bfb-a213-650ca92d9d4c', //TODO AJUSTAR
     });
