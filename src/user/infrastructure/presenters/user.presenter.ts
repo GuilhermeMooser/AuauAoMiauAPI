@@ -1,4 +1,4 @@
-import type { Audit } from '@/shared/domain/entity';
+import type { Audit, UserAudit } from '@/shared/domain/entity';
 import { UserRolePresenter } from '@/user-role/infrastructure/presenters/user-role.presenter';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -22,4 +22,7 @@ export class UserPresenter {
 
   @ApiProperty({ description: 'Auditable' })
   audit?: Audit;
+
+  @ApiProperty({ description: 'User Auditable' })
+  userAudit?: UserAudit;
 }

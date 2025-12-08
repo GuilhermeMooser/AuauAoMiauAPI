@@ -3,6 +3,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 export type BaseProps = Record<string, unknown>;
 
+export type UserAudit = {
+  createdByUserId: string;
+  updatedByUserId: string;
+  deletedByUserId: string;
+};
+
 export type Audit = {
   createdAt: Date;
   updatedAt: Date;

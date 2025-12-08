@@ -1,13 +1,12 @@
 import { UseCase } from '@/shared/application/usecases/use-case';
 import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepository } from '../domain/user.repository';
-import { UserRole } from '@/user-role/domain/user-role.entity';
 import { ResourceFoundError } from '@/shared/application/errors/resource-found-error';
 import type { UserRoleRepository } from '@/user-role/domain/user-role.repository';
 import { ResourceNotFoundError } from '@/shared/application/errors/resource-not-found-error';
 import type { Encryption } from '@/shared/application/utils/encryption';
 import { User } from '../domain/user.entity';
-import { UserOutput, UserOutputMapper } from './outputs/user.output';
+import { MinimalUserOutput, MinimalUserOutputMapper } from './outputs/minimal-user.output';
 
 type Input = {
   user: string;
@@ -16,7 +15,7 @@ type Input = {
   cpf: string;
   roleId: number;
 };
-type Output = UserOutput;
+type Output = MinimalUserOutput;
 
 @Injectable()
 export class CreateUserUseCase implements UseCase<Input, Output> {
@@ -26,7 +25,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     @Inject('UserRoleRepository')
     private readonly userRoleRepository: UserRoleRepository,
     @Inject('Encryption') private readonly encryption: Encryption,
-    private readonly userOutputMapper: UserOutputMapper,
+    private readonly minimalUserOutputMapper: MinimalUserOutputMapper,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -73,6 +72,6 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     const createdUser = await this.userRepository.create(userEntity.toJSON());
     delete createdUser.props.password; //TODO Verificar esse bgl das props
 
-    return this.userOutputMapper.toOutput(createdUser);
+    return this.minimalUserOutputMapper.toOutput(createdUser);
   }
 }

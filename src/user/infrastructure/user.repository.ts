@@ -88,8 +88,12 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.instance.toEntity(user);
   }
 
-  findById(id: string): Promise<User> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+
+    return UserMapper.instance.toEntity(user);
   }
 
   async create(entity: Partial<User>): Promise<User> {
@@ -97,15 +101,20 @@ export class UserRepositoryImpl implements UserRepository {
     return UserMapper.instance.toEntity(user);
   }
 
-  update(entity: Partial<User>): Promise<User> {
-    throw new Error('Method not implemented.');
+  async update(entity: Partial<User>): Promise<User> {
+    const user = await this.userRepository.save(entity);
+    return UserMapper.instance.toEntity(user);
   }
 
   softDeleteById(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  softDeleteByUserId(id: string, userId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async softDeleteByUserId(id: string, userId: string): Promise<void> {
+    await this.userRepository.update(id, {
+      deletedByUserId: userId,
+    });
+
+    await this.userRepository.softDelete(id);
   }
 }

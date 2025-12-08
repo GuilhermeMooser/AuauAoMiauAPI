@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateUserUseCase } from '../application/create-user.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthGuard } from '@/auth/infrastructure/auth.guard';
@@ -9,6 +9,7 @@ import { PaginationPresenter } from '@/shared/infrastructure/presenters/paginati
 import { UserPresenter } from './presenters/user.presenter';
 import { MinimalUserPresenter } from './presenters/minimal-user.presenter';
 import { FindAllUsersPaginatedUseCase } from '../application/find-all-users-paginated.usecase';
+import { SoftDeleteUserUseCase } from '../application/soft-delete-user.usecase';
 
 @UseGuards(AuthGuard)
 @Controller('/api/user/v1')
@@ -16,19 +17,22 @@ export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly findAllUsersPaginatedUseCase: FindAllUsersPaginatedUseCase,
+    private readonly softDeleteUserUseCase: SoftDeleteUserUseCase
   ) {}
 
   @Roles(Role.Admin)
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<UserPresenter> {
+  create(@Body() createUserDto: CreateUserDto): Promise<MinimalUserPresenter> {
     return this.createUserUseCase.execute(createUserDto);
   }
 
-  // @Roles(Role.Admin)
-  // @Delete('/:id')
-  // delete(@Param('id') id: string): Promise<void> {
-  //   return this.softDeleteAdopterUseCase.execute({ id });
-  // }
+  @Roles(Role.Admin)
+  @Delete('/:id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.softDeleteUserUseCase.execute({ id });
+  }
+
+  //TODO fazer o Update
 
   @Get()
   findAllPaginated(

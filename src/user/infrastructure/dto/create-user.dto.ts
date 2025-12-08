@@ -1,6 +1,3 @@
-import { UserRoleDto } from '@/user-role/infrastructure/dto/user-role.dto';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,7 +5,6 @@ import {
   IsString,
   Length,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
 
 export class CreateUserDto {

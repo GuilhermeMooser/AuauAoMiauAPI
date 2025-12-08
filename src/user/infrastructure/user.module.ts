@@ -8,8 +8,9 @@ import { UserRoleModule } from '@/user-role/infrastructure/user-role.module';
 import { CreateUserUseCase } from '../application/create-user.usecase';
 import { UserOutputMapper } from '../application/outputs/user.output';
 import { FindAllUsersPaginatedUseCase } from '../application/find-all-users-paginated.usecase';
-import { MinimalAdopterOutputMapper } from '@/adopter/application/outputs/minimal-adopter.output';
 import { MinimalUserOutputMapper } from '../application/outputs/minimal-user.output';
+import { SoftDeleteUserUseCase } from '../application/soft-delete-user.usecase';
+import { UpdateUserUseCase } from '../application/update-user.usecase';
 
 @Global()
 @Module({
@@ -24,6 +25,8 @@ import { MinimalUserOutputMapper } from '../application/outputs/minimal-user.out
     UserOutputMapper,
     MinimalUserOutputMapper,
     FindAllUsersPaginatedUseCase,
+    SoftDeleteUserUseCase,
+    UpdateUserUseCase,
     {
       provide: 'UserRepository',
       useClass: UserRepositoryImpl,
