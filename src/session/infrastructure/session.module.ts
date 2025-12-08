@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionSchema } from './session.schema';
 import { SessionRepositoryImpl } from './session.repository';
 
+@Global()
 @Module({
   imports: [TypeOrmModule.forFeature([SessionSchema])],
   providers: [

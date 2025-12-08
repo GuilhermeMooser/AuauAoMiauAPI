@@ -5,7 +5,7 @@ import { UnauthorizedError } from '@/shared/application/errors/unauthorized-erro
 import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 import { User } from '@/user/domain/user.entity';
 import type { UserRepository } from '@/user/domain/user.repository';
-import { CanActivate, ExecutionContext, Inject } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '../domain/roles';
@@ -20,7 +20,7 @@ type Payload = {
   iat: number;
   exp: number;
 };
-
+@Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,

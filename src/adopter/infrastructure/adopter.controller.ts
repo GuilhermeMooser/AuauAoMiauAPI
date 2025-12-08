@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateAdopterDto } from './dto/create-adopter.dto';
 import { CreateAdopterUseCase } from '../application/create-adopter.usecase';
@@ -19,7 +20,11 @@ import { AdopterPresenter } from './presenters/adopter.presenter';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 import { AdopterFilterDto } from './dto/adopter-filter.dto';
 import { MinimalAdopterPresenter } from './presenters/minimal-adopter.presenter';
+import { Roles } from '@/shared/infrastructure/decorators/roles.decorator';
+import { Role } from '@/auth/domain/roles';
+import { AuthGuard } from '@/auth/infrastructure/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('/api/adopter/v1')
 export class AdopterController {
   constructor(
@@ -37,6 +42,7 @@ export class AdopterController {
     return this.createAdopterUseCase.execute(createAdopterDto);
   }
 
+  @Roles(Role.Admin)
   @Delete('/:id')
   delete(@Param('id') id: string): Promise<void> {
     return this.softDeleteAdopterUseCase.execute({ id });
