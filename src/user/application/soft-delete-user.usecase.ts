@@ -2,6 +2,7 @@ import { UseCase } from '@/shared/application/usecases/use-case';
 import { Inject, Injectable } from '@nestjs/common';
 import type { UserRepository } from '../domain/user.repository';
 import { NotFoundError } from '@/shared/application/errors/not-found-error';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 
 type Input = {
   id: string;
@@ -14,6 +15,8 @@ export class SoftDeleteUserUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('UserRepository')
     private readonly userRepository: UserRepository,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
   ) {}
 
   async execute(input: Input): Promise<void> {
@@ -23,7 +26,7 @@ export class SoftDeleteUserUseCase implements UseCase<Input, Output> {
       throw new NotFoundError('Usuário não encontrado');
     }
 
-    const userId = '3038c222-58c4-4bfb-a213-650ca92d9d4c'; //TODO AJUSTAR E VERIFICAR SE N TEM QUE EXCLUIR LOGIGAMENTE O TERM ASSOCIADO AO ADOTANTE
-    await this.userRepository.softDeleteByUserId(input.id, userId);
+    const loggedUser = this.loggedUserService.getLoggedUser()
+    await this.userRepository.softDeleteByUserId(input.id, loggedUser.id);
   }
 }
