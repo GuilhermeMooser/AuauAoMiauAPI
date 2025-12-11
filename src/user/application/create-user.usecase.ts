@@ -11,6 +11,7 @@ import {
   MinimalUserOutputMapper,
 } from './outputs/minimal-user.output';
 import { ConflictError } from '@/shared/application/errors/conflict-error';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 
 type Input = {
   user: string;
@@ -30,22 +31,19 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     private readonly userRoleRepository: UserRoleRepository,
     @Inject('Encryption') private readonly encryption: Encryption,
     private readonly minimalUserOutputMapper: MinimalUserOutputMapper,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
+
   ) {}
 
   async execute(input: Input): Promise<Output> {
     const userExists = await this.userRepository.findByUserEmail(input.email);
 
     if (userExists) {
-      throw new ResourceFoundError(`Usuário com email: ${input.email} já existe`);
+      throw new ResourceFoundError(
+        `Usuário com email: ${input.email} já existe`,
+      );
     }
-
-    // const emailExists = await this.userRepository.userEmailExists(input.email);
-
-    // if (emailExists) {
-    //   throw new ResourceFoundError(
-    //     `Usuário com email ${input.email} já existe`,
-    //   );
-    // }
 
     const cpfExists = await this.userRepository.userCpfExists(input.cpf);
 
@@ -67,6 +65,8 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
 
     const hashPassword = this.encryption.generateHash(input.password);
 
+    const loggedUser = this.loggedUserService.getLoggedUser();
+
     const userEntity = User.create({
       cpf: input.cpf,
       email: input.email,
@@ -74,7 +74,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       password: hashPassword,
       role: userType,
       active: true,
-      createdByUserId: '3038c222-58c4-4bfb-a213-650ca92d9d4c', //TODO AJUSTAR
+      createdByUserId: loggedUser.id,
     });
 
     const createdUser = await this.userRepository.create(userEntity.toJSON());

@@ -9,6 +9,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Animal } from '@/animals/domain/animal.entity';
 import { AdopterOutput, AdopterOutputMapper } from './outputs/adopter.output';
 import type { AnimalRepository } from '@/animals/domain/animal.repository';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 
 type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
@@ -62,6 +63,8 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
     @Inject('AnimalRepository')
     private readonly animalRepository: AnimalRepository,
     private readonly adopterOutputMapper: AdopterOutputMapper,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -93,6 +96,8 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
         );
     }
 
+    const loggedUser = this.loggedUserService.getLoggedUser()
+
     const adopter = Adopter.create({
       activeNotification: input.activeNotification,
       dtToNotify: input.activeNotification ? input.dtToNotify : null,
@@ -103,7 +108,7 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
       name: input.name,
       rg: input.rg,
       profession: input.profession,
-      createdByUserId: '3038c222-58c4-4bfb-a213-650ca92d9d4c', //TODO AJUSTAR
+      createdByUserId: loggedUser.id,
       addresses: addresses,
       contacts: contacts,
       animals: animals,

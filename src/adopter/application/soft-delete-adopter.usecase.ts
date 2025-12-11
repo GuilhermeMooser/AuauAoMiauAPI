@@ -4,6 +4,7 @@ import type { AdopterRepository } from '../domain/adopter.repository';
 import { NotFoundError } from '@/shared/application/errors/not-found-error';
 import type { AdopterContactRepository } from '@/adopter-contact/domain/adopter-contact.repository';
 import type { AdopterAddressRepository } from '@/adopter-address/domain/adopter-address.repository';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 
 type Input = {
   id: string;
@@ -20,6 +21,8 @@ export class SoftDeleteAdopterUseCase implements UseCase<Input, Output> {
     private readonly adopterContactRepository: AdopterContactRepository,
     @Inject('AdopterAddressRepository')
     private readonly adopterAddressRepository: AdopterAddressRepository,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -34,7 +37,7 @@ export class SoftDeleteAdopterUseCase implements UseCase<Input, Output> {
       this.adopterContactRepository.softDeleteById(input.id),
     ]);
 
-    const userId = '3038c222-58c4-4bfb-a213-650ca92d9d4c'; //TODO AJUSTAR E VERIFICAR SE N TEM QUE EXCLUIR LOGIGAMENTE O TERM ASSOCIADO AO ADOTANTE
-    await this.adopterRepository.softDeleteByUserId(input.id, userId);
+    const loggedUser = this.loggedUserService.getLoggedUser();
+    await this.adopterRepository.softDeleteByUserId(input.id, loggedUser.id);
   }
 }

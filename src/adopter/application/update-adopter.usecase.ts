@@ -13,6 +13,7 @@ import type { AnimalRepository } from '@/animals/domain/animal.repository';
 import { Animal } from '@/animals/domain/animal.entity';
 import type { AdopterAddressRepository } from '@/adopter-address/domain/adopter-address.repository';
 import type { AdopterContactRepository } from '@/adopter-contact/domain/adopter-contact.repository';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 
 type TypeOfContact = 'celular' | 'telefone' | 'whatsapp';
 
@@ -71,6 +72,8 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
     @Inject('AdopterContactRepository')
     private readonly adopterContactRepository: AdopterContactRepository,
     private readonly adopterOutputMapper: AdopterOutputMapper,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -132,6 +135,8 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
       await this.removeAllAnimalRelationships(adopter.animals);
     }
 
+    const loggedUser = this.loggedUserService.getLoggedUser();
+
     adopter.update({
       name: input.name,
       dtOfBirth: input.dtOfBirth,
@@ -145,7 +150,7 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
       addresses: addresses,
       contacts: contacts,
       animals: animals,
-      updatedByUserId: '3038c222-58c4-4bfb-a213-650ca92d9d4c', //TODO AJUSTAR
+      updatedByUserId: loggedUser.id,
     });
 
     await this.adopterRepository.update(adopter.toJSON());
