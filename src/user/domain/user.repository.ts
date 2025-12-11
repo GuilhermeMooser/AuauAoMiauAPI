@@ -9,8 +9,7 @@ export interface UserRepository extends Repository<User> {
   userLoginExists(login: string): Promise<boolean>;
   userEmailExists(email: string): Promise<boolean>;
   userCpfExists(cpf: string): Promise<boolean>;
-  search(
-      pagination: PaginationDto,
-      search?: string,
-    ): Promise<Pagination<User>>;
+  search(pagination: PaginationDto, search?: string): Promise<Pagination<User>>;
+  findById(id: string): Promise<User>;
+  findByUserEmail(email: string): Promise<User>;
 }

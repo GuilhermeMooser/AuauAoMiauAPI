@@ -64,5 +64,28 @@ export class User extends UserAuditableEntity<UserProps> {
     });
   }
 
-  static update() {}
+  update(
+    props: Partial<UserProps> & {
+      updatedByUserId?: string;
+    },
+  ) {
+    if (props.name !== undefined) {
+      this.props.name = props.name;
+    }
+    if (props.password !== undefined) {
+      this.props.password = props.password;
+    }
+    if (props.cpf !== undefined) {
+      this.props.cpf = props.cpf;
+    }
+    if (props.email !== undefined) {
+      this.props.email = props.email;
+    }
+    if (props.role !== undefined) {
+      this.props.role = props.role;
+    }
+    if (props.active !== undefined) {
+      this.props.active = props.active;
+    }
+  }
 }

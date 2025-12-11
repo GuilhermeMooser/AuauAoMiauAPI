@@ -6,7 +6,11 @@ import type { UserRoleRepository } from '@/user-role/domain/user-role.repository
 import { ResourceNotFoundError } from '@/shared/application/errors/resource-not-found-error';
 import type { Encryption } from '@/shared/application/utils/encryption';
 import { User } from '../domain/user.entity';
-import { MinimalUserOutput, MinimalUserOutputMapper } from './outputs/minimal-user.output';
+import {
+  MinimalUserOutput,
+  MinimalUserOutputMapper,
+} from './outputs/minimal-user.output';
+import { ConflictError } from '@/shared/application/errors/conflict-error';
 
 type Input = {
   user: string;
@@ -55,6 +59,10 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
       throw new ResourceNotFoundError(
         `Tipo de usuário com código ${input.roleId} não existe`,
       );
+    }
+
+    if (input.password.length < 8) {
+      throw new ConflictError('A senha precisa possuir mais de 8 caracteres');
     }
 
     const hashPassword = this.encryption.generateHash(input.password);

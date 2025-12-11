@@ -11,6 +11,7 @@ import { FindAllUsersPaginatedUseCase } from '../application/find-all-users-pagi
 import { MinimalUserOutputMapper } from '../application/outputs/minimal-user.output';
 import { SoftDeleteUserUseCase } from '../application/soft-delete-user.usecase';
 import { UpdateUserUseCase } from '../application/update-user.usecase';
+import { FindByIdUseCase } from '../application/find-by-id.usecase';
 
 @Global()
 @Module({
@@ -27,6 +28,7 @@ import { UpdateUserUseCase } from '../application/update-user.usecase';
     FindAllUsersPaginatedUseCase,
     SoftDeleteUserUseCase,
     UpdateUserUseCase,
+    FindByIdUseCase,
     {
       provide: 'UserRepository',
       useClass: UserRepositoryImpl,

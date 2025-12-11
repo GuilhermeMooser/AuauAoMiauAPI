@@ -20,6 +20,14 @@ export class UserRepositoryImpl implements UserRepository {
     private userRepository: Repository<UserSchema>,
   ) {}
 
+  async findByUserEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    return UserMapper.instance.toEntity(user);
+  }
+
   async search(
     pagination: PaginationDto,
     search?: string,
@@ -91,6 +99,7 @@ export class UserRepositoryImpl implements UserRepository {
   async findById(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
+      relations: ['role'],
     });
 
     return UserMapper.instance.toEntity(user);

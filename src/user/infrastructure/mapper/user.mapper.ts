@@ -19,7 +19,7 @@ export class UserMapper extends RepositoryBaseMapper<UserSchema, User> {
     return new User({
       id: schema.id,
       name: schema.name,
-      password: schema.password,
+      password: schema.password, //TODO
       email: schema.email,
       active: schema.active,
       cpf: schema.cpf,
