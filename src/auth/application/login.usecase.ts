@@ -12,7 +12,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { LoginOutput, LoginOutputMapper } from './outputs/login.output';
 
 type Input = {
-  login: string;
+  email: string;
   password: string;
   token?: string;
   setCookie: (key: string, value: string, options?: CookieOptions) => void;
@@ -32,8 +32,8 @@ export class LoginUseCase implements UseCase<Input, Output> {
   ) {}
 
   async execute({ setCookie, ...loginRequestDto }: Input): Promise<Output> {
-    const user = await this.userRepository.findByUserLogin(
-      loginRequestDto.login,
+    const user = await this.userRepository.findByUserEmail(
+      loginRequestDto.email,
     );
 
     if (!user) {

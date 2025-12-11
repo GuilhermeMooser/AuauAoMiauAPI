@@ -44,7 +44,7 @@ export class UpdateUserUseCase implements UseCase<Input, Output> {
     }
 
     if (input.email !== user.email) {
-      const emailExists = await this.userRepository.findByUserEmail(
+      const emailExists = await this.userRepository.userEmailExists(
         input.email,
       );
       if (emailExists) {

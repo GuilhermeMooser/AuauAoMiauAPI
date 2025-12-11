@@ -33,19 +33,19 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    const userExists = await this.userRepository.userLoginExists(input.user);
+    const userExists = await this.userRepository.findByUserEmail(input.email);
 
     if (userExists) {
-      throw new ResourceFoundError(`Usuário ${input.user} já existe`);
+      throw new ResourceFoundError(`Usuário com email: ${input.email} já existe`);
     }
 
-    const emailExists = await this.userRepository.userEmailExists(input.email);
+    // const emailExists = await this.userRepository.userEmailExists(input.email);
 
-    if (emailExists) {
-      throw new ResourceFoundError(
-        `Usuário com email ${input.email} já existe`,
-      );
-    }
+    // if (emailExists) {
+    //   throw new ResourceFoundError(
+    //     `Usuário com email ${input.email} já existe`,
+    //   );
+    // }
 
     const cpfExists = await this.userRepository.userCpfExists(input.cpf);
 

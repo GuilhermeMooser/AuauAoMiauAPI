@@ -23,6 +23,7 @@ export class UserRepositoryImpl implements UserRepository {
   async findByUserEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email },
+      relations: ['role'],
     });
 
     return UserMapper.instance.toEntity(user);

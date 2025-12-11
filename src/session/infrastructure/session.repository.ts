@@ -40,7 +40,7 @@ export class SessionRepositoryImpl implements SessionRepository {
     return session;
   }
 
-  deleteByJti(jti: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteByJti(jti: string): Promise<void> {
+    await this.sessionRepository.delete({ jti });
   }
 }
