@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
   Length,
+  Matches,
   MinLength,
 } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
@@ -35,7 +36,9 @@ export class UpdateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(14)
+  @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+    message: 'CPF inválido',
+  })
   cpf: string;
 
   @IsNumber()

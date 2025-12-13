@@ -3,7 +3,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
-  Length,
+  Matches,
   MinLength,
 } from 'class-validator';
 
@@ -24,7 +24,9 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(14)
+  @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+    message: 'CPF inválido',
+  })
   cpf: string;
 
   @IsNumber()
