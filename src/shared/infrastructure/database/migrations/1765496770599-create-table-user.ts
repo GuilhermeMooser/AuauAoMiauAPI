@@ -1,12 +1,8 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableUser1765031272660 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+export class CreateTableUser1765496770599 implements MigrationInterface {
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'user',
@@ -31,7 +27,6 @@ export class CreateTableUser1765031272660 implements MigrationInterface {
           {
             name: 'email',
             type: 'varchar',
-            isUnique: true,
             isNullable: false,
             length: '150',
           },
@@ -43,9 +38,8 @@ export class CreateTableUser1765031272660 implements MigrationInterface {
           {
             name: 'cpf',
             type: 'varchar',
-            isUnique: true,
-            length: '14',
             isNullable: false,
+            length: '14',
           },
           {
             name: 'user_role_id',
@@ -98,6 +92,7 @@ export class CreateTableUser1765031272660 implements MigrationInterface {
       }),
     ]);
 
+    // Índices parciais – únicos apenas quando deletedAt IS NULL
     await queryRunner.query(`
       CREATE UNIQUE INDEX "IDX_user_email_unique_alive"
       ON "user" ("email")
@@ -111,5 +106,7 @@ export class CreateTableUser1765031272660 implements MigrationInterface {
     `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+    }
+
 }

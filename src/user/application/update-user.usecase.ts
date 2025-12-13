@@ -7,11 +7,12 @@ import { ResourceFoundError } from '@/shared/application/errors/resource-found-e
 import type { UserRoleRepository } from '@/user-role/domain/user-role.repository';
 import { UserRole } from '@/user-role/domain/user-role.entity';
 import { UserOutput, UserOutputMapper } from './outputs/user.output';
+import type { Encryption } from '@/shared/application/utils/encryption';
 
 type Input = {
   id: string;
   user: string;
-  password: string;
+  password?: string;
   email: string;
   cpf: string;
   roleId: number;
@@ -27,6 +28,7 @@ export class UpdateUserUseCase implements UseCase<Input, Output> {
     private readonly userRepository: UserRepository,
     @Inject('UserRoleRepository')
     private readonly userRoleRepository: UserRoleRepository,
+    @Inject('Encryption') private readonly encryption: Encryption,
     private readonly userOutputMapper: UserOutputMapper,
   ) {}
 
@@ -71,13 +73,17 @@ export class UpdateUserUseCase implements UseCase<Input, Output> {
       }
     }
 
-    if (input.password.length < 8) {
-      throw new ConflictError('A senha precisa possuir mais de 8 caracteres');
+    let hashPassword: string;
+    if (input.password) {
+      if (input.password.length < 8) {
+        throw new ConflictError('A senha precisa possuir mais de 8 caracteres');
+      }
+      hashPassword = this.encryption.generateHash(input.password);
     }
 
     user.update({
       name: input.user,
-      password: input.password,
+      password: hashPassword,
       email: input.email,
       cpf: input.cpf,
       active: input.active,

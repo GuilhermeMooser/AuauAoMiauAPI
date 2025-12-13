@@ -33,12 +33,10 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     private readonly minimalUserOutputMapper: MinimalUserOutputMapper,
     @Inject('LoggedUserService')
     private readonly loggedUserService: LoggedUserService,
-
   ) {}
 
   async execute(input: Input): Promise<Output> {
     const userExists = await this.userRepository.findByUserEmail(input.email);
-
     if (userExists) {
       throw new ResourceFoundError(
         `Usuário com email: ${input.email} já existe`,
@@ -78,6 +76,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     });
 
     const createdUser = await this.userRepository.create(userEntity.toJSON());
+    console.log(createdUser);
     delete createdUser.props.password; //TODO Verificar esse bgl das props
 
     return this.minimalUserOutputMapper.toOutput(createdUser);
