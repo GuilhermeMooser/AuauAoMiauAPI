@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -27,6 +30,9 @@ export class CreateUserDto {
   @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
     message: 'CPF inválido',
   })
+  @Transform(({ value }) =>
+    value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+  )
   cpf: string;
 
   @IsNumber()

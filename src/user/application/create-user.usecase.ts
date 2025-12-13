@@ -76,9 +76,7 @@ export class CreateUserUseCase implements UseCase<Input, Output> {
     });
 
     const createdUser = await this.userRepository.create(userEntity.toJSON());
-    console.log(createdUser);
-    delete createdUser.props.password; //TODO Verificar esse bgl das props
-
+    delete createdUser.props.password;
     return this.minimalUserOutputMapper.toOutput(createdUser);
   }
 }

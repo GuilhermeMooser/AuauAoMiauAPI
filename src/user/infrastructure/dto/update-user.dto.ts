@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   IsBoolean,
   IsEmail,
@@ -10,6 +12,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
+import { Transform } from 'class-transformer';
 
 export class UpdateUserDto {
   @IsString()
@@ -39,6 +42,9 @@ export class UpdateUserDto {
   @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
     message: 'CPF inválido',
   })
+  @Transform(({ value }) =>
+    value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'),
+  )
   cpf: string;
 
   @IsNumber()
