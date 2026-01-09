@@ -15,9 +15,14 @@ type AnimalProps = {
   locationOfRescue?: string;
   adopter?: Adopter;
   terms?: Term[];
-  type: string;
-  size: string;
-  gender: string;
+  type: string; //CAT, DOG, OTHER -> bgl inteligente de cadastrar
+  size: string; //enum
+  gender: string; //enum
+  additionalInfo?: string;
+  castrated?: boolean;
+  animalProcedures?: AnimalProcedures[];
+  animalPhotos: AnimalPhotos[]
+  animalExpenses?: AnimalExpenses;
 };
 
 export class Animal extends UserAuditableEntity<AnimalProps> {
