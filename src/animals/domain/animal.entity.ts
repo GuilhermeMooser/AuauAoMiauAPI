@@ -19,7 +19,7 @@ type AnimalProps = {
   size: string; //enum
   gender: string; //enum
   additionalInfo?: string;
-  castrated?: boolean;
+  castrated: boolean;
   animalProcedures?: AnimalProcedures[];
   animalPhotos: AnimalPhotos[]
   animalExpenses?: AnimalExpenses;
