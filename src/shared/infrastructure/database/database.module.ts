@@ -17,6 +17,13 @@ import { UserSchema } from '@/user/infrastructure/user.schema';
 import { UserRoleSchema } from '@/user-role/infrastructure/user-role.schema';
 import { SessionSchema } from '@/session/infrastructure/session.schema';
 import { addTransactionalDataSource } from 'typeorm-transactional';
+import { ExpensesSchema } from '@/expenses/infrastructure/expenses.schema';
+import { ExpenseAttachmentSchema } from '@/expense-attachment/infrastructure/expense-attachment.schema';
+import { AnimalProcedureSchema } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
+import { MedicineProcedureSchema } from '@/procedures/medicine-procedure/infrastructure/medicine-procedure.schema';
+import { MiscellaneousProcedureSchema } from '@/procedures/miscellaneous-procedure/infrastructure/miscellaneous-procedure.schema';
+import { SurgeryProcedureSchema } from '@/procedures/surgery-procedure/infrastructure/surgery-procedure.schema';
+import { VaccineProcedureSchema } from '@/procedures/vaccine-procedure/infrastructure/vaccine-procedure.schema';
 
 @Module({
   imports: [
@@ -42,6 +49,13 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
             UserSchema,
             UserRoleSchema,
             SessionSchema,
+            ExpensesSchema,
+            ExpenseAttachmentSchema,
+            AnimalProcedureSchema,
+            MedicineProcedureSchema,
+            MiscellaneousProcedureSchema,
+            SurgeryProcedureSchema,
+            VaccineProcedureSchema
           ],
 
           migrations: [join(__dirname, '/migrations/*{.ts,.js}')],

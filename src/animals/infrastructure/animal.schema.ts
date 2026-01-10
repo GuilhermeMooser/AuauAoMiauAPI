@@ -1,4 +1,6 @@
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
+import { ExpensesSchema } from '@/expenses/infrastructure/expenses.schema';
+import { AnimalProcedureSchema } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
 import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
 import { TermSchema } from '@/terms/infrastructure/term.schema';
 import {
@@ -61,6 +63,12 @@ export class AnimalSchema extends UserAuditableSchema {
 
   @Column({ name: 'gender' })
   gender: string;
+
+  @OneToMany(() => AnimalProcedureSchema, (animalProcedure) => animalProcedure.animal)
+  animalProcedure: AnimalProcedureSchema[]
+
+  @OneToMany(() => ExpensesSchema, expenses => expenses.animal)
+  expenses: ExpensesSchema[]
 
   // photos
   //historicOfProcedures

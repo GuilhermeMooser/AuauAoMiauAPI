@@ -19,10 +19,10 @@ type AnimalProps = {
   size: string; //enum
   gender: string; //enum
   additionalInfo?: string;
-  castrated: boolean;
-  animalProcedures?: AnimalProcedures[];
-  animalPhotos: AnimalPhotos[]
-  animalExpenses?: AnimalExpenses;
+  // castrated: boolean;
+  // animalProcedures?: AnimalProcedures[];
+  // animalPhotos: AnimalPhotos[]
+  // animalExpenses?: AnimalExpenses;
 };
 
 export class Animal extends UserAuditableEntity<AnimalProps> {
