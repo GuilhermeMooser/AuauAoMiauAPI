@@ -6,7 +6,7 @@ export class AnimalTypeSchema {
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
-  @Column({ name: 'type' })
+  @Column({ name: 'type', unique: true })
   type: string;
 
   @OneToOne(() => AnimalSchema, (animal) => animal.type)

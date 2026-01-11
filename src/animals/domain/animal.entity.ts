@@ -27,7 +27,7 @@ type AnimalProps = {
   locationOfRescue?: string;
   adopter?: Adopter;
   terms?: Term[];
-  type: AnimalType; //CAT, DOG, OTHER -> bgl inteligente de cadastrar
+  type: AnimalType;
   size: string;
   gender: string;
   additionalInfo?: string;
