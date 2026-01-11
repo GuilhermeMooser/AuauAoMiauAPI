@@ -24,6 +24,7 @@ import { MedicineProcedureSchema } from '@/procedures/medicine-procedure/infrast
 import { MiscellaneousProcedureSchema } from '@/procedures/miscellaneous-procedure/infrastructure/miscellaneous-procedure.schema';
 import { SurgeryProcedureSchema } from '@/procedures/surgery-procedure/infrastructure/surgery-procedure.schema';
 import { VaccineProcedureSchema } from '@/procedures/vaccine-procedure/infrastructure/vaccine-procedure.schema';
+import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
 
 @Module({
   imports: [
@@ -55,7 +56,8 @@ import { VaccineProcedureSchema } from '@/procedures/vaccine-procedure/infrastru
             MedicineProcedureSchema,
             MiscellaneousProcedureSchema,
             SurgeryProcedureSchema,
-            VaccineProcedureSchema
+            VaccineProcedureSchema,
+            AnimalTypeSchema
           ],
 
           migrations: [join(__dirname, '/migrations/*{.ts,.js}')],
@@ -107,4 +109,4 @@ import { VaccineProcedureSchema } from '@/procedures/vaccine-procedure/infrastru
   // providers: [DatabaseService],
   exports: [TypeOrmModule],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }
