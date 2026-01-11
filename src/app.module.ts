@@ -13,6 +13,12 @@ import { UserRoleModule } from './user-role/infrastructure/user-role.module';
 import { UtilsModule } from './shared/infrastructure/utils/utils.module';
 import { SessionModule } from './session/infrastructure/session.module';
 import { UserServiceModule } from './shared/infrastructure/user-service/user-service.module';
+import { AnimalProcedureModule } from './procedures/animal-procedures/infrastructure/animal-procedures.module';
+import { MedicineProcedureModule } from './procedures/medicine-procedure/infrastructure/medicine-procedure.module';
+import { MiscellaneousProcedureModule } from './procedures/miscellaneous-procedure/infrastructure/miscellaneous-procedure.module';
+import { SurgeryProcedureModule } from './procedures/surgery-procedure/infrastructure/surgery-procedure.module';
+import { VaccineProcedureModule } from './procedures/vaccine-procedure/infrastructure/vaccine-procedure.module';
+import { ExpensesModule } from './expenses/infrastructure/expenses.module';
 
 @Module({
   imports: [
@@ -30,6 +36,12 @@ import { UserServiceModule } from './shared/infrastructure/user-service/user-ser
     UtilsModule,
     SessionModule,
     UserServiceModule,
+    ExpensesModule,
+    AnimalProcedureModule,
+    MedicineProcedureModule,
+    MiscellaneousProcedureModule,
+    SurgeryProcedureModule,
+    VaccineProcedureModule
   ],
 })
-export class AppModule {}
+export class AppModule { }

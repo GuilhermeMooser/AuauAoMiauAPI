@@ -40,5 +40,5 @@ export abstract class AnimalProcedureSchema extends UserAuditableSchema {
   observation?: string;
 
   @OneToMany(() => ExpensesSchema, expenses => expenses.animalProcedure)
-  expenses: ExpensesSchema[]
+  expenses: ExpensesSchema[];
 }

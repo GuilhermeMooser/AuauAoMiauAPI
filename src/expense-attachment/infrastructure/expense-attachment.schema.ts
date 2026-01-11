@@ -6,12 +6,6 @@ export class ExpenseAttachmentSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => ExpensesSchema, expense => expense.expenseAttachment, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'expense_id' })
-  expense: ExpensesSchema;
-
   @Column({ name: 'fileType' })
   fileType: string;
 
@@ -26,4 +20,10 @@ export class ExpenseAttachmentSchema {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToOne(() => ExpensesSchema, expense => expense.expenseAttachment, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'expense_id' })
+  expense: ExpensesSchema;
 }
