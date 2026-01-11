@@ -17,9 +17,6 @@ export abstract class MedicineProcedureSchema extends AnimalProcedureSchema {
   @Column({ name: 'frequency', nullable: true })
   frequency: string;
 
-  @Column({ name: 'dtOfTreatment', nullable: true })
-  dtOfTreatment: Date;
-
   @Column({ name: 'dtOfStart' })
   dtOfStart: Date;
 

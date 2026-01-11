@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableExpenseAttachment1768086214272 implements MigrationInterface {
+export class CreateTableExpensesAttachment1768160186447 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -11,7 +11,6 @@ export class CreateTableExpenseAttachment1768086214272 implements MigrationInter
             name: 'id',
             type: 'uuid',
             isPrimary: true,
-            default: 'uuid_generate_v4()',
           },
           { name: 'expense_id', type: 'uuid' },
           { name: 'fileType', type: 'varchar' },

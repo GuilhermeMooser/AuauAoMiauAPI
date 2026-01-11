@@ -27,3 +27,5 @@ export class ExpenseAttachmentSchema {
   @JoinColumn({ name: 'expense_id' })
   expense: ExpensesSchema;
 }
+
+//TODO Nao sei se eu talvez dxo esse expense como optional

@@ -1,4 +1,5 @@
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
+import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
 import { ExpensesSchema } from '@/expenses/infrastructure/expenses.schema';
 import { AnimalProcedureSchema } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
 import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
@@ -9,6 +10,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -55,8 +57,9 @@ export class AnimalSchema extends UserAuditableSchema {
   })
   terms: TermSchema[];
 
-  @Column({ name: 'type' })
-  type: string;
+  @OneToOne(() => AnimalTypeSchema)
+  @JoinColumn({ name: 'animal_type_id' })
+  type: AnimalTypeSchema;
 
   @Column({ name: 'size' })
   size: string;

@@ -8,18 +8,18 @@ export abstract class SurgeryProcedureSchema extends AnimalProcedureSchema {
   @Column({ name: 'surgeryName' })
   surgeryName: string;
 
-  @Column({ name: 'surgeryType', nullable: true})
+  @Column({ name: 'surgeryType', nullable: true })
   surgeryType: string;
 
-  @Column({ name: 'local', nullable: true})
+  @Column({ name: 'local', nullable: true })
   local: string;
 
-  @Column({ name: 'reason' })
+  @Column({ name: 'reason', length: 600 })
   reason: string;
 
   @Column({ name: 'dtOfDuration', nullable: true })
   dtOfDuration: Date;
 
-  @Column({ name: 'recomendations', nullable: true })
+  @Column({ name: 'recomendations', nullable: true, length: 600 })
   recomendations: string;
 }

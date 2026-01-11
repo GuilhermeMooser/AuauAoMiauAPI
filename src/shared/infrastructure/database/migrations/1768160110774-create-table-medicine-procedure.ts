@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreateTableMedicineProcedure1768085734972 implements MigrationInterface {
+export class CreateTableMedicineProcedure1768160110774 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -12,7 +12,6 @@ export class CreateTableMedicineProcedure1768085734972 implements MigrationInter
           { name: 'reason', type: 'varchar', length: '400' },
           { name: 'dosage', type: 'varchar', isNullable: true },
           { name: 'frequency', type: 'varchar', isNullable: true },
-          { name: 'dtOfTreatment', type: 'timestamp', isNullable: true },
           { name: 'dtOfStart', type: 'timestamp' },
           { name: 'dtOfEnd', type: 'timestamp', isNullable: true },
         ]

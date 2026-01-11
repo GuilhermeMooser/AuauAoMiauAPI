@@ -1,7 +1,19 @@
 import { Adopter } from '@/adopter/domain/adopter.entity';
+import { AnimalType } from '@/animal-type/domain/animal-type.entity';
+import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { Term } from '@/terms/domain/term.entity';
+
+export type AnimalSize =
+  | 'pequeno'
+  | 'médio'
+  | 'grande'
+
+export type AnimalGender =
+  | 'M'
+  | 'F'
+
 
 type AnimalProps = {
   name: string;
@@ -15,12 +27,15 @@ type AnimalProps = {
   locationOfRescue?: string;
   adopter?: Adopter;
   terms?: Term[];
-  type: string; //CAT, DOG, OTHER -> bgl inteligente de cadastrar
-  size: string; //enum
-  gender: string; //enum
+  type: AnimalType; //CAT, DOG, OTHER -> bgl inteligente de cadastrar
+  size: string;
+  gender: string;
   additionalInfo?: string;
-  // castrated: boolean;
-  // animalProcedures?: AnimalProcedures[];
+
+  castrated?: boolean; //permitir null
+  animalProcedures?: AnimalProcedures[];
+
+
   // animalPhotos: AnimalPhotos[]
   // animalExpenses?: AnimalExpenses;
 };
