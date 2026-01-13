@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
+import { IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateMedicineProcedureDto {
 
@@ -9,7 +9,7 @@ export class CreateMedicineProcedureDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(400)
+  @MaxLength(400)
   reason: string;
 
   @IsString()

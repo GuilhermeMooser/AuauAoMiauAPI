@@ -53,3 +53,5 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
     return super.toEntityMany(schemas);
   }
 }
+
+//tODO ADICIONAR CASTRATED E AS PROCEDURES

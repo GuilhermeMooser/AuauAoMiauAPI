@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
+import { IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateSurgeryProcedureDto {
 
@@ -17,7 +17,7 @@ export class CreateSurgeryProcedureDto {
 
   @IsString()
   @IsOptional()
-  @Length(400)
+  @MaxLength(400)
   reason: string;
 
   @IsOptional()
@@ -27,6 +27,6 @@ export class CreateSurgeryProcedureDto {
 
   @IsString()
   @IsOptional()
-  @Length(400)
+  @MaxLength(400)
   recomendations: string;
 }

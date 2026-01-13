@@ -1,8 +1,18 @@
-import type { AnimalGender, AnimalSize } from "@/animals/domain/animal.entity";
-import { CreateAnimalProceduresDto } from "@/procedures/animal-procedures/infrastructure/dto/create-animal-procedures.dto";
-import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsDate, IsIn, IsInt, IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
-import { CreateAnimalProcedureDispatcherDto } from "./create-animal-procedure-dispatcher.dto";
+import type { AnimalGender, AnimalSize } from '@/animals/domain/animal.entity';
+import { CreateAnimalProceduresDto } from '@/procedures/animal-procedures/infrastructure/dto/create-animal-procedures.dto';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsBoolean,
+  IsDate,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { CreateAnimalProcedureDispatcherDto } from './create-animal-procedure-dispatcher.dto';
 
 export class CreateAnimalDto {
   @IsString()
@@ -50,25 +60,18 @@ export class CreateAnimalDto {
   adopterId?: string;
 
   @IsOptional()
-  termsIds?: string[]
+  termsIds?: string[];
 
   @IsInt()
   @IsNotEmpty()
   typeId: number;
 
   @IsString()
-  @IsIn([
-    'pequeno',
-    'médio',
-    'grande',
-  ])
+  @IsIn(['pequeno', 'médio', 'grande'])
   size: AnimalSize;
 
   @IsString()
-  @IsIn([
-    'M',
-    'F',
-  ])
+  @IsIn(['M', 'F'])
   gender: AnimalGender;
 
   @IsString()

@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, Length } from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateExpenseDto {
 
@@ -12,7 +12,7 @@ export class CreateExpenseDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(400)
+  @MaxLength(400)
   description: string;
 
   @IsString()

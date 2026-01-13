@@ -31,10 +31,8 @@ type AnimalProps = {
   size: string;
   gender: string;
   additionalInfo?: string;
-
-  castrated?: boolean; //permitir null
+  castrated?: boolean;
   animalProcedures?: AnimalProcedures[];
-
 
   // animalPhotos: AnimalPhotos[]
   // animalExpenses?: AnimalExpenses;
