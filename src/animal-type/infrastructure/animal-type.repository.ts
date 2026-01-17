@@ -4,15 +4,15 @@ import { AnimalTypeSchema } from './animal-type.schema';
 import { Repository } from 'typeorm';
 import { AnimalTypeRepository } from '../domain/animal-type.repository';
 import { AnimalType } from '../domain/animal-type.entity';
+import { AnimalTypeMapper } from './mapper/animal-type.mapper';
 
 @Injectable()
 export class AnimalTypeRepositoryRepositoryImpl
-  implements AnimalTypeRepository
-{
+  implements AnimalTypeRepository {
   constructor(
     @InjectRepository(AnimalTypeSchema)
     private readonly animalTypeRepositoryRepository: Repository<AnimalTypeSchema>,
-  ) {}
+  ) { }
 
   create(entity: Partial<AnimalType>): Promise<AnimalType> {
     throw new Error('Method not implemented.');
@@ -31,7 +31,7 @@ export class AnimalTypeRepositoryRepositoryImpl
       where: { id },
     });
 
-    return animalType;
+    return AnimalTypeMapper.instance.toEntity(animalType);
   }
 
   update(entity: Partial<AnimalType>): Promise<AnimalType> {
