@@ -22,7 +22,7 @@ import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopt
     AdopterAddressModule,
     AnimalModule,
     TermModule,
-    AdopterAddressModule
+    AdopterAddressModule,
   ],
   controllers: [AdopterController],
   providers: [
@@ -38,5 +38,6 @@ import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopt
       useClass: AdopterRepositoryImpl,
     },
   ],
+  exports: ['AdopterRepository'],
 })
 export class AdopterModule {}

@@ -5,15 +5,9 @@ import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { Term } from '@/terms/domain/term.entity';
 
-export type AnimalSize =
-  | 'pequeno'
-  | 'médio'
-  | 'grande'
+export type AnimalSize = 'pequeno' | 'médio' | 'grande';
 
-export type AnimalGender =
-  | 'M'
-  | 'F'
-
+export type AnimalGender = 'M' | 'F';
 
 type AnimalProps = {
   name: string;
@@ -49,5 +43,21 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     },
   ) {
     super(props);
+  }
+
+  static create(
+    props: AnimalProps & {
+      createdByUserId?: string;
+    },
+  ): Animal {
+    return new Animal({
+      ...props,
+      createdByUserId: props.createdByUserId,
+      audit: {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      },
+    });
   }
 }

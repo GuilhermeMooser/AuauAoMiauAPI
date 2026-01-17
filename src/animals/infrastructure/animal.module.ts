@@ -5,9 +5,17 @@ import { AnimalRepositoryImpl } from './animal.repository';
 import { AnimalOutputMapper } from '../application/outputs/animal.output';
 import { CreateAnimalUseCase } from '../application/create-animal.usecase';
 import { AnimalController } from './animal.controller';
+import { AdopterModule } from '@/adopter/infrastructure/adopter.module';
+import { TermModule } from '@/terms/infrastructure/term.module';
+import { AnimalTypeModule } from '@/animal-type/infrastructure/animal-type.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AnimalSchema])],
+  imports: [
+    TypeOrmModule.forFeature([AnimalSchema]),
+    AdopterModule,
+    TermModule,
+    AnimalTypeModule,
+  ],
   controllers: [AnimalController],
   providers: [
     AnimalOutputMapper,
@@ -19,4 +27,4 @@ import { AnimalController } from './animal.controller';
   ],
   exports: ['AnimalRepository', AnimalOutputMapper],
 })
-export class AnimalModule { }
+export class AnimalModule {}

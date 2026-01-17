@@ -20,6 +20,7 @@ import { SurgeryProcedureModule } from './procedures/surgery-procedure/infrastru
 import { VaccineProcedureModule } from './procedures/vaccine-procedure/infrastructure/vaccine-procedure.module';
 import { ExpensesModule } from './expenses/infrastructure/expenses.module';
 import { AnimalTypeModule } from './animal-type/infrastructure/animal-type.module';
+import { AnimalModule } from './animals/infrastructure/animal.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { AnimalTypeModule } from './animal-type/infrastructure/animal-type.modul
     MiscellaneousProcedureModule,
     SurgeryProcedureModule,
     VaccineProcedureModule,
-    AnimalTypeModule
+    AnimalTypeModule,
+    AnimalModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}
