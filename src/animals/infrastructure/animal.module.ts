@@ -8,11 +8,12 @@ import { AnimalController } from './animal.controller';
 import { AdopterModule } from '@/adopter/infrastructure/adopter.module';
 import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalTypeModule } from '@/animal-type/infrastructure/animal-type.module';
+import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-repository.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AnimalSchema]),
-    AdopterModule,
+    AdopterRepositoryModule,
     TermModule,
     AnimalTypeModule,
   ],

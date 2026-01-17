@@ -80,6 +80,8 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
       castrated: input.castrated,
     });
 
+    // quando criar o animal ai que vai pras procedures
+
     console.log(animal);
     // console.log(input);
     throw new Error('Method not implemented.');

@@ -21,6 +21,8 @@ import { VaccineProcedureModule } from './procedures/vaccine-procedure/infrastru
 import { ExpensesModule } from './expenses/infrastructure/expenses.module';
 import { AnimalTypeModule } from './animal-type/infrastructure/animal-type.module';
 import { AnimalModule } from './animals/infrastructure/animal.module';
+import { AdopterRepositoryModule } from './adopter/infrastructure/adopter-repository.module';
+import { AnimalRepositoryModule } from './animals/infrastructure/animal-repository.module';
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { AnimalModule } from './animals/infrastructure/animal.module';
     VaccineProcedureModule,
     AnimalTypeModule,
     AnimalModule,
+    AnimalRepositoryModule,
+    AdopterRepositoryModule
   ],
 })
-export class AppModule {}
+export class AppModule { }

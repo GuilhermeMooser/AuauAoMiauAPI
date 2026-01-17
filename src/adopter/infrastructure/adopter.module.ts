@@ -14,13 +14,14 @@ import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopter.output';
+import { AnimalRepositoryModule } from '@/animals/infrastructure/animal-repository.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AdopterSchema]),
     AdopterContactModule,
     AdopterAddressModule,
-    AnimalModule,
+    AnimalRepositoryModule,
     TermModule,
     AdopterAddressModule,
   ],
