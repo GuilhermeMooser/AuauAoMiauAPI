@@ -3,7 +3,7 @@ import { Expenses } from "@/expenses/domain/expenses.entity";
 import { UserAuditableEntity } from "@/shared/domain/auditable.entity";
 import { Audit } from "@/shared/domain/entity";
 
-type AnimalProceduresProps = {
+export type AnimalProceduresProps = {
   animal: Animal;
   dtOfProcedure?: Date;
   description: string;
@@ -49,8 +49,4 @@ export class AnimalProcedures extends UserAuditableEntity<AnimalProceduresProps>
   get expenses() {
     return this.props.expenses;
   }
-
-  static create() { }
-
-  update() { }
 }

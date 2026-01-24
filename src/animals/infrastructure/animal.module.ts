@@ -9,6 +9,7 @@ import { AdopterModule } from '@/adopter/infrastructure/adopter.module';
 import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalTypeModule } from '@/animal-type/infrastructure/animal-type.module';
 import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-repository.module';
+import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastructure/animal-procedures.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-reposi
     AdopterRepositoryModule,
     TermModule,
     AnimalTypeModule,
+    AnimalProcedureModule,
   ],
   controllers: [AnimalController],
   providers: [

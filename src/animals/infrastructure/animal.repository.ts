@@ -38,12 +38,18 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   findById(id: string): Promise<Animal> {
     throw new Error('Method not implemented.');
   }
-  create(entity: Partial<Animal>): Promise<Animal> {
-    throw new Error('Method not implemented.');
+
+  async create(entity: Animal): Promise<Animal> {
+    const animal = await this.animalRepository.save(entity)
+    return animal;
   }
-  update(entity: Animal): Promise<Animal> {
-    throw new Error('Method not implemented.');
+
+  async update(entity: Animal): Promise<Animal> {
+    const animal = await this.animalRepository.save(entity)
+    return animal;
   }
+
+
   softDeleteById(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }

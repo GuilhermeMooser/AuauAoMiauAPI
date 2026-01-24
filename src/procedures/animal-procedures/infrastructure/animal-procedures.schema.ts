@@ -1,13 +1,21 @@
-import { AnimalSchema } from "@/animals/infrastructure/animal.schema";
-import { ExpensesSchema } from "@/expenses/infrastructure/expenses.schema";
-import { UserAuditableSchema } from "@/shared/infrastructure/auditable/user-auditable.schema";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
+import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
+import { ExpensesSchema } from '@/expenses/infrastructure/expenses.schema';
+import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
 export enum AnimalProcedureEnum {
   VACCINE = 'VACCINE',
   MEDICINE = 'MEDICINE',
   SURGERY = 'SURGERY',
-  MISCELLANEOUS = 'MISCELLANEOUS'
+  MISCELLANEOUS = 'MISCELLANEOUS',
 }
 
 @Entity('animal_procedure')
@@ -15,15 +23,14 @@ export enum AnimalProcedureEnum {
   column: {
     type: 'enum',
     enum: AnimalProcedureEnum,
-    name: 'procedure_type'
-  }
+    name: 'procedure_type',
+  },
 })
 export abstract class AnimalProcedureSchema extends UserAuditableSchema {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => AnimalSchema, (animal) => animal.animalProcedure)
+  @ManyToOne(() => AnimalSchema, animal => animal.animalProcedure)
   @JoinColumn({ name: 'animal_id' })
   animal: AnimalSchema;
 
@@ -39,6 +46,9 @@ export abstract class AnimalProcedureSchema extends UserAuditableSchema {
   @Column({ name: 'observation', nullable: true, length: 255 })
   observation?: string;
 
-  @OneToMany(() => ExpensesSchema, expenses => expenses.animalProcedure)
+  @OneToMany(() => ExpensesSchema, expenses => expenses.animalProcedure, {
+    cascade: ['insert', 'update'],
+    eager: false,
+  })
   expenses: ExpensesSchema[];
 }

@@ -4,9 +4,15 @@ import { AnimalProcedureEnum } from '@/procedures/animal-procedures/infrastructu
 import { Inject } from '@nestjs/common';
 import type { AdopterRepository } from '@/adopter/domain/adopter.repository';
 import type { AnimalRepository } from '../domain/animal.repository';
-import { Adopter } from '@/adopter/domain/adopter.entity';
 import type { TermRepository } from '@/terms/domain/term.repository';
 import type { AnimalTypeRepository } from '@/animal-type/domain/animal-type.repository';
+import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
+import { CreateAnimalProcedureUseCase } from '@/procedures/animal-procedures/application/create-animal-procedure.usecase';
+import { CreateSurgeryProcedureDto } from '@/procedures/surgery-procedure/infrastructure/dto/create-surgery-procedure.dto';
+import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infrastructure/dto/create-vaccine-procedure.dto';
+import { CreateMedicineProcedureDto } from '@/procedures/medicine-procedure/infrastructure/dto/create-medicine-procedure.dto';
+import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
+import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
 
 type Input = {
   name: string;
@@ -27,7 +33,16 @@ type Input = {
   castrated: boolean;
   animalProcedures?: {
     procedureType: AnimalProcedureEnum;
-    payload: any;
+    dtOfProcedure?: Date;
+    description: string;
+    veterinarian?: string;
+    observation?: string;
+    expenses?: CreateExpenseDto[];
+    payload:
+      | CreateSurgeryProcedureDto
+      | CreateVaccineProcedureDto
+      | CreateMedicineProcedureDto
+      | CreateMiscellaneousProcedureDto;
   }[];
 };
 
@@ -43,23 +58,24 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     private readonly termRepository: TermRepository,
     @Inject('AnimalTypeRepository')
     private readonly animalTypeRepository: AnimalTypeRepository,
+    @Inject('LoggedUserService')
+    private readonly loggedUserService: LoggedUserService,
+    private readonly createAnimalProcedureUseCase: CreateAnimalProcedureUseCase,
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    // const adopter = input?.adopterId
-    //   ? await this.adopterRepository.findById(input.adopterId)
-    //   : null;
+    const adopter = input?.adopterId
+      ? await this.adopterRepository.findById(input.adopterId)
+      : null;
 
-    // const terms =
-    //   input?.termsIds.length > 0
-    //     ? await this.termRepository.findAllByIds(input.termsIds)
-    //     : null;
-
-    const adopter = null;
-
-    const terms = null;
+    const terms =
+      input?.termsIds?.length > 0
+        ? await this.termRepository.findAllByIds(input.termsIds)
+        : null;
 
     const animalType = await this.animalTypeRepository.findById(input.typeId);
+
+    const loggedUser = this.loggedUserService.getLoggedUser();
 
     const animal = Animal.create({
       name: input.name,
@@ -78,7 +94,19 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
       gender: input.gender,
       additionalInfo: input.additionalInfo,
       castrated: input.castrated,
+      createdByUserId: loggedUser.id,
     });
+
+    const createdAnimal = await this.animalRepository.create(animal.toJSON());
+
+    if (input.animalProcedures?.length) {
+      for (const procedure of input.animalProcedures) {
+        await this.createAnimalProcedureUseCase.execute({
+          dto: procedure,
+          animal: createdAnimal,
+        });
+      }
+    }
 
     // quando criar o animal ai que vai pras procedures
 
