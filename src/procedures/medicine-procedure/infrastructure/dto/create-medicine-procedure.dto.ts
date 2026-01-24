@@ -27,5 +27,5 @@ export class CreateMedicineProcedureDto {
   @IsOptional()
   @IsDate()
   @Type(() => Date)
-  dtOfEnd: Date;
+  dtOfEnd?: Date;
 }
