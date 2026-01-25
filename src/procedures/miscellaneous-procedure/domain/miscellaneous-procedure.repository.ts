@@ -1,1 +1,1 @@
-export interface MiscellaneousProcedureRepository {}
+// export interface MiscellaneousProcedureRepository {}

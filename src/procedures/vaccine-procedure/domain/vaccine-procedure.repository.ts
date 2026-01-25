@@ -1,1 +1,1 @@
-export interface VaccineProcedureRepository { }
+// export interface VaccineProcedureRepository { }

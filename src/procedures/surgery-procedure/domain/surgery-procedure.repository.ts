@@ -1,1 +1,1 @@
-export interface SurgeryProcedureRepository {}
+// export interface SurgeryProcedureRepository {}

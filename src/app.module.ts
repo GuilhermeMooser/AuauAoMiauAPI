@@ -14,10 +14,6 @@ import { UtilsModule } from './shared/infrastructure/utils/utils.module';
 import { SessionModule } from './session/infrastructure/session.module';
 import { UserServiceModule } from './shared/infrastructure/user-service/user-service.module';
 import { AnimalProcedureModule } from './procedures/animal-procedures/infrastructure/animal-procedures.module';
-import { MedicineProcedureModule } from './procedures/medicine-procedure/infrastructure/medicine-procedure.module';
-import { MiscellaneousProcedureModule } from './procedures/miscellaneous-procedure/infrastructure/miscellaneous-procedure.module';
-import { SurgeryProcedureModule } from './procedures/surgery-procedure/infrastructure/surgery-procedure.module';
-import { VaccineProcedureModule } from './procedures/vaccine-procedure/infrastructure/vaccine-procedure.module';
 import { ExpensesModule } from './expenses/infrastructure/expenses.module';
 import { AnimalTypeModule } from './animal-type/infrastructure/animal-type.module';
 import { AnimalModule } from './animals/infrastructure/animal.module';
@@ -42,14 +38,10 @@ import { AnimalRepositoryModule } from './animals/infrastructure/animal-reposito
     UserServiceModule,
     ExpensesModule,
     AnimalProcedureModule,
-    MedicineProcedureModule,
-    MiscellaneousProcedureModule,
-    SurgeryProcedureModule,
-    VaccineProcedureModule,
     AnimalTypeModule,
     AnimalModule,
     AnimalRepositoryModule,
-    AdopterRepositoryModule
+    AdopterRepositoryModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

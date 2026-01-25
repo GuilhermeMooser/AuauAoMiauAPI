@@ -1,3 +1,3 @@
-import { AnimalProcedures } from "@/procedures/animal-procedures/domain/animal-procedures.entity";
+// import { AnimalProcedures } from "@/procedures/animal-procedures/domain/animal-procedures.entity";
 
-export class SurgeryProcedure extends AnimalProcedures { }
+// export class SurgeryProcedure extends AnimalProcedures { }

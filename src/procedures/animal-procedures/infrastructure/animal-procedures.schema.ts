@@ -51,4 +51,53 @@ export abstract class AnimalProcedureSchema extends UserAuditableSchema {
     eager: false,
   })
   expenses: ExpensesSchema[];
+
+  //Daughters
+  @Column({ name: 'medicineName', nullable: true, length: 255 })
+  medicineName: string;
+
+  @Column({ name: 'reason', length: 400, nullable: true })
+  reason: string;
+
+  @Column({ name: 'dosage', nullable: true })
+  dosage: string;
+
+  @Column({ name: 'frequency', nullable: true })
+  frequency: string;
+
+  @Column({ name: 'dtOfStart', nullable: true })
+  dtOfStart: Date;
+
+  @Column({ name: 'dtOfEnd', nullable: true })
+  dtOfEnd: Date;//
+
+  @Column({ name: 'recomendations', nullable: true, length: 600 })
+  recomendations: string;
+
+  @Column({ name: 'surgeryName', nullable: true })
+  surgeryName: string;
+
+  @Column({ name: 'surgeryType', nullable: true })
+  surgeryType: string;
+
+  @Column({ name: 'local', nullable: true })
+  local: string;
+
+  @Column({ name: 'dtOfDuration', nullable: true })
+  dtOfDuration: Date;
+
+  @Column({ name: 'vaccineName', nullable: true, length: 300 })
+  vaccineName: string;
+
+  @Column({ name: 'vaccineType', nullable: true })
+  vaccineType: string;
+
+  @Column({ name: 'batch', nullable: true })
+  batch: string;
+
+  @Column({ name: 'manufacturer', nullable: true })
+  manufacturer: string;
+
+  @Column({ name: 'dtOfExpiration', nullable: true })
+  dtOfExpiration: Date;
 }

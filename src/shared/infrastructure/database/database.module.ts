@@ -20,10 +20,6 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { ExpensesSchema } from '@/expenses/infrastructure/expenses.schema';
 import { ExpenseAttachmentSchema } from '@/expense-attachment/infrastructure/expense-attachment.schema';
 import { AnimalProcedureSchema } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
-import { MedicineProcedureSchema } from '@/procedures/medicine-procedure/infrastructure/medicine-procedure.schema';
-import { MiscellaneousProcedureSchema } from '@/procedures/miscellaneous-procedure/infrastructure/miscellaneous-procedure.schema';
-import { SurgeryProcedureSchema } from '@/procedures/surgery-procedure/infrastructure/surgery-procedure.schema';
-import { VaccineProcedureSchema } from '@/procedures/vaccine-procedure/infrastructure/vaccine-procedure.schema';
 import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
 
 @Module({
@@ -53,11 +49,7 @@ import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schem
             ExpensesSchema,
             ExpenseAttachmentSchema,
             AnimalProcedureSchema,
-            MedicineProcedureSchema,
-            MiscellaneousProcedureSchema,
-            SurgeryProcedureSchema,
-            VaccineProcedureSchema,
-            AnimalTypeSchema
+            AnimalTypeSchema,
           ],
 
           migrations: [join(__dirname, '/migrations/*{.ts,.js}')],
@@ -109,4 +101,4 @@ import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schem
   // providers: [DatabaseService],
   exports: [TypeOrmModule],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

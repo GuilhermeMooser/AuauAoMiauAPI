@@ -8,11 +8,11 @@ import type { TermRepository } from '@/terms/domain/term.repository';
 import type { AnimalTypeRepository } from '@/animal-type/domain/animal-type.repository';
 import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 import { CreateAnimalProcedureUseCase } from '@/procedures/animal-procedures/application/create-animal-procedure.usecase';
+import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
 import { CreateSurgeryProcedureDto } from '@/procedures/surgery-procedure/infrastructure/dto/create-surgery-procedure.dto';
 import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infrastructure/dto/create-vaccine-procedure.dto';
 import { CreateMedicineProcedureDto } from '@/procedures/medicine-procedure/infrastructure/dto/create-medicine-procedure.dto';
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
-import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
 
 type Input = {
   name: string;

@@ -1,7 +1,3 @@
-import type { MedicineProcedureRepository } from '@/procedures/medicine-procedure/domain/medicine-procedure.repository';
-import type { MiscellaneousProcedureRepository } from '@/procedures/miscellaneous-procedure/domain/miscellaneous-procedure.repository';
-import type { SurgeryProcedureRepository } from '@/procedures/surgery-procedure/domain/surgery-procedure.repository';
-import type { VaccineProcedureRepository } from '@/procedures/vaccine-procedure/domain/vaccine-procedure.repository';
 import { UseCase } from '@/shared/application/usecases/use-case';
 import { Inject, Injectable } from '@nestjs/common';
 import { AnimalProcedureEnum } from '../infrastructure/animal-procedures.schema';
@@ -11,7 +7,6 @@ import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infras
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
 import { Animal } from '@/animals/domain/animal.entity';
 import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
-import { CreateMedicineProcedureUseCase } from '@/procedures/medicine-procedure/application/create-medicine-procedure.usecase';
 
 type Input = {
   dto: {
@@ -35,26 +30,26 @@ type Output = void;
 @Injectable()
 export class CreateAnimalProcedureUseCase implements UseCase<Input, Output> {
   constructor(
-    @Inject('MedicineProcedureRepository')
-    private readonly medicineProcedureRepository: MedicineProcedureRepository,
-    @Inject('MiscellaneousProcedureRepository')
-    private readonly miscellaneousProcedureRepository: MiscellaneousProcedureRepository,
-    @Inject('SurgeryProcedureRepository')
-    private readonly surgeryProcedureRepository: SurgeryProcedureRepository,
-    @Inject('VaccineProcedureRepository')
-    private readonly vaccineProcedureRepository: VaccineProcedureRepository,
-    private readonly createMedicineProcedureUseCase: CreateMedicineProcedureUseCase,
+    // @Inject('MedicineProcedureRepository')
+    // private readonly medicineProcedureRepository: MedicineProcedureRepository,
+    // @Inject('MiscellaneousProcedureRepository')
+    // private readonly miscellaneousProcedureRepository: MiscellaneousProcedureRepository,
+    // @Inject('SurgeryProcedureRepository')
+    // private readonly surgeryProcedureRepository: SurgeryProcedureRepository,
+    // @Inject('VaccineProcedureRepository')
+    // private readonly vaccineProcedureRepository: VaccineProcedureRepository,
+    // private readonly createMedicineProcedureUseCase: CreateMedicineProcedureUseCase,
   ) {}
 
   async execute({ dto, animal }: Input): Promise<Output> {
     switch (dto.procedureType) {
       case AnimalProcedureEnum.MEDICINE:
         // await this.createMedicineProcedure(dto.payload as CreateMedicineProcedureDto, animal);
-        await this.createMedicineProcedureUseCase.execute({
-          animal,
-          ...dto,
-          payload: dto.payload as CreateMedicineProcedureDto,
-        });
+        // await this.createMedicineProcedureUseCase.execute({
+        //   animal,
+        //   ...dto,
+        //   payload: dto.payload as CreateMedicineProcedureDto,
+        // });
 
         break;
 
