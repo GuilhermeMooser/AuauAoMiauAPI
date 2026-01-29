@@ -1,7 +1,7 @@
 import { UseCase } from '@/shared/application/usecases/use-case';
 import { Animal, AnimalGender, AnimalSize } from '../domain/animal.entity';
 import { AnimalProcedureEnum } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { AdopterRepository } from '@/adopter/domain/adopter.repository';
 import type { AnimalRepository } from '../domain/animal.repository';
 import type { TermRepository } from '@/terms/domain/term.repository';
@@ -13,6 +13,7 @@ import { CreateSurgeryProcedureDto } from '@/procedures/surgery-procedure/infras
 import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infrastructure/dto/create-vaccine-procedure.dto';
 import { CreateMedicineProcedureDto } from '@/procedures/medicine-procedure/infrastructure/dto/create-medicine-procedure.dto';
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
+import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
 
 type Input = {
   name: string;
@@ -46,8 +47,9 @@ type Input = {
   }[];
 };
 
-type Output = {};
+type Output = AnimalOutput;
 
+@Injectable()
 export class CreateAnimalUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
@@ -61,6 +63,7 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     @Inject('LoggedUserService')
     private readonly loggedUserService: LoggedUserService,
     private readonly createAnimalProcedureUseCase: CreateAnimalProcedureUseCase,
+    private readonly animalOutputMapper: AnimalOutputMapper,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -99,19 +102,24 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
 
     const createdAnimal = await this.animalRepository.create(animal.toJSON());
 
+    /**
+     * Procedures
+     */
     if (input.animalProcedures?.length) {
-      for (const procedure of input.animalProcedures) {
-        await this.createAnimalProcedureUseCase.execute({
-          dto: procedure,
-          animal: createdAnimal,
-        });
+      try {
+        for (const procedure of input.animalProcedures) {
+          await this.createAnimalProcedureUseCase.execute({
+            dto: procedure,
+            animal: createdAnimal,
+            loggedUser,
+          });
+        }
+      } catch (e) {
+        throw new Error('Erro interno ao gerar procedimentos.');
       }
     }
 
-    // quando criar o animal ai que vai pras procedures
-
-    console.log(animal);
-    // console.log(input);
-    throw new Error('Method not implemented.');
+    return this.animalOutputMapper.toOutput(createdAnimal);
   }
 }
+//TODO PENSAR NOS RETORNOS DESSA BAGAÇA AQUI

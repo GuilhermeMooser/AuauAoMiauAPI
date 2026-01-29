@@ -11,7 +11,7 @@ export class CreateTableAnimalProcedure1769370217257
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'animla_procedure',
+        name: 'animal_procedure',
         columns: [
           {
             name: 'id',

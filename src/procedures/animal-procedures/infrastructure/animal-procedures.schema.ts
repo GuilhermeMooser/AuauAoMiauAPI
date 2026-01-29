@@ -19,20 +19,20 @@ export enum AnimalProcedureEnum {
 }
 
 @Entity('animal_procedure')
-@TableInheritance({
-  column: {
-    type: 'enum',
-    enum: AnimalProcedureEnum,
-    name: 'procedure_type',
-  },
-})
-export abstract class AnimalProcedureSchema extends UserAuditableSchema {
+export class AnimalProcedureSchema extends UserAuditableSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => AnimalSchema, animal => animal.animalProcedure)
   @JoinColumn({ name: 'animal_id' })
   animal: AnimalSchema;
+
+  @Column({
+    name: 'procedure_type',
+    type: 'enum',
+    enum: AnimalProcedureEnum,
+  })
+  procedureType: AnimalProcedureEnum;
 
   @Column({ name: 'dtOfProcedure', nullable: true })
   dtOfProcedure?: Date;
@@ -69,7 +69,7 @@ export abstract class AnimalProcedureSchema extends UserAuditableSchema {
   dtOfStart: Date;
 
   @Column({ name: 'dtOfEnd', nullable: true })
-  dtOfEnd: Date;//
+  dtOfEnd: Date;
 
   @Column({ name: 'recomendations', nullable: true, length: 600 })
   recomendations: string;

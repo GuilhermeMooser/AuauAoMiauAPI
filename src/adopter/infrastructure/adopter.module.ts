@@ -9,7 +9,6 @@ import { AdopterContactModule } from '@/adopter-contact/infrastructure/adopter-c
 import { AdopterAddressModule } from '@/adopter-address/infrastructure/adopter-address.module';
 import { SoftDeleteAdopterUseCase } from '../application/soft-delete-adopter.usecase';
 import { TermModule } from '@/terms/infrastructure/term.module';
-import { AnimalModule } from '@/animals/infrastructure/animal.module';
 import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';

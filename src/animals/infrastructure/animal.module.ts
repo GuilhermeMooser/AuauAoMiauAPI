@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AnimalSchema } from './animal.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnimalRepositoryImpl } from './animal.repository';
-import { AnimalOutputMapper } from '../application/outputs/animal.output';
 import { CreateAnimalUseCase } from '../application/create-animal.usecase';
 import { AnimalController } from './animal.controller';
 import { AdopterModule } from '@/adopter/infrastructure/adopter.module';
@@ -10,6 +9,7 @@ import { TermModule } from '@/terms/infrastructure/term.module';
 import { AnimalTypeModule } from '@/animal-type/infrastructure/animal-type.module';
 import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-repository.module';
 import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastructure/animal-procedures.module';
+import { AnimalOutputMapper } from '../application/outputs/animal.output';
 
 @Module({
   imports: [
@@ -21,8 +21,8 @@ import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastruc
   ],
   controllers: [AnimalController],
   providers: [
-    AnimalOutputMapper,
     CreateAnimalUseCase,
+    AnimalOutputMapper,
     {
       provide: 'AnimalRepository',
       useClass: AnimalRepositoryImpl,

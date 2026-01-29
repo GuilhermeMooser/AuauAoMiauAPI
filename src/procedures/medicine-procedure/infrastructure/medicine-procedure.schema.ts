@@ -1,7 +1,6 @@
-import { AnimalProcedureEnum, AnimalProcedureSchema } from "@/procedures/animal-procedures/infrastructure/animal-procedures.schema";
-import { ChildEntity } from "typeorm";
+// import { AnimalProcedureEnum, AnimalProcedureSchema } from "@/procedures/animal-procedures/infrastructure/animal-procedures.schema";
+// import { ChildEntity } from "typeorm";
 
-@ChildEntity(AnimalProcedureEnum.MEDICINE)
-export abstract class MedicineProcedureSchema extends AnimalProcedureSchema {
-}
-//Ver se tem que remover do DatabaseModule
+// @ChildEntity(AnimalProcedureEnum.MEDICINE)
+// export abstract class MedicineProcedureSchema extends AnimalProcedureSchema {
+// }

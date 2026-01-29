@@ -1,31 +1,38 @@
-import { Injectable } from "@nestjs/common";
-import { AnimalProceduresRepository } from "../domain/animal-procedures.repository";
-import { InjectRepository } from "@nestjs/typeorm";
-import { AnimalProcedureSchema } from "./animal-procedures.schema";
-import { Repository } from "typeorm";
-import { AnimalProcedures } from "../domain/animal-procedures.entity";
+import { Injectable } from '@nestjs/common';
+import { AnimalProceduresRepository } from '../domain/animal-procedures.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AnimalProcedureSchema } from './animal-procedures.schema';
+import { Repository } from 'typeorm';
+import { AnimalProcedures } from '../domain/animal-procedures.entity';
 
 @Injectable()
-export class AnimalProceduresRepositoryImpl implements AnimalProceduresRepository {
-
+export class AnimalProceduresRepositoryImpl
+  implements AnimalProceduresRepository
+{
   constructor(
     @InjectRepository(AnimalProcedureSchema)
-    private readonly animalProceduresRepository: Repository<AnimalProcedureSchema>
-  ) { }
+    private readonly animalProceduresRepository: Repository<AnimalProcedureSchema>,
+  ) {}
 
   findById(id: string): Promise<AnimalProcedures> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
-  create(entity: Partial<AnimalProcedures>): Promise<AnimalProcedures> {
-    throw new Error("Method not implemented.");
+
+  async create(entity: AnimalProcedures): Promise<AnimalProcedures> {
+    const animalProcedure = await this.animalProceduresRepository.save(entity);
+    return animalProcedure;
   }
-  update(entity: Partial<AnimalProcedures>): Promise<AnimalProcedures> {
-    throw new Error("Method not implemented.");
+
+  async update(entity: AnimalProcedures): Promise<AnimalProcedures> {
+    const animalProcedure = await this.animalProceduresRepository.save(entity);
+    return animalProcedure;
   }
+
   softDeleteById(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
+
   softDeleteByUserId(id: string, userId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 }

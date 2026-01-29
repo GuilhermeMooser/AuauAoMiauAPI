@@ -5,9 +5,7 @@ import { AnimalRepositoryImpl } from './animal.repository';
 import { AnimalOutputMapper } from '../application/outputs/animal.output';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([AnimalSchema]),
-  ],
+  imports: [TypeOrmModule.forFeature([AnimalSchema])],
   providers: [
     AnimalOutputMapper,
     {

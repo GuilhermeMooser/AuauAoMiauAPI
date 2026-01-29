@@ -4,9 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdopterRepositoryImpl } from './adopter.repository';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([AdopterSchema]),
-  ],
+  imports: [TypeOrmModule.forFeature([AdopterSchema])],
   providers: [
     {
       provide: 'AdopterRepository',

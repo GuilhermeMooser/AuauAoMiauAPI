@@ -7,22 +7,28 @@ import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infras
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
 import { Animal } from '@/animals/domain/animal.entity';
 import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
+import type { AnimalProceduresRepository } from '../domain/animal-procedures.repository';
+import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures-factory.factory';
+import { User } from '@/user/domain/user.entity';
+
+export type ProcedureDto = {
+  procedureType: AnimalProcedureEnum;
+  dtOfProcedure?: Date;
+  description: string;
+  veterinarian?: string;
+  observation?: string;
+  expenses?: CreateExpenseDto[];
+  payload:
+    | CreateMedicineProcedureDto
+    | CreateSurgeryProcedureDto
+    | CreateVaccineProcedureDto
+    | CreateMiscellaneousProcedureDto;
+};
 
 type Input = {
-  dto: {
-    procedureType: AnimalProcedureEnum;
-    dtOfProcedure?: Date;
-    description: string;
-    veterinarian?: string;
-    observation?: string;
-    expenses?: CreateExpenseDto[];
-    payload:
-      | CreateMedicineProcedureDto
-      | CreateSurgeryProcedureDto
-      | CreateVaccineProcedureDto
-      | CreateMiscellaneousProcedureDto;
-  };
+  dto: ProcedureDto;
   animal: Animal;
+  loggedUser: User;
 };
 
 type Output = void;
@@ -30,67 +36,17 @@ type Output = void;
 @Injectable()
 export class CreateAnimalProcedureUseCase implements UseCase<Input, Output> {
   constructor(
-    // @Inject('MedicineProcedureRepository')
-    // private readonly medicineProcedureRepository: MedicineProcedureRepository,
-    // @Inject('MiscellaneousProcedureRepository')
-    // private readonly miscellaneousProcedureRepository: MiscellaneousProcedureRepository,
-    // @Inject('SurgeryProcedureRepository')
-    // private readonly surgeryProcedureRepository: SurgeryProcedureRepository,
-    // @Inject('VaccineProcedureRepository')
-    // private readonly vaccineProcedureRepository: VaccineProcedureRepository,
-    // private readonly createMedicineProcedureUseCase: CreateMedicineProcedureUseCase,
+    @Inject('AnimalProceduresRepository')
+    private readonly animalProceduresRepository: AnimalProceduresRepository,
   ) {}
 
-  async execute({ dto, animal }: Input): Promise<Output> {
-    switch (dto.procedureType) {
-      case AnimalProcedureEnum.MEDICINE:
-        // await this.createMedicineProcedure(dto.payload as CreateMedicineProcedureDto, animal);
-        // await this.createMedicineProcedureUseCase.execute({
-        //   animal,
-        //   ...dto,
-        //   payload: dto.payload as CreateMedicineProcedureDto,
-        // });
+  async execute({ dto, animal, loggedUser }: Input): Promise<Output> {
+    const animalProcedure = AnimalProcedureFactory.create(
+      dto,
+      animal,
+      loggedUser,
+    );
 
-        break;
-
-      case AnimalProcedureEnum.MISCELLANEOUS:
-        await this.createMiscellaneousProcedure(
-          dto.payload as CreateMiscellaneousProcedureDto,
-          animal,
-        );
-        break;
-
-      case AnimalProcedureEnum.SURGERY:
-        await this.createSurgeryProcedure(
-          dto.payload as CreateSurgeryProcedureDto,
-          animal,
-        );
-        break;
-
-      case AnimalProcedureEnum.VACCINE:
-        await this.createVaccineProcedure(
-          dto.payload as CreateVaccineProcedureDto,
-          animal,
-        );
-        break;
-    }
+    await this.animalProceduresRepository.create(animalProcedure.toJSON());
   }
-
-  private async createMedicineProcedure(
-    payload: CreateMedicineProcedureDto,
-    animal: Animal,
-  ) {}
-  private async createMiscellaneousProcedure(
-    payload: CreateMiscellaneousProcedureDto,
-    animal: Animal,
-  ) {}
-  private async createSurgeryProcedure(
-    payload: CreateSurgeryProcedureDto,
-    animal: Animal,
-  ) {}
-  private async createVaccineProcedure(
-    payload: CreateVaccineProcedureDto,
-    animal: Animal,
-  ) {}
 }
-//TALVEZ AQUI CRIAR UM SERVICE PARA CADA UM
