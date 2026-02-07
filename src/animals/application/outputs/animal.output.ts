@@ -1,13 +1,10 @@
-import {
-  AdopterOutput,
-  AdopterOutputMapper,
-} from '@/adopter/application/outputs/adopter.output';
-import {
-  MinimalAdopterOutput,
-  MinimalAdopterOutputMapper,
-} from '@/adopter/application/outputs/minimal-adopter.output';
+import { MinimalAdopterOutput } from '@/adopter/application/outputs/minimal-adopter.output';
 import { AnimalType } from '@/animal-type/domain/animal-type.entity';
 import { Animal } from '@/animals/domain/animal.entity';
+import {
+  AnimalProcedureOutput,
+  AnimalProcedureOutputMapper,
+} from '@/procedures/animal-procedures/application/outputs/animal-procedure.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
 import { TermOutput } from '@/terms/application/outputs/term.output';
 import { Injectable } from '@nestjs/common';
@@ -29,11 +26,17 @@ export type AnimalOutput = {
   gender: string;
   additionalInfo?: string;
   castrated?: boolean;
-  // animalProcedures?: AnimalProceduresOutputs[];
+  animalProcedures?: AnimalProcedureOutput[];
 };
 
 @Injectable()
 export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
+  constructor(
+    private readonly animalProcedureMapper: AnimalProcedureOutputMapper,
+  ) {
+    super();
+  }
+
   toOutput(entity: Animal): AnimalOutput {
     return {
       name: entity.props.name,
@@ -50,13 +53,16 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
         name: entity.props.adopter.name,
         cpf: entity.props.adopter.cpf,
       } as MinimalAdopterOutput,
-      terms: entity.props.terms, // TODO
+      terms: entity.props.terms,
       type: entity.props.type,
       size: entity.props.size,
       gender: entity.props.gender,
       additionalInfo: entity.props.additionalInfo,
       castrated: entity.props.castrated,
-      // animalProcedures: entity.props.animalProcedures, // TODO
+      animalProcedures: this.toOutputArray(
+        entity.props.animalProcedures,
+        this.animalProcedureMapper,
+      ),
     };
   }
 }

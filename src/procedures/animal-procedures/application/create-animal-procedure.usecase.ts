@@ -10,6 +10,7 @@ import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.
 import type { AnimalProceduresRepository } from '../domain/animal-procedures.repository';
 import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures-factory.factory';
 import { User } from '@/user/domain/user.entity';
+import { AnimalProcedures } from '../domain/animal-procedures.entity';
 
 export type ProcedureDto = {
   procedureType: AnimalProcedureEnum;
@@ -31,7 +32,10 @@ type Input = {
   loggedUser: User;
 };
 
-type Output = void;
+/**
+ * Specific UseCase to get the animal procedure entity
+ *  */
+type Output = AnimalProcedures;
 
 @Injectable()
 export class CreateAnimalProcedureUseCase implements UseCase<Input, Output> {
@@ -47,6 +51,10 @@ export class CreateAnimalProcedureUseCase implements UseCase<Input, Output> {
       loggedUser,
     );
 
-    await this.animalProceduresRepository.create(animalProcedure.toJSON());
+    const animalProcedureEntity = await this.animalProceduresRepository.create(
+      animalProcedure.toJSON(),
+    );
+
+    return animalProcedureEntity;
   }
 }

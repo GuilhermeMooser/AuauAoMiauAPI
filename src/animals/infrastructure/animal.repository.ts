@@ -41,7 +41,7 @@ export class AnimalRepositoryImpl implements AnimalRepository {
 
   async create(entity: Animal): Promise<Animal> {
     const animal = await this.animalRepository.save(entity)
-    return animal;
+    return AnimalMapper.instance.toEntity(animal);
   }
 
   async update(entity: Animal): Promise<Animal> {

@@ -14,6 +14,7 @@ import { CreateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infras
 import { CreateMedicineProcedureDto } from '@/procedures/medicine-procedure/infrastructure/dto/create-medicine-procedure.dto';
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
 import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
+import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 
 type Input = {
   name: string;
@@ -105,21 +106,29 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     /**
      * Procedures
      */
+
+    const animalProcedureOutputList: AnimalProcedures[] = [];
     if (input.animalProcedures?.length) {
       try {
         for (const procedure of input.animalProcedures) {
-          await this.createAnimalProcedureUseCase.execute({
-            dto: procedure,
-            animal: createdAnimal,
-            loggedUser,
-          });
+          const animalProcedure =
+            await this.createAnimalProcedureUseCase.execute({
+              dto: procedure,
+              animal: createdAnimal,
+              loggedUser,
+            });
+
+          animalProcedureOutputList.push(animalProcedure);
         }
       } catch (e) {
         throw new Error('Erro interno ao gerar procedimentos.');
       }
     }
 
-    return this.animalOutputMapper.toOutput(createdAnimal);
+    animal.updateAnimalProcedure(animalProcedureOutputList);
+
+    const animalMapped = this.animalOutputMapper.toOutput(animal);
+
+    return animalMapped;
   }
 }
-//TODO PENSAR NOS RETORNOS DESSA BAGAÇA AQUI

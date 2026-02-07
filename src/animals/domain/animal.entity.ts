@@ -60,4 +60,11 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
       },
     });
   }
+
+  updateAnimalProcedure(animalProcedures: AnimalProcedures[]): this {
+    if (animalProcedures !== undefined && animalProcedures.length > 0) {
+      this.props.animalProcedures = animalProcedures;
+    }
+    return this;
+  }
 }
