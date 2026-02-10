@@ -19,6 +19,7 @@ import { AnimalTypeModule } from './animal-type/infrastructure/animal-type.modul
 import { AnimalModule } from './animals/infrastructure/animal.module';
 import { AdopterRepositoryModule } from './adopter/infrastructure/adopter-repository.module';
 import { AnimalRepositoryModule } from './animals/infrastructure/animal-repository.module';
+import { MapperModule } from './shared/infrastructure/global-mapper/global-mapper.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AnimalRepositoryModule } from './animals/infrastructure/animal-reposito
     AnimalModule,
     AnimalRepositoryModule,
     AdopterRepositoryModule,
+    MapperModule,
   ],
 })
 export class AppModule {}

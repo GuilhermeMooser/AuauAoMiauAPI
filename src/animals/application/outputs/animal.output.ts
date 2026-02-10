@@ -10,6 +10,7 @@ import { TermOutput } from '@/terms/application/outputs/term.output';
 import { Injectable } from '@nestjs/common';
 
 export type AnimalOutput = {
+  id: string;
   name: string;
   age: number;
   breed: string;
@@ -39,6 +40,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
 
   toOutput(entity: Animal): AnimalOutput {
     return {
+      id: entity.props.id,
       name: entity.props.name,
       age: entity.props.age,
       breed: entity.props.breed,

@@ -5,12 +5,12 @@ import { AnimalProceduresRepositoryImpl } from './animal-procedures.repository';
 import { CreateAnimalProcedureUseCase } from '../application/create-animal-procedure.usecase';
 import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
 import { AnimalProcedureOutputMapper } from '../application/outputs/animal-procedure.output';
+import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AnimalProcedureSchema]), ExpensesModule],
+  imports: [TypeOrmModule.forFeature([AnimalProcedureSchema]), ExpensesModule, MapperModule],
   providers: [
     CreateAnimalProcedureUseCase,
-    AnimalProcedureOutputMapper,
     {
       provide: 'AnimalProceduresRepository',
       useClass: AnimalProceduresRepositoryImpl,
@@ -19,7 +19,6 @@ import { AnimalProcedureOutputMapper } from '../application/outputs/animal-proce
   exports: [
     'AnimalProceduresRepository',
     CreateAnimalProcedureUseCase,
-    AnimalProcedureOutputMapper,
   ],
 })
 export class AnimalProcedureModule {}

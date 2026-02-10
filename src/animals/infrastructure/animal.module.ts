@@ -10,6 +10,7 @@ import { AnimalTypeModule } from '@/animal-type/infrastructure/animal-type.modul
 import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-repository.module';
 import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastructure/animal-procedures.module';
 import { AnimalOutputMapper } from '../application/outputs/animal.output';
+import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
 
 @Module({
   imports: [
@@ -18,16 +19,16 @@ import { AnimalOutputMapper } from '../application/outputs/animal.output';
     TermModule,
     AnimalTypeModule,
     AnimalProcedureModule,
+    MapperModule,
   ],
   controllers: [AnimalController],
   providers: [
     CreateAnimalUseCase,
-    AnimalOutputMapper,
     {
       provide: 'AnimalRepository',
       useClass: AnimalRepositoryImpl,
     },
   ],
-  exports: ['AnimalRepository', AnimalOutputMapper],
+  exports: ['AnimalRepository'],
 })
 export class AnimalModule {}

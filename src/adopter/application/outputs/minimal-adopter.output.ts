@@ -42,7 +42,7 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
 
   toOutput(entity: Adopter): MinimalAdopterOutput {
     return {
-      id: entity.id,
+      id: entity.props.id,
       name: entity.props.name,
       cpf: entity.props.cpf,
       email: entity.props.email,
@@ -50,7 +50,12 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
       activeNotification: entity.props.activeNotification,
       dtToNotify: entity.props.dtToNotify,
       addresses: this.toOutputArray(entity.props.addresses, this.addressMapper),
-      animals: this.toOutputArray(entity.props.animals, this.animalMapper),
+      animals: entity.props.animals?.map(animal => {
+        return {
+          id: animal.props.id,
+          name: animal.props.name,
+        };
+      }),
       audit: entity.props.audit,
     };
   }

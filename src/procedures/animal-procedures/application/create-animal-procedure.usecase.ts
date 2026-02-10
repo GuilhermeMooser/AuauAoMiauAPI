@@ -51,10 +51,8 @@ export class CreateAnimalProcedureUseCase implements UseCase<Input, Output> {
       loggedUser,
     );
 
-    const animalProcedureEntity = await this.animalProceduresRepository.create(
-      animalProcedure.toJSON(),
-    );
+    await this.animalProceduresRepository.create(animalProcedure.toJSON());
 
-    return animalProcedureEntity;
+    return animalProcedure;
   }
 }

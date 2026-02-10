@@ -14,6 +14,7 @@ import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopter
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
 import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopter.output';
 import { AnimalRepositoryModule } from '@/animals/infrastructure/animal-repository.module';
+import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
 
 @Module({
   imports: [
@@ -23,14 +24,13 @@ import { AnimalRepositoryModule } from '@/animals/infrastructure/animal-reposito
     AnimalRepositoryModule,
     TermModule,
     AdopterAddressModule,
+    MapperModule,
   ],
   controllers: [AdopterController],
   providers: [
     CreateAdopterUseCase,
     SoftDeleteAdopterUseCase,
     UpdateAdopterUseCase,
-    AdopterOutputMapper,
-    MinimalAdopterOutputMapper,
     FindAllAdoptersPaginatedUseCase,
     FindAdopterByIdUseCase,
     {
