@@ -31,10 +31,10 @@ export type AdopterOutput = {
   civilState: MaritalStatusUnion;
   addresses: AdopterAddressOutput[];
   activeNotification: boolean;
-  audit: Audit;
   dtToNotify?: Date;
   animals?: AnimalOutput[];
   terms?: TermOutput[];
+  audit: Audit;
 };
 @Injectable()
 export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {

@@ -6,6 +6,7 @@ import {
   AnimalProcedureOutputMapper,
 } from '@/procedures/animal-procedures/application/outputs/animal-procedure.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
+import { Audit } from '@/shared/domain/entity';
 import { TermOutput } from '@/terms/application/outputs/term.output';
 import { Injectable } from '@nestjs/common';
 
@@ -28,6 +29,7 @@ export type AnimalOutput = {
   additionalInfo?: string;
   castrated?: boolean;
   animalProcedures?: AnimalProcedureOutput[];
+  audit: Audit;
 };
 
 @Injectable()
@@ -65,6 +67,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
         entity.props.animalProcedures,
         this.animalProcedureMapper,
       ),
+      audit: entity.props.audit,
     };
   }
 }

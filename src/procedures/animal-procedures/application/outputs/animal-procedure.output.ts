@@ -6,6 +6,7 @@ import {
   MinimalExpensesOutput,
   MinimalExpensesOutputMapper,
 } from '@/expenses/application/output/minimal-expenses-output';
+import { Audit } from '@/shared/domain/entity';
 
 export type AnimalProcedureOutput = {
   id: string;
@@ -33,6 +34,7 @@ export type AnimalProcedureOutput = {
   batch?: string;
   manufacturer?: string;
   dtOfExpiration?: Date;
+  audit: Audit;
 };
 
 @Injectable()
@@ -76,6 +78,7 @@ export class AnimalProcedureOutputMapper extends OutputMapper<
       batch: entity.props.batch,
       manufacturer: entity.props.manufacturer,
       dtOfExpiration: entity.props.dtOfExpiration,
+      audit: entity.props.audit,
     };
   }
 }
