@@ -35,20 +35,24 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     throw new Error('Method not implemented.');
   }
 
-  findById(id: string): Promise<Animal> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<Animal> {
+    const animal = await this.animalRepository.findOne({
+      where: { id },
+      relations: ['adopter', 'terms', 'animalProcedure', 'expenses'],
+    });
+
+    return AnimalMapper.instance.toEntity(animal);
   }
 
   async create(entity: Animal): Promise<Animal> {
-    const animal = await this.animalRepository.save(entity)
+    const animal = await this.animalRepository.save(entity);
     return AnimalMapper.instance.toEntity(animal);
   }
 
   async update(entity: Animal): Promise<Animal> {
-    const animal = await this.animalRepository.save(entity)
+    const animal = await this.animalRepository.save(entity);
     return animal;
   }
-
 
   softDeleteById(id: string): Promise<void> {
     throw new Error('Method not implemented.');

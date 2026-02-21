@@ -4,7 +4,6 @@ import { AnimalProcedureEnum } from '@/procedures/animal-procedures/infrastructu
 import { Inject, Injectable } from '@nestjs/common';
 import type { AdopterRepository } from '@/adopter/domain/adopter.repository';
 import type { AnimalRepository } from '../domain/animal.repository';
-import type { TermRepository } from '@/terms/domain/term.repository';
 import type { AnimalTypeRepository } from '@/animal-type/domain/animal-type.repository';
 import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 import { CreateAnimalProcedureUseCase } from '@/procedures/animal-procedures/application/create-animal-procedure.usecase';
@@ -27,7 +26,6 @@ type Input = {
   dtOfRescue?: Date;
   locationOfRescue?: string;
   adopterId?: string;
-  termsIds?: string[];
   typeId: number;
   size: AnimalSize;
   gender: AnimalGender;
@@ -57,8 +55,6 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     private readonly adopterRepository: AdopterRepository,
     @Inject('AnimalRepository')
     private readonly animalRepository: AnimalRepository,
-    @Inject('TermRepository')
-    private readonly termRepository: TermRepository,
     @Inject('AnimalTypeRepository')
     private readonly animalTypeRepository: AnimalTypeRepository,
     @Inject('LoggedUserService')
@@ -71,11 +67,6 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     const adopter = input?.adopterId
       ? await this.adopterRepository.findById(input.adopterId)
       : null;
-
-    const terms =
-      input?.termsIds?.length > 0
-        ? await this.termRepository.findAllByIds(input.termsIds)
-        : null;
 
     const animalType = await this.animalTypeRepository.findById(input.typeId);
 
@@ -92,7 +83,6 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
       dtOfAdoption: input?.dtOfAdoption,
       locationOfRescue: input.locationOfRescue,
       adopter: adopter,
-      terms: terms,
       type: animalType,
       size: input.size,
       gender: input.gender,

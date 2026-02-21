@@ -74,7 +74,7 @@ export class AnimalSchema extends UserAuditableSchema {
   animalProcedure: AnimalProcedureSchema[]
 
   @OneToMany(() => ExpensesSchema, expenses => expenses.animal)
-  expenses: ExpensesSchema[]
+  expenses: ExpensesSchema[] //TODO VERIFICAR OS MÉTODOS DE CREATE E UPDATE PQ O ANIMAL PODE TER EXPENSES SEM TER PROCEDIMENTO
 
   // photos
   //historicOfProcedures

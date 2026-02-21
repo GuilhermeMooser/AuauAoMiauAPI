@@ -59,9 +59,6 @@ export class CreateAnimalDto {
   @IsOptional()
   adopterId?: string;
 
-  @IsOptional()
-  termsIds?: string[];
-
   @IsInt()
   @IsNotEmpty()
   typeId: number;

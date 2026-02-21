@@ -13,6 +13,7 @@ import {
 
 @Entity('expenses')
 export class ExpensesSchema extends CreatedAtAuditableSchema {
+  //ISSO AUQI É AUDITÁVEL E PRECISA SER GUARDADO, SAO GASTOS EXCLUIDOS, MAS DEVEM SER MANTIDOS
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

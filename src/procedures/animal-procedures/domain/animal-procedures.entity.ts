@@ -11,7 +11,7 @@ export type AnimalProceduresProps = {
   veterinarian?: string;
   observation?: string;
   expenses?: Expenses[];
-  procedureType: AnimalProcedureEnum,
+  procedureType: AnimalProcedureEnum;
   //Daughter
   medicineName?: string;
   reason?: string;

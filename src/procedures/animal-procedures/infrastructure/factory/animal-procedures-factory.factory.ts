@@ -12,6 +12,7 @@ import {
 import { ProcedureDto } from '../../application/create-animal-procedure.usecase';
 import { User } from '@/user/domain/user.entity';
 import { ConflictError } from '@/shared/application/errors/conflict-error';
+import { UpdateProcedureDto } from '../../application/update-animal-procedure.usecase';
 
 export class AnimalProcedureFactory {
   static create(
@@ -72,5 +73,32 @@ export class AnimalProcedureFactory {
       default:
         throw new ConflictError('Tipo procedimento inválido.');
     }
+  }
+
+  static update(
+    dto: UpdateProcedureDto,
+    animal: Animal,
+    loggedUser: User,
+    existingProcedure: AnimalProcedures,
+    expenses: Expenses[],
+  ): AnimalProcedures {
+    const base: Partial<AnimalProceduresProps> = {
+      procedureType: dto.procedureType,
+      dtOfProcedure: dto.dtOfProcedure,
+      description: dto.description,
+      veterinarian: dto.veterinarian,
+      observation: dto.observation,
+      expenses: expenses,
+    };
+
+    // Merge com dados existentes e novos dados específicos do tipo
+    // return AnimalProcedures.update(existingProcedure.id, {
+    //   ...existingProcedure.props,
+    //   ...base,
+    //   ...dto.payload,
+    //   updatedByUserId: loggedUser.id,
+    // });
+
+    return null;
   }
 }

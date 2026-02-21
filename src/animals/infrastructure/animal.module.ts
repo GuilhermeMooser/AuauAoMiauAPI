@@ -11,6 +11,11 @@ import { AdopterRepositoryModule } from '@/adopter/infrastructure/adopter-reposi
 import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastructure/animal-procedures.module';
 import { AnimalOutputMapper } from '../application/outputs/animal.output';
 import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
+import { UpdateAnimalUseCase } from '../application/update-animal.usecase';
+import { DeleteAnimalUseCase } from '../application/delete-animal.usecase';
+import { FindAllAnimalsPaginatedUseCase } from '../application/find-all-animals-paginated.usecase';
+import { FindAnimalByIdUseCase } from '../application/find-animal-by-id.usecase';
+import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
 
 @Module({
   imports: [
@@ -19,11 +24,16 @@ import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mappe
     TermModule,
     AnimalTypeModule,
     AnimalProcedureModule,
+    ExpensesModule, //vai quebrar isso
     MapperModule,
   ],
   controllers: [AnimalController],
   providers: [
     CreateAnimalUseCase,
+    UpdateAnimalUseCase,
+    DeleteAnimalUseCase,
+    FindAllAnimalsPaginatedUseCase,
+    FindAnimalByIdUseCase,
     {
       provide: 'AnimalRepository',
       useClass: AnimalRepositoryImpl,

@@ -35,4 +35,16 @@ export class AnimalProceduresRepositoryImpl
   softDeleteByUserId(id: string, userId: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
+
+  async softDeleteAllByIds(ids: string[], userId: string): Promise<void> {
+    await this.animalProceduresRepository
+      .createQueryBuilder()
+      .update()
+      .set({
+        deletedByUserId: userId,
+        deletedAt: () => 'CURRENT_TIMESTAMP',
+      })
+      .whereInIds(ids)
+      .execute();
+  }
 }
