@@ -1,11 +1,11 @@
-import {
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { CreateExpenseDto } from './create-expenses.dto';
 
+/**
+ * Must be optional because the user can create a new expenses by the way
+ */
 export class UpdateExpenseDto extends CreateExpenseDto {
   @IsString()
-  @IsNotEmpty()
-  id: string;
+  @IsOptional()
+  id?: string;
 }

@@ -38,7 +38,7 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   async findById(id: string): Promise<Animal> {
     const animal = await this.animalRepository.findOne({
       where: { id },
-      relations: ['adopter', 'terms', 'animalProcedure', 'expenses'],
+      relations: ['adopter', 'terms', 'animalProcedure', 'expenses', 'type'],
     });
 
     return AnimalMapper.instance.toEntity(animal);

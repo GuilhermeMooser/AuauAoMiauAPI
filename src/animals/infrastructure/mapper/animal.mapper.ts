@@ -3,6 +3,7 @@ import { AnimalSchema } from '../animal.schema';
 import { Animal } from '@/animals/domain/animal.entity';
 import { AdopterMapper } from '@/adopter/infrastructure/mapper/adopter.mapper';
 import { TermMapper } from '@/terms/infrastructure/mapper/term.mapper';
+import { ExpenseMapper } from '@/expenses/infrastructure/mapper/expense.mapper';
 
 export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
   private static _instance: AnimalMapper;
@@ -42,6 +43,12 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
       dtOfDeath: schema.dtOfDeath,
       dtOfRescue: schema.dtOfRescue,
       locationOfRescue: schema.locationOfRescue,
+      additionalInfo: schema.additionalInfo,
+      castrated: schema.castrated,
+      expenses:
+        schema.expenses && schema.expenses.length > 0
+          ? ExpenseMapper.instance.toEntityMany(schema.expenses)
+          : null,
       terms:
         schema.terms && schema.terms.length > 0
           ? TermMapper.instance.toEntityMany(schema.terms)
@@ -53,5 +60,3 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
     return super.toEntityMany(schemas);
   }
 }
-
-//tODO ADICIONAR CASTRATED E AS PROCEDURES

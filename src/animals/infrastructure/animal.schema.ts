@@ -68,7 +68,10 @@ export class AnimalSchema extends UserAuditableSchema {
   gender: string;
 
   @Column({ name: 'castrated', nullable: true })
-  castrated: string;
+  castrated: boolean;
+
+  @Column({ name: 'additionalInfo', length: 400, nullable: true })
+  additionalInfo: string;
 
   @OneToMany(
     () => AnimalProcedureSchema,

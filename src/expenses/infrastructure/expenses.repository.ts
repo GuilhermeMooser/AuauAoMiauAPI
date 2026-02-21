@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { ExpensesSchema } from './expenses.schema';
 import { Expenses } from '../domain/expenses.entity';
 import { Injectable } from '@nestjs/common';
+import { ExpenseMapper } from './mapper/expense.mapper';
 
 @Injectable()
 export class ExpensesRepositoryImpl implements ExpensesRepository {
@@ -12,21 +13,25 @@ export class ExpensesRepositoryImpl implements ExpensesRepository {
     private readonly expensesRepository: Repository<ExpensesSchema>,
   ) {}
 
-  findById(id: string): Promise<Expenses> {
-    // const expense = await this.expensesRepository.findOne({
-    //   where: { id },
-    //   relations: ['expenseAttachment'],
-    // });
+  async findById(id: string): Promise<Expenses> {
+    const expense = await this.expensesRepository.findOne({
+      where: { id },
+      relations: ['expenseAttachment'],
+    });
 
-    // return expense;
-    return null;
+    return ExpenseMapper.instance.toEntity(expense);
   }
-  create(entity: Partial<Expenses>): Promise<Expenses> {
-    throw new Error('Method not implemented.');
+
+  async create(entity: Expenses): Promise<Expenses> {
+    const expense = await this.expensesRepository.save(entity);
+    return ExpenseMapper.instance.toEntity(expense);
   }
-  update(entity: Partial<Expenses>): Promise<Expenses> {
-    throw new Error('Method not implemented.');
+
+  async update(entity: Expenses): Promise<Expenses> {
+    const expense = await this.expensesRepository.save(entity);
+    return ExpenseMapper.instance.toEntity(expense);
   }
+
   softDeleteById(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
@@ -35,14 +40,14 @@ export class ExpensesRepositoryImpl implements ExpensesRepository {
   }
 
   async softDeleteAllByIds(ids: string[], userId: string): Promise<void> {
-    // await this.expensesRepository
-    //   .createQueryBuilder()
-    //   .update()
-    //   .set({
-    //     deletedByUserId: userId,
-    //     deletedAt: () => 'CURRENT_TIMESTAMP',
-    //   })
-    //   .whereInIds(ids)
-    //   .execute();
+    await this.expensesRepository
+      .createQueryBuilder()
+      .update()
+      .set({
+        deletedByUserId: userId,
+        deletedAt: () => 'CURRENT_TIMESTAMP',
+      })
+      .whereInIds(ids)
+      .execute();
   }
 }
