@@ -10,7 +10,7 @@ type ExpensesProps = {
   value: number;
   description: string;
   paymentType: string;
-  animal: Animal;
+  // animal: Animal;
   // expenseAttachment?: ExpenseAttachment
 };
 
@@ -60,8 +60,8 @@ export class Expenses extends UserAuditableEntity<ExpensesProps> {
     if (props.paymentType !== undefined) {
       this.props.paymentType = props.paymentType;
     }
-    if (props.animal !== undefined) {
-      this.props.animal = props.animal;
-    }
+    // if (props.animal !== undefined) {
+    //   this.props.animal = props.animal;
+    // }
   }
 }

@@ -2,6 +2,8 @@ import { AnimalSchema } from '@/animals/infrastructure/animal.schema';
 import { ExpenseAttachmentSchema } from '@/expense-attachment/infrastructure/expense-attachment.schema';
 import { AnimalProcedureSchema } from '@/procedures/animal-procedures/infrastructure/animal-procedures.schema';
 import { CreatedAtAuditableSchema } from '@/shared/infrastructure/auditable/created-at-auditable-schema';
+import { UserAuditableSchema } from '@/shared/infrastructure/auditable/user-auditable.schema';
+import e from 'express';
 import {
   Column,
   Entity,
@@ -12,8 +14,7 @@ import {
 } from 'typeorm';
 
 @Entity('expenses')
-export class ExpensesSchema extends CreatedAtAuditableSchema {
-  //ISSO AUQI É AUDITÁVEL E PRECISA SER GUARDADO, SAO GASTOS EXCLUIDOS, MAS DEVEM SER MANTIDOS
+export class ExpensesSchema extends UserAuditableSchema {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,7 +26,7 @@ export class ExpensesSchema extends CreatedAtAuditableSchema {
   @JoinColumn({ name: 'animal_procedure_id' })
   animalProcedure: AnimalProcedureSchema;
 
-  @Column({ name: 'expenseType' })
+  @Column({ name: 'expenseType', length: 100 })
   expenseType: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
@@ -34,7 +35,7 @@ export class ExpensesSchema extends CreatedAtAuditableSchema {
   @Column({ name: 'description', length: 400 })
   description: string;
 
-  @Column({ name: 'paymentType', nullable: true })
+  @Column({ name: 'paymentType', length: 100, nullable: true })
   paymentType: string;
 
   @OneToMany(

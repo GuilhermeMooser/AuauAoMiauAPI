@@ -1,5 +1,6 @@
 import { Adopter } from '@/adopter/domain/adopter.entity';
 import { AnimalType } from '@/animal-type/domain/animal-type.entity';
+import { Expenses } from '@/expenses/domain/expenses.entity';
 import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
@@ -26,6 +27,7 @@ type AnimalProps = {
   gender: string;
   additionalInfo?: string;
   castrated?: boolean;
+  expenses?: Expenses[];
   animalProcedures?: AnimalProcedures[];
 
   // animalPhotos: AnimalPhotos[]

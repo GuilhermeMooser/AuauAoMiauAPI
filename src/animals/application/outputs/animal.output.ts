@@ -2,6 +2,10 @@ import { MinimalAdopterOutput } from '@/adopter/application/outputs/minimal-adop
 import { AnimalType } from '@/animal-type/domain/animal-type.entity';
 import { Animal } from '@/animals/domain/animal.entity';
 import {
+  MinimalExpensesOutput,
+  MinimalExpensesOutputMapper,
+} from '@/expenses/application/output/minimal-expenses-output';
+import {
   AnimalProcedureOutput,
   AnimalProcedureOutputMapper,
 } from '@/procedures/animal-procedures/application/outputs/animal-procedure.output';
@@ -29,6 +33,7 @@ export type AnimalOutput = {
   additionalInfo?: string;
   castrated?: boolean;
   animalProcedures?: AnimalProcedureOutput[];
+  expenses?: MinimalExpensesOutput[];
   audit: Audit;
 };
 
@@ -36,6 +41,7 @@ export type AnimalOutput = {
 export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
   constructor(
     private readonly animalProcedureMapper: AnimalProcedureOutputMapper,
+    private readonly minimalExpensesOutputMapper: MinimalExpensesOutputMapper,
   ) {
     super();
   }
@@ -63,6 +69,10 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
       gender: entity.props.gender,
       additionalInfo: entity.props.additionalInfo,
       castrated: entity.props.castrated,
+      expenses: this.toOutputArray(
+        entity.props.expenses,
+        this.minimalExpensesOutputMapper,
+      ),
       animalProcedures: this.toOutputArray(
         entity.props.animalProcedures,
         this.animalProcedureMapper,

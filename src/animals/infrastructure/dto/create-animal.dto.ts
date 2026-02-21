@@ -13,6 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateAnimalProcedureDispatcherDto } from './create-animal-procedure-dispatcher.dto';
+import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
 
 export class CreateAnimalDto {
   @IsString()
@@ -78,6 +79,12 @@ export class CreateAnimalDto {
   @IsBoolean()
   @IsOptional()
   castrated: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateExpenseDto)
+  expenses?: CreateExpenseDto[];
 
   @IsOptional()
   @IsArray()

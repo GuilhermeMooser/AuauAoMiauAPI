@@ -70,11 +70,16 @@ export class AnimalSchema extends UserAuditableSchema {
   @Column({ name: 'castrated', nullable: true })
   castrated: string;
 
-  @OneToMany(() => AnimalProcedureSchema, (animalProcedure) => animalProcedure.animal)
-  animalProcedure: AnimalProcedureSchema[]
+  @OneToMany(
+    () => AnimalProcedureSchema,
+    animalProcedure => animalProcedure.animal,
+  )
+  animalProcedure: AnimalProcedureSchema[];
 
-  @OneToMany(() => ExpensesSchema, expenses => expenses.animal)
-  expenses: ExpensesSchema[] //TODO VERIFICAR OS MÉTODOS DE CREATE E UPDATE PQ O ANIMAL PODE TER EXPENSES SEM TER PROCEDIMENTO
+  @OneToMany(() => ExpensesSchema, expenses => expenses.animal, {
+    cascade: true,
+  })
+  expenses: ExpensesSchema[]; //TODO VERIFICAR OS MÉTODOS DE CREATE E UPDATE PQ O ANIMAL PODE TER EXPENSES SEM TER PROCEDIMENTO
 
   // photos
   //historicOfProcedures

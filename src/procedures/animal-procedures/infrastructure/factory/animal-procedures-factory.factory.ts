@@ -22,7 +22,7 @@ export class AnimalProcedureFactory {
   ): AnimalProcedures {
     const expensesEntities: Expenses[] | undefined = dto.expenses?.map(exp =>
       Expenses.create({
-        animal: animal,
+        // animal: animal,
         description: exp.description,
         expenseType: exp.expenseType,
         paymentType: exp.paymentType,

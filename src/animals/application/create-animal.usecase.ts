@@ -14,6 +14,7 @@ import { CreateMedicineProcedureDto } from '@/procedures/medicine-procedure/infr
 import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/create-miscellaneous-procedure.dto';
 import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
 import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
+import { Expenses } from '@/expenses/domain/expenses.entity';
 
 type Input = {
   name: string;
@@ -31,6 +32,7 @@ type Input = {
   gender: AnimalGender;
   additionalInfo?: string;
   castrated: boolean;
+  expenses?: CreateExpenseDto[];
   animalProcedures?: {
     procedureType: AnimalProcedureEnum;
     dtOfProcedure?: Date;
@@ -72,6 +74,16 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
 
     const loggedUser = this.loggedUserService.getLoggedUser();
 
+    let animalExpenses: Expenses[] = null;
+    if (input?.expenses && input.expenses.length > 0) {
+      animalExpenses = input.expenses.map(
+        expense =>
+          new Expenses({
+            createdByUserId: loggedUser.id,
+            ...expense,
+          }),
+      );
+    }
     const animal = Animal.create({
       name: input.name,
       age: input.age,
@@ -89,6 +101,7 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
       additionalInfo: input.additionalInfo,
       castrated: input.castrated,
       createdByUserId: loggedUser.id,
+      expenses: animalExpenses,
     });
 
     const createdAnimal = await this.animalRepository.create(animal.toJSON());

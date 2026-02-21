@@ -122,7 +122,7 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
       } else {
         /** Create */
         const newExpense = Expenses.create({
-          animal: animal, //FODA Q ELE VIUNCULA COM ANIMAL E NAO COM O PROCEDIMENTO, TEM ALGIUMA COISA MT ESTRANHA ACONTECENDO
+          // animal: animal, //FODA Q ELE VIUNCULA COM ANIMAL E NAO COM O PROCEDIMENTO, TEM ALGIUMA COISA MT ESTRANHA ACONTECENDO
           description: expDto.description,
           expenseType: expDto.expenseType,
           paymentType: expDto.paymentType,
