@@ -7,11 +7,9 @@ import { AdopterOutputMapper } from '@/adopter/application/outputs/adopter.outpu
 import { AdopterAddressOutputMapper } from '@/adopter-address/application/outputs/adopter-address.output';
 import { AdopterContactOutputMapper } from '@/adopter-contact/application/outputs/adopter-contact.output';
 import { TermOutputMapper } from '@/terms/application/outputs/term.output';
-// Importe todos os outros mappers que você tiver
 
 @Module({
   providers: [
-    // Mappers na ordem de dependência (dos mais simples aos mais complexos)
     MinimalExpensesOutputMapper,
     AnimalProcedureOutputMapper,
     AdopterAddressOutputMapper,
@@ -20,7 +18,6 @@ import { TermOutputMapper } from '@/terms/application/outputs/term.output';
     TermOutputMapper,
     AdopterOutputMapper,
     AnimalOutputMapper,
-    // Adicione outros mappers aqui
   ],
   exports: [
     MinimalExpensesOutputMapper,
@@ -31,7 +28,6 @@ import { TermOutputMapper } from '@/terms/application/outputs/term.output';
     TermOutputMapper,
     AdopterOutputMapper,
     AnimalOutputMapper,
-    // Exporte todos os mappers
   ],
 })
 export class MapperModule {}
