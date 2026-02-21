@@ -24,7 +24,7 @@ import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
     TermModule,
     AnimalTypeModule,
     AnimalProcedureModule,
-    ExpensesModule, //vai quebrar isso
+    ExpensesModule,
     MapperModule,
   ],
   controllers: [AnimalController],

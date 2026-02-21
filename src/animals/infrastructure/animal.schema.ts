@@ -79,13 +79,12 @@ export class AnimalSchema extends UserAuditableSchema {
   @OneToMany(() => ExpensesSchema, expenses => expenses.animal, {
     cascade: true,
   })
-  expenses: ExpensesSchema[]; //TODO VERIFICAR OS MÉTODOS DE CREATE E UPDATE PQ O ANIMAL PODE TER EXPENSES SEM TER PROCEDIMENTO
+  expenses: ExpensesSchema[];
 
   // photos
   //historicOfProcedures
   //father AUTORELACIONAMENTO
   //mother AUTORELACIONAMENTO
   //documents
-  //expenses
   //historic os photos, etc
 }

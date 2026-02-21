@@ -31,7 +31,6 @@ type AnimalProps = {
   animalProcedures?: AnimalProcedures[];
 
   // animalPhotos: AnimalPhotos[]
-  // animalExpenses?: AnimalExpenses;
 };
 
 export class Animal extends UserAuditableEntity<AnimalProps> {
