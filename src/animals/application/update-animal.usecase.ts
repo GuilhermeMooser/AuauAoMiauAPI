@@ -284,7 +284,8 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     loggedUser: User,
     expensesEntities: Expenses[],
   ) {
-    const existingExpensesWithoutProcedures = animal.props.expenses || [];
+    const existingExpensesWithoutProcedures =
+      animal.props?.expenses?.filter(e => !e.animalProcedure) || [];
     const newExpensesWithoutProceduresIds = new Set(
       newExpenses.map(e => e.id).filter(id => id !== undefined && id !== null),
     );

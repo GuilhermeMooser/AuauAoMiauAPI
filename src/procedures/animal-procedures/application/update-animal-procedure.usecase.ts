@@ -108,6 +108,7 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
       animal,
       loggedUser,
       existingProcedure,
+      expensesEntities,
     );
 
     await this.animalProceduresRepository.update(updatedProcedure.toJSON());
@@ -151,6 +152,7 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
 
         expense.update({
           ...expDto,
+          animalProcedure: existingProcedure,
           updatedByUserId: loggedUser.id,
         });
 
@@ -168,6 +170,7 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
           paymentType: expDto.paymentType,
           value: expDto.value,
           createdByUserId: loggedUser.id,
+          animalProcedure: existingProcedure,
           //expenseAttachment
         });
 

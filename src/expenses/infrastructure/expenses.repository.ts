@@ -16,7 +16,7 @@ export class ExpensesRepositoryImpl implements ExpensesRepository {
   async findById(id: string): Promise<Expenses> {
     const expense = await this.expensesRepository.findOne({
       where: { id },
-      relations: ['expenseAttachment'],
+      relations: ['expenseAttachment', 'animalProcedure'],
     });
 
     return ExpenseMapper.instance.toEntity(expense);
@@ -45,6 +45,7 @@ export class ExpensesRepositoryImpl implements ExpensesRepository {
       .update()
       .set({
         deletedByUserId: userId,
+        updatedByUserId: userId,
         deletedAt: () => 'CURRENT_TIMESTAMP',
       })
       .whereInIds(ids)

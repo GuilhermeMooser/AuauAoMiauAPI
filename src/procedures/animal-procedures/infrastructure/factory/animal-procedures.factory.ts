@@ -22,12 +22,13 @@ export class AnimalProcedureFactory {
   ): AnimalProcedures {
     const expensesEntities: Expenses[] | undefined = dto.expenses?.map(exp =>
       Expenses.create({
-        // animal: animal,
+        animal: animal,
         description: exp.description,
         expenseType: exp.expenseType,
         paymentType: exp.paymentType,
         value: exp.value,
         // expenseAttachment: exp.expenseAttachment,
+        createdByUserId: loggedUser.id,
       }),
     );
 
@@ -80,6 +81,7 @@ export class AnimalProcedureFactory {
     animal: Animal,
     loggedUser: User,
     existingProcedure: AnimalProcedures,
+    expensesEntities: Expenses[],
   ): AnimalProcedures {
     const base: Partial<AnimalProceduresProps> = {
       procedureType: dto.procedureType,
@@ -93,6 +95,7 @@ export class AnimalProcedureFactory {
       ...base,
       ...dto.payload,
       animal,
+      expenses: expensesEntities,
       updatedByUserId: loggedUser.id,
     });
 

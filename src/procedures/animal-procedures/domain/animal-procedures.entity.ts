@@ -124,6 +124,7 @@ export class AnimalProcedures extends UserAuditableEntity<AnimalProceduresProps>
     this.props.batch = props?.batch ?? null;
     this.props.manufacturer = props?.manufacturer ?? null;
     this.props.dtOfExpiration = props?.dtOfExpiration ?? null;
+    this.props.expenses = props?.expenses ?? null;
     this.props.updatedByUserId = props?.updatedByUserId ?? null;
   }
 }

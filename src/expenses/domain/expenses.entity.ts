@@ -1,4 +1,5 @@
 import { Animal } from '@/animals/domain/animal.entity';
+import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 import {
   AuditableEntity,
   UserAuditableEntity,
@@ -11,6 +12,7 @@ type ExpensesProps = {
   description: string;
   paymentType?: string;
   animal?: Animal;
+  animalProcedure?: AnimalProcedures;
   // expenseAttachment?: ExpenseAttachment
 };
 
@@ -25,6 +27,10 @@ export class Expenses extends UserAuditableEntity<ExpensesProps> {
     },
   ) {
     super(props);
+  }
+
+  get animalProcedure() {
+    return this.props.animalProcedure;
   }
 
   static create(
@@ -59,6 +65,9 @@ export class Expenses extends UserAuditableEntity<ExpensesProps> {
     }
     if (props.paymentType !== undefined) {
       this.props.paymentType = props.paymentType;
+    }
+    if (props.animalProcedure !== undefined) {
+      this.props.animalProcedure = props.animalProcedure;
     }
     if (props.updatedByUserId) {
       this.props.updatedByUserId = props.updatedByUserId;

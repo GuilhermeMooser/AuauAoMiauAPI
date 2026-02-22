@@ -1,6 +1,7 @@
 import { Expenses } from '@/expenses/domain/expenses.entity';
 import { ExpensesSchema } from '../expenses.schema';
 import { RepositoryBaseMapper } from '@/shared/domain/repositories/repository-base-mapper';
+import { AnimalProcedureMapper } from '@/procedures/animal-procedures/infrastructure/mapper/animal-procedure.mapper';
 
 export class ExpenseMapper extends RepositoryBaseMapper<
   ExpensesSchema,
@@ -24,6 +25,9 @@ export class ExpenseMapper extends RepositoryBaseMapper<
       expenseType: schema.expenseType,
       paymentType: schema?.paymentType,
       value: schema.value,
+      animalProcedure: schema.animalProcedure
+        ? AnimalProcedureMapper.instance.toEntity(schema.animalProcedure)
+        : null,
       audit: {
         createdAt: schema.createdAt,
         deletedAt: schema.deletedAt,
