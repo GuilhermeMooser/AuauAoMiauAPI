@@ -8,7 +8,7 @@ import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-proc
 import { Animal } from '@/animals/domain/animal.entity';
 import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
 import type { AnimalProceduresRepository } from '../domain/animal-procedures.repository';
-import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures-factory.factory';
+import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures.factory';
 import { User } from '@/user/domain/user.entity';
 import { AnimalProcedures } from '../domain/animal-procedures.entity';
 

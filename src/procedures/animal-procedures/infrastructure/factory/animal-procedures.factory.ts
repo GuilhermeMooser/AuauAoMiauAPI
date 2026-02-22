@@ -80,7 +80,6 @@ export class AnimalProcedureFactory {
     animal: Animal,
     loggedUser: User,
     existingProcedure: AnimalProcedures,
-    expenses: Expenses[],
   ): AnimalProcedures {
     const base: Partial<AnimalProceduresProps> = {
       procedureType: dto.procedureType,
@@ -88,17 +87,15 @@ export class AnimalProcedureFactory {
       description: dto.description,
       veterinarian: dto.veterinarian,
       observation: dto.observation,
-      expenses: expenses,
     };
 
-    // Merge com dados existentes e novos dados específicos do tipo
-    // return AnimalProcedures.update(existingProcedure.id, {
-    //   ...existingProcedure.props,
-    //   ...base,
-    //   ...dto.payload,
-    //   updatedByUserId: loggedUser.id,
-    // });
+    existingProcedure.update({
+      ...base,
+      ...dto.payload,
+      animal,
+      updatedByUserId: loggedUser.id,
+    });
 
-    return null;
+    return existingProcedure;
   }
 }

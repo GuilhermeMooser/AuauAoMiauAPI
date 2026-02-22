@@ -48,6 +48,10 @@ export class AnimalProcedures extends UserAuditableEntity<AnimalProceduresProps>
     return this.props.animal;
   }
 
+  get id() {
+    return this.props.id;
+  }
+
   get dtOfProcedure() {
     return this.props.dtOfProcedure;
   }
@@ -82,5 +86,44 @@ export class AnimalProcedures extends UserAuditableEntity<AnimalProceduresProps>
         deletedAt: null,
       },
     });
+  }
+
+  update(
+    props: Partial<AnimalProceduresProps> & {
+      updatedByUserId?: string;
+    },
+  ): void {
+    if (props.animal !== undefined) {
+      this.props.animal = props.animal;
+    }
+
+    if (props.description !== undefined) {
+      this.props.description = props.description;
+    }
+
+    if (props.procedureType !== undefined) {
+      this.props.procedureType = props.procedureType;
+    }
+
+    this.props.dtOfProcedure = props?.dtOfProcedure ?? null;
+    this.props.veterinarian = props?.veterinarian ?? null;
+    this.props.observation = props?.observation ?? null;
+    this.props.medicineName = props?.medicineName ?? null;
+    this.props.reason = props?.reason ?? null;
+    this.props.dosage = props?.dosage ?? null;
+    this.props.frequency = props?.frequency ?? null;
+    this.props.dtOfStart = props?.dtOfStart ?? null;
+    this.props.dtOfEnd = props?.dtOfEnd ?? null;
+    this.props.recomendations = props?.recomendations ?? null;
+    this.props.surgeryName = props?.surgeryName ?? null;
+    this.props.surgeryType = props?.surgeryType ?? null;
+    this.props.local = props?.local ?? null;
+    this.props.dtOfDuration = props?.dtOfDuration ?? null;
+    this.props.vaccineName = props?.vaccineName ?? null;
+    this.props.vaccineType = props?.vaccineType ?? null;
+    this.props.batch = props?.batch ?? null;
+    this.props.manufacturer = props?.manufacturer ?? null;
+    this.props.dtOfExpiration = props?.dtOfExpiration ?? null;
+    this.props.updatedByUserId = props?.updatedByUserId ?? null;
   }
 }

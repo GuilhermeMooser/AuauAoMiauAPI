@@ -4,6 +4,7 @@ import { Animal } from '@/animals/domain/animal.entity';
 import { AdopterMapper } from '@/adopter/infrastructure/mapper/adopter.mapper';
 import { TermMapper } from '@/terms/infrastructure/mapper/term.mapper';
 import { ExpenseMapper } from '@/expenses/infrastructure/mapper/expense.mapper';
+import { AnimalProcedureMapper } from '@/procedures/animal-procedures/infrastructure/mapper/animal-procedure.mapper';
 
 export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
   private static _instance: AnimalMapper;
@@ -45,6 +46,10 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
       locationOfRescue: schema.locationOfRescue,
       additionalInfo: schema.additionalInfo,
       castrated: schema.castrated,
+      animalProcedures:
+        schema.animalProcedure && schema.animalProcedure.length > 0
+          ? AnimalProcedureMapper.instance.toEntityMany(schema.animalProcedure)
+          : null,
       expenses:
         schema.expenses && schema.expenses.length > 0
           ? ExpenseMapper.instance.toEntityMany(schema.expenses)

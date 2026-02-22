@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { AnimalProcedureEnum } from '../infrastructure/animal-procedures.schema';
 import { Animal } from '@/animals/domain/animal.entity';
 import type { AnimalProceduresRepository } from '../domain/animal-procedures.repository';
-import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures-factory.factory';
+import { AnimalProcedureFactory } from '../infrastructure/factory/animal-procedures.factory';
 import { User } from '@/user/domain/user.entity';
 import { AnimalProcedures } from '../domain/animal-procedures.entity';
 import { UpdateSurgeryProcedureDto } from '@/procedures/surgery-procedure/infrastructure/dto/update-surgery-procedure.dto';
@@ -74,12 +74,57 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
     }
 
     /**
-     * Reconcile
-     */
+     * Expenses */
+    const expensesEntities: Expenses[] = [];
+    if (dto?.expenses) {
+      await this.reconcileExpenses(
+        dto.expenses,
+        animal,
+        existingProcedure,
+        loggedUser,
+        expensesEntities,
+      );
+    } else {
+      const procedure = await this.animalProceduresRepository.findById(
+        existingProcedure.id,
+      );
+      const expensesIdsToDelete = procedure?.expenses
+        ?.map(e => e.id)
+        .filter(id => id !== undefined && id !== null);
 
+      if (expensesIdsToDelete && expensesIdsToDelete.length > 0) {
+        await this.expensesRepository.softDeleteAllByIds(
+          expensesIdsToDelete,
+          loggedUser.id,
+        );
+      }
+    }
+
+    /**
+     * Procedures
+     */
+    const updatedProcedure = AnimalProcedureFactory.update(
+      dto,
+      animal,
+      loggedUser,
+      existingProcedure,
+    );
+
+    await this.animalProceduresRepository.update(updatedProcedure.toJSON());
+
+    return updatedProcedure;
+  }
+
+  private async reconcileExpenses(
+    newExpenses: UpdateExpenseDto[],
+    animal: Animal,
+    existingProcedure: AnimalProcedures,
+    loggedUser: User,
+    expensesEntities: Expenses[],
+  ) {
     const existingExpenses = existingProcedure.props.expenses || [];
     const newExpenseIds = new Set(
-      dto.expenses?.map(e => e.id).filter(id => id) || [],
+      newExpenses?.map(e => e.id).filter(id => id) || [],
     );
 
     /**
@@ -95,23 +140,18 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
       );
     }
 
-    /**
-     * Process
-     */
-    const expensesEntities: Expenses[] = [];
-
-    for (const expDto of dto.expenses || []) {
+    for (const expDto of newExpenses) {
       /** Update */
       if (expDto.id) {
         const expense = await this.expensesRepository.findById(expDto.id);
 
-        if(!expense) {
+        if (!expense) {
           throw new NotFoundError(`Gasto ${expDto.id} não encontrado`);
         }
 
-        //TODO testar
         expense.update({
           ...expDto,
+          updatedByUserId: loggedUser.id,
         });
 
         const updatedExpense = await this.expensesRepository.update(
@@ -122,32 +162,20 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
       } else {
         /** Create */
         const newExpense = Expenses.create({
-          // animal: animal, //FODA Q ELE VIUNCULA COM ANIMAL E NAO COM O PROCEDIMENTO, TEM ALGIUMA COISA MT ESTRANHA ACONTECENDO
+          animal,
           description: expDto.description,
           expenseType: expDto.expenseType,
           paymentType: expDto.paymentType,
           value: expDto.value,
+          createdByUserId: loggedUser.id,
+          //expenseAttachment
         });
+
         const created = await this.expensesRepository.create(
           newExpense.toJSON(),
         );
         expensesEntities.push(created);
       }
     }
-
-    const updatedProcedure = AnimalProcedureFactory.update(
-      dto,
-      animal,
-      loggedUser,
-      existingProcedure,
-      expensesEntities,
-    );
-
-    // await this.animalProceduresRepository.update(
-    //   procedureId,
-    //   updatedProcedure.toJSON(),
-    // );
-
-    return updatedProcedure;
   }
 }

@@ -22,6 +22,7 @@ import { CreateAnimalProcedureUseCase } from '@/procedures/animal-procedures/app
 import type { ExpensesRepository } from '@/expenses/domain/expenses.repository';
 import { AnimalType } from '@/animal-type/domain/animal-type.entity';
 import { Expenses } from '@/expenses/domain/expenses.entity';
+import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 
 type Input = {
   id: string;
@@ -140,10 +141,12 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     //   gender: PASSAR PRO CREATE DO ANIMAL;
     //   additionalInfo?: PASSAR PRO CREATE DO ANIMAL;
     //   castrated: PASSAR PRO CREATE DO ANIMAL;
+    //   expensesEntities: PASSAR PRO CREATE DO ANIMAL;
+    //   proceduresEntities: PASSAR PRO CREATE DO ANIMAL;
 
     /**
      * Animal Expenses without procedures */
-    const expensesEntities: Expenses[] = []; //na hr q for retornar tem q ver isso aq melhor pode crer ?
+    const expensesEntities: Expenses[] = [];
     if (input?.expenses) {
       await this.reconcileExpensesWithoutProcedure(
         input.expenses,
@@ -153,7 +156,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       );
     } else {
       const expensesWithoutProceduresIds =
-        animal.props.expenses.map(e => e.id) || [];
+        animal.props?.expenses?.map(e => e.id) || [];
 
       if (
         expensesWithoutProceduresIds &&
@@ -169,36 +172,37 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     /**
      * Procedures
      */
-    // if (input?.animalProcedures && input?.animalProcedures.length > 0) {
-    //   await this.reconcileProcedures(
-    //     input.animalProcedures,
-    //     animal,
-    //     loggedUser,
-    //   );
-    // } else {
-    //   /** Exclude procedures (SoftDelete) */
-    //   const oldProceduresIds =
-    //     animal.props.animalProcedures.map(p => p.id) || [];
-    //   if (oldProceduresIds.length > 0) {
-    //     /** First delete related expenses */
-    //     const oldExpenseIds =
-    //       animal.props.animalProcedures?.flatMap(
-    //         p => p.expenses?.map(e => e.id) || [],
-    //       ) || [];
+    const proceduresEntities: AnimalProcedures[] = [];
+    if (input?.animalProcedures && input?.animalProcedures.length > 0) {
+      await this.reconcileProcedures(
+        input.animalProcedures,
+        animal,
+        loggedUser,
+        proceduresEntities,
+      );
+    } else {
+      /** Exclude procedures (SoftDelete) */
+      const oldProceduresIds =
+        animal.props.animalProcedures.map(p => p.id) || [];
+      if (oldProceduresIds.length > 0) {
+        const oldExpenseIds =
+          animal.props.animalProcedures?.flatMap(
+            p => p.expenses?.map(e => e.id) || [],
+          ) || [];
 
-    //     if (oldExpenseIds.length > 0) {
-    //       await this.expensesRepository.softDeleteAllByIds(
-    //         oldExpenseIds,
-    //         loggedUser.id,
-    //       );
-    //     }
+        if (oldExpenseIds.length > 0) {
+          await this.expensesRepository.softDeleteAllByIds(
+            oldExpenseIds,
+            loggedUser.id,
+          );
+        }
 
-    //     await this.animalProceduresRepository.softDeleteAllByIds(
-    //       oldProceduresIds,
-    //       loggedUser.id,
-    //     );
-    //   }
-    // }
+        await this.animalProceduresRepository.softDeleteAllByIds(
+          oldProceduresIds,
+          loggedUser.id,
+        );
+      }
+    }
 
     //Resto do Update
 
@@ -209,6 +213,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     newProcedures: Input['animalProcedures'],
     animal: Animal,
     loggedUser: User,
+    proceduresEntities: AnimalProcedures[],
   ) {
     const existingProcedures = animal.props.animalProcedures || [];
 
@@ -224,30 +229,6 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       existing => !newProceduresIds.has(existing.id),
     );
 
-    /**
-     * Process each procedure from input
-     */
-    for (const newProcedure of newProcedures) {
-      const procedureId = newProcedure.payload?.id;
-
-      /** Update */
-      if (procedureId) {
-        await this.updateAnimalProcedureUseCase.execute({
-          dto: newProcedure,
-          animal,
-          loggedUser,
-        });
-      } else {
-        /** Create */
-        await this.createAnimalProcedureUseCase.execute({
-          dto: newProcedure,
-          animal,
-          loggedUser,
-        });
-      }
-    }
-
-    /** SoftDeletes */
     if (proceduresToDelete.length > 0) {
       const expenseIdsToDelete = proceduresToDelete
         .flatMap(p => p.props.expenses?.map(e => e.id) || [])
@@ -265,6 +246,35 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
         idsToDelete,
         loggedUser.id,
       );
+    }
+
+    /**
+     * Process each procedure from input
+     */
+    for (const newProcedure of newProcedures) {
+      const procedureId = newProcedure.payload?.id;
+
+      /** Update */
+      if (procedureId) {
+        const updatedAnimalProcedure =
+          await this.updateAnimalProcedureUseCase.execute({
+            dto: newProcedure,
+            animal,
+            loggedUser,
+          });
+
+        proceduresEntities.push(updatedAnimalProcedure);
+      } else {
+        /** Create */
+        const newAnimalProcedure =
+          await this.createAnimalProcedureUseCase.execute({
+            dto: newProcedure,
+            animal,
+            loggedUser,
+          });
+
+        proceduresEntities.push(newAnimalProcedure);
+      }
     }
   }
 
@@ -315,7 +325,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       } else {
         /** Create */
         const newExpense = Expenses.create({
-          animal, // TODO TEST Vinculate to an Animal
+          animal,
           description: expDto.description,
           expenseType: expDto.expenseType,
           paymentType: expDto?.paymentType,

@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AnimalProcedureSchema } from './animal-procedures.schema';
 import { Repository } from 'typeorm';
 import { AnimalProcedures } from '../domain/animal-procedures.entity';
+import { AnimalProcedureMapper } from './mapper/animal-procedure.mapper';
 
 @Injectable()
 export class AnimalProceduresRepositoryImpl
@@ -14,8 +15,13 @@ export class AnimalProceduresRepositoryImpl
     private readonly animalProceduresRepository: Repository<AnimalProcedureSchema>,
   ) {}
 
-  findById(id: string): Promise<AnimalProcedures> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<AnimalProcedures> {
+    const animalProcedure = await this.animalProceduresRepository.findOne({
+      where: { id },
+      relations: ['expenses'],
+    });
+
+    return AnimalProcedureMapper.instance.toEntity(animalProcedure);
   }
 
   async create(entity: AnimalProcedures): Promise<AnimalProcedures> {
