@@ -65,10 +65,12 @@ export class CreateAnimalDto {
   typeId: number;
 
   @IsString()
+  @IsNotEmpty()
   @IsIn(['pequeno', 'médio', 'grande'])
   size: AnimalSize;
 
   @IsString()
+  @IsNotEmpty()
   @IsIn(['M', 'F'])
   gender: AnimalGender;
 

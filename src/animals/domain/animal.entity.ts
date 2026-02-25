@@ -68,4 +68,44 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     }
     return this;
   }
+
+  update(
+    props: Partial<AnimalProps> & {
+      updatedByUserId?: string;
+    },
+  ) {
+    if (props.name !== undefined) {
+      this.props.name = props.name;
+    }
+
+    if (props.age !== undefined) {
+      this.props.age = props.age;
+    }
+
+    if (props.breed !== undefined) {
+      this.props.breed = props.breed;
+    }
+
+    if (props.type !== undefined) {
+      this.props.type = props.type;
+    }
+
+    if (props.size !== undefined) {
+      this.props.size = props.size;
+    }
+
+    if (props.gender !== undefined) {
+      this.props.gender = props.gender;
+    }
+
+    this.props.dtOfBirth = props?.dtOfBirth ?? null;
+    this.props.dtOfDeath = props?.dtOfDeath ?? null;
+    this.props.dtOfRescue = props?.dtOfRescue ?? null;
+    this.props.dtOfAdoption = props?.dtOfAdoption ?? null;
+    this.props.locationOfRescue = props?.locationOfRescue ?? null;
+    this.props.adopter = props?.adopter ?? null;
+    this.props.additionalInfo = props?.additionalInfo ?? null;
+    this.props.castrated = props?.castrated ?? null;
+    this.props.updatedByUserId = props.updatedByUserId;
+  }
 }

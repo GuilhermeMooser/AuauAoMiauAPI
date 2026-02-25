@@ -57,17 +57,14 @@ export abstract class Entity<Props extends BaseProps> {
       return obj;
     }
 
-    // Se é uma entidade, chama o toJSON dela
     if (obj instanceof Entity) {
       return obj.toJSON();
     }
 
-    // Se é um array, processa cada item
     if (Array.isArray(obj)) {
       return obj.map(item => this.convertToPlainObject(item));
     }
 
-    // Se é um objeto simples, processa suas propriedades
     if (typeof obj === 'object' && obj.constructor === Object) {
       const result: any = {};
       for (const [key, value] of Object.entries(obj)) {
@@ -76,7 +73,7 @@ export abstract class Entity<Props extends BaseProps> {
       return result;
     }
 
-    // Para tipos primitivos, retorna como está
     return obj;
   }
 }
+

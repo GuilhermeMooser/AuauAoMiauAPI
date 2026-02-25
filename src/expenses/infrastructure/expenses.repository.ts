@@ -16,7 +16,7 @@ export class ExpensesRepositoryImpl implements ExpensesRepository {
   async findById(id: string): Promise<Expenses> {
     const expense = await this.expensesRepository.findOne({
       where: { id },
-      relations: ['expenseAttachment', 'animalProcedure'],
+      relations: ['expenseAttachment', 'animalProcedure', 'animal'],
     });
 
     return ExpenseMapper.instance.toEntity(expense);

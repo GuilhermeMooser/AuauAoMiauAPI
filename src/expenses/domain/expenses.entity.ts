@@ -33,6 +33,10 @@ export class Expenses extends UserAuditableEntity<ExpensesProps> {
     return this.props.animalProcedure;
   }
 
+  get animal() {
+    return this.props.animal;
+  }
+
   static create(
     props: ExpensesProps & {
       createdByUserId?: string;

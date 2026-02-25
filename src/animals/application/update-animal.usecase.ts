@@ -11,7 +11,7 @@ import { UpdateVaccineProcedureDto } from '@/procedures/vaccine-procedure/infras
 import { UpdateMedicineProcedureDto } from '@/procedures/medicine-procedure/infrastructure/dto/update-medicine-procedure.dto';
 import { UpdateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-procedure/infrastructure/dto/update-miscellaneous-procedure.dto';
 import { UpdateExpenseDto } from '@/expenses/infrastructure/dto/update-expenses.dto';
-import { AnimalOutput } from './outputs/animal.output';
+import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
 import { ConflictError } from '@/shared/application/errors/conflict-error';
 import { Adopter } from '@/adopter/domain/adopter.entity';
 import { NotFoundError } from '@/shared/application/errors/not-found-error';
@@ -76,6 +76,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     private readonly loggedUserService: LoggedUserService,
     private readonly updateAnimalProcedureUseCase: UpdateAnimalProcedureUseCase,
     private readonly createAnimalProcedureUseCase: CreateAnimalProcedureUseCase,
+    private readonly animalOutputMapper: AnimalOutputMapper,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -126,24 +127,6 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       }
     }
 
-    //  animalType PASSAR PRO CREATE DO ANIMAL
-    //  adopter PASSAR PRO CREATE DO ANIMAL
-    //   name: PASSAR PRO CREATE DO ANIMAL;
-    //   age: PASSAR PRO CREATE DO ANIMAL;
-    //   breed: PASSAR PRO CREATE DO ANIMAL;
-    //   color: PASSAR PRO CREATE DO ANIMAL;
-    //   dtOfBirth?: PASSAR PRO CREATE DO ANIMAL;
-    //   dtOfDeath?: PASSAR PRO CREATE DO ANIMAL;
-    //   dtOfRescue?: PASSAR PRO CREATE DO ANIMAL;
-    //   dtOfAdoption?: PASSAR PRO CREATE DO ANIMAL;
-    //   locationOfRescue?: PASSAR PRO CREATE DO ANIMAL;
-    //   size: PASSAR PRO CREATE DO ANIMAL;
-    //   gender: PASSAR PRO CREATE DO ANIMAL;
-    //   additionalInfo?: PASSAR PRO CREATE DO ANIMAL;
-    //   castrated: PASSAR PRO CREATE DO ANIMAL;
-    //   expensesEntities: PASSAR PRO CREATE DO ANIMAL;
-    //   proceduresEntities: PASSAR PRO CREATE DO ANIMAL;
-
     /**
      * Animal Expenses without procedures */
     const expensesEntities: Expenses[] = [];
@@ -156,7 +139,9 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       );
     } else {
       const expensesWithoutProceduresIds =
-        animal.props?.expenses?.map(e => e.id) || [];
+        animal.props?.expenses
+          ?.filter(e => !e.animalProcedure)
+          .map(e => e.id) || [];
 
       if (
         expensesWithoutProceduresIds &&
@@ -204,9 +189,28 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       }
     }
 
-    //Resto do Update
+    animal.update({
+      name: input.name,
+      age: input.age,
+      breed: input.breed,
+      color: input.color,
+      dtOfBirth: input.dtOfBirth,
+      dtOfDeath: input.dtOfDeath,
+      dtOfRescue: input.dtOfRescue,
+      dtOfAdoption: input.dtOfAdoption,
+      locationOfRescue: input.locationOfRescue,
+      adopter: adopter,
+      type: animalType,
+      size: input.size,
+      gender: input.gender,
+      additionalInfo: input.additionalInfo,
+      castrated: input.castrated,
+      updatedByUserId: loggedUser.id,
+    });
 
-    return null;
+    const updatedAnimal = await this.animalRepository.update(animal);
+
+    return this.animalOutputMapper.toOutput(updatedAnimal);
   }
 
   private async reconcileProcedures(

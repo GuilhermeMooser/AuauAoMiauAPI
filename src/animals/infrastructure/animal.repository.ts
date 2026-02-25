@@ -5,6 +5,8 @@ import { AnimalSchema } from './animal.schema';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AnimalMapper } from './mapper/animal.mapper';
+import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
+import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
 
 @Injectable()
 export class AnimalRepositoryImpl implements AnimalRepository {
@@ -38,7 +40,15 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   async findById(id: string): Promise<Animal> {
     const animal = await this.animalRepository.findOne({
       where: { id },
-      relations: ['adopter', 'terms', 'animalProcedure', 'expenses', 'type', 'animalProcedure.expenses', 'expenses.animalProcedure'],
+      relations: [
+        'adopter',
+        'terms',
+        'animalProcedure',
+        'expenses',
+        'type',
+        'animalProcedure.expenses',
+        'expenses.animalProcedure',
+      ],
     });
 
     return AnimalMapper.instance.toEntity(animal);
@@ -50,8 +60,33 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   }
 
   async update(entity: Animal): Promise<Animal> {
-    const animal = await this.animalRepository.save(entity);
-    return animal;
+    await this.animalRepository
+      .createQueryBuilder()
+      .update(AnimalSchema)
+      .set({
+        name: entity.props.name,
+        age: entity.props.age,
+        breed: entity.props.breed,
+        color: entity.props.color,
+        size: entity.props.size,
+        gender: entity.props.gender,
+        dtOfBirth: entity.props.dtOfBirth,
+        dtOfDeath: entity.props.dtOfDeath,
+        dtOfRescue: entity.props.dtOfRescue,
+        dtOfAdoption: entity.props.dtOfAdoption,
+        locationOfRescue: entity.props.locationOfRescue,
+        additionalInfo: entity.props.additionalInfo,
+        castrated: entity.props.castrated,
+        adopter: entity.props.adopter
+          ? ({ id: entity.props.adopter.id } as AdopterSchema)
+          : null,
+        type: { id: entity.props.type.id } as AnimalTypeSchema,
+        updatedByUserId: entity.props.updatedByUserId,
+      })
+      .where('id = :id', { id: entity.props.id })
+      .execute();
+
+    return await this.findById(entity.props.id);
   }
 
   softDeleteById(id: string): Promise<void> {
