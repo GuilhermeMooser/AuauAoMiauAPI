@@ -38,12 +38,12 @@ Como citado anteriormente, primeiramente precisamos possuir o <b>[Docker](https:
 - Após isso precisamos configurar as variáveis de ambiente do banco de dados:
     - Crie um arquivo chamado ```.env.development```
     - Adicione as variáveis de ambiente local, exemplo:
-    ~~~javascript
+~~~javascript
 DB_USERNAME=postgres
 DB_PASSWORD=root
 DB_PORT=5432
 DB_NAME=postgres
-    ~~~
+~~~
 - Por fim, rode o comando para executar <b>```npm run dev```</b>, agora temos o backend rodando localmente e o banco de dados já está no ar. Além disso, o projeto utiliza migrations, então as tabelas já serão criadas automaticamente após a inicialização do projeto.
 
 ## Configurações de Deploy
