@@ -11,7 +11,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "dev": "npm run docker:up && dotenv -e .env.development -- nest start --watch",
+    "dev": "npm run docker:up && npx dotenv-cli dotenv -e .env.development -- nest start --watch",
     "debug": "npm run docker:up && npx dotenv-cli -e .env.development -- nest start --debug --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "npx dotenv-cli -e .env -- node dist/src/main",

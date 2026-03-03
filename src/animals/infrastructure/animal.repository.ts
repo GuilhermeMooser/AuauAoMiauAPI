@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AnimalRepository } from '../domain/animal.repository';
+import { AnimalFilters, AnimalRepository } from '../domain/animal.repository';
 import { Animal } from '../domain/animal.entity';
 import { AnimalSchema } from './animal.schema';
 import { In, Repository } from 'typeorm';
@@ -7,6 +7,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AnimalMapper } from './mapper/animal.mapper';
 import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
 import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
+import { Pagination } from '@/shared/application/pagination/pagination';
+import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
+import { paginate } from 'nestjs-typeorm-paginate';
+import {
+  MetaPresenter,
+  PaginationPresenter,
+} from '@/shared/infrastructure/presenters/pagination.presenter';
 
 @Injectable()
 export class AnimalRepositoryImpl implements AnimalRepository {
@@ -14,6 +21,63 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     @InjectRepository(AnimalSchema)
     private readonly animalRepository: Repository<AnimalSchema>,
   ) {}
+
+  async search(
+    pagination: PaginationDto,
+    search?: string,
+    filters?: AnimalFilters,
+  ): Promise<Pagination<Animal>> {
+    const queryBuilder = this.animalRepository
+      .createQueryBuilder('a')
+      .leftJoinAndSelect('a.type', 'at');
+
+    if (search) {
+      queryBuilder.where(`LOWER(a.name) LIKE LOWER(:search)`, {
+        search: `%${search}%`,
+      });
+    }
+
+    if (filters) {
+      if (filters.createdAt) {
+        queryBuilder.andWhere('DATE(a.createdAt) = :createdAt', {
+          createdAt: filters.createdAt,
+        });
+      }
+      if (filters.createdAt) {
+        queryBuilder.andWhere('DATE(a.dtOfAdoption) = :dtOfAdoption', {
+          dtOfAdoption: filters.dtOfAdoption,
+        });
+      }
+      if (filters.dtOfRescue) {
+        queryBuilder.andWhere('DATE(a.dtOfRescue) = :dtOfRescue', {
+          dtOfRescue: filters.dtOfRescue,
+        });
+      }
+      if (filters.dtOfDeath) {
+        queryBuilder.andWhere('DATE(a.dtOfDeath) = :dtOfDeath', {
+          dtOfDeath: filters.dtOfDeath,
+        });
+      }
+    }
+
+    /** Pagination */
+    const animalsDb = await paginate<AnimalSchema>(queryBuilder, pagination);
+    const animalsPaginated = new PaginationPresenter<AnimalSchema>(
+      animalsDb.items,
+      new MetaPresenter(
+        animalsDb.meta.totalItems,
+        animalsDb.meta.itemCount,
+        animalsDb.meta.itemsPerPage,
+        animalsDb.meta.totalPages,
+        animalsDb.meta.currentPage,
+      ),
+    );
+
+    return {
+      items: AnimalMapper.instance.toEntityMany(animalsPaginated.items),
+      meta: animalsPaginated.meta,
+    };
+  }
 
   async removeAdopterReference(ids: string[]): Promise<void> {
     await this.animalRepository

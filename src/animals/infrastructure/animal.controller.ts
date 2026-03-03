@@ -51,13 +51,11 @@ export class AnimalController {
   ): Promise<PaginationPresenter<MinimalAnimalPresenter>> {
     const { s, page, limit, direction, ...filters } = animalFiltersDto;
 
-    // return this.findAllAnimalsPaginatedUseCase.execute({
-    //   search: s,
-    //   paginate: { limit, page, direction },
-    //   filters: filters,
-    // });
-
-    return null;
+    return this.findAllAnimalsPaginatedUseCase.execute({
+      search: s,
+      paginate: { limit, page, direction },
+      filters: filters,
+    });
   }
 
   // @Roles(Role.Admin)

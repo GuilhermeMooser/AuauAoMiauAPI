@@ -1,0 +1,41 @@
+import { AnimalType } from '@/animal-type/domain/animal-type.entity';
+import { Animal } from '@/animals/domain/animal.entity';
+import { OutputMapper } from '@/shared/application/outputs/output-mapper';
+import { Audit } from '@/shared/domain/entity';
+import { Injectable } from '@nestjs/common';
+
+export type MinimalAnimalOutput = {
+  id: string;
+  name: string;
+  age: number;
+  breed: string;
+  dtOfRescue?: Date;
+  dtOfDeath?: Date;
+  dtOfAdoption?: Date;
+  type: AnimalType;
+  gender: string;
+  castrated?: boolean;
+  audit: Audit;
+};
+
+@Injectable()
+export class MinimalAnimalOutputMapper extends OutputMapper<
+  Animal,
+  MinimalAnimalOutput
+> {
+  toOutput(entity: Animal): MinimalAnimalOutput {
+    return {
+      id: entity.props.id,
+      name: entity.props.name,
+      age: entity.props.age,
+      breed: entity.props.breed,
+      dtOfDeath: entity.props.dtOfDeath,
+      dtOfRescue: entity.props.dtOfRescue,
+      dtOfAdoption: entity.props.dtOfAdoption,
+      type: entity.props.type,
+      gender: entity.props.gender,
+      castrated: entity.props.castrated,
+      audit: entity.props.audit,
+    };
+  }
+}

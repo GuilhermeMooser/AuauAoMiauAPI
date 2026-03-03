@@ -1,30 +1,45 @@
 import { UseCase } from '@/shared/application/usecases/use-case';
 import { Inject, Injectable } from '@nestjs/common';
-import type { AdopterRepository } from '@/adopter/domain/adopter.repository';
-import type { AnimalRepository } from '../domain/animal.repository';
-import type { TermRepository } from '@/terms/domain/term.repository';
-import type { AnimalTypeRepository } from '@/animal-type/domain/animal-type.repository';
-import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
+import type {
+  AnimalFilters,
+  AnimalRepository,
+} from '../domain/animal.repository';
+import {
+  Pagination,
+  PaginationInput,
+} from '@/shared/application/pagination/pagination';
+import {
+  MinimalAnimalOutput,
+  MinimalAnimalOutputMapper,
+} from './outputs/minimal-animal.output';
 
-type Input = {};
-type Output = {};
+type Input = {
+  paginate: PaginationInput;
+  search?: string;
+  filters?: AnimalFilters;
+};
+type Output = Pagination<MinimalAnimalOutput>;
 
 @Injectable()
 export class FindAllAnimalsPaginatedUseCase implements UseCase<Input, Output> {
   constructor(
-    @Inject('AdopterRepository')
-    private readonly adopterRepository: AdopterRepository,
     @Inject('AnimalRepository')
     private readonly animalRepository: AnimalRepository,
-    @Inject('TermRepository')
-    private readonly termRepository: TermRepository,
-    @Inject('AnimalTypeRepository')
-    private readonly animalTypeRepository: AnimalTypeRepository,
-    @Inject('LoggedUserService')
-    private readonly loggedUserService: LoggedUserService,
+    private minimalAnimalOutputMapper: MinimalAnimalOutputMapper,
   ) {}
 
-  execute(input: Input): Output | Promise<Output> {
-    throw new Error('Method not implemented.');
+  async execute({ search, paginate, filters }: Input): Promise<Output> {
+    const animalsPagination = await this.animalRepository.search(
+      paginate,
+      search,
+      filters,
+    );
+
+    return {
+      items: animalsPagination.items.map(animal => {
+        return this.minimalAnimalOutputMapper.toOutput(animal);
+      }),
+      meta: animalsPagination.meta,
+    };
   }
 }
