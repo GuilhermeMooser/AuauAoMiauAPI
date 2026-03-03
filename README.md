@@ -1,98 +1,111 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Do Auau ao Miau
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Introdução
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O projeto se destina a uma ONG de Guarapuava - PR e possui foco em fazer o controle interno dos processos da ONG. Dentre seus processos, o principal é o controle dos termos de compromisso os quais são gerados quando uma adoção é realizada, ou seja, o voluntário da ONG gera este documento a partir do vínculo de um animal com um adotante.
 
-## Description
+Além disso, o projeto conta com o cadastro de adotantes, usuários do sistema e de animais. Destaque para o cadastro de animais em que é possível ter um controle de todo seu histórico, desde a adoção até a morte, além de ser possível cadastrar todos os procedimentos e gastos envolvidos com o animal.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Por fim, o projeto está todo estruturado em inglês e com os commits seguindo padrões de nomenclatura como ```fix, feat e chore```
 
-## Project setup
+## Configurações do Projeto
 
-```bash
-$ npm install
-```
+O projeto foi criado com o backend em <b>NestJS</b> e o frontend em <b>ReactJS</b>. Além disso, o banco de dados é em <b>PostgreSQL</b>.
 
-## Compile and run the project
+### Configurações do Frontend
+- Possuir <b>Node</b> na versão 20.19.1 ou superior.
+- Possuir o <b>NPM</b> (gerenciador de pacotes do Node) na versão 10.8.1 ou superior.
+- Clonar o [repositório do Frontend](https://github.com/GuilhermeMooser/AuauAoMiauFront$0).
+- Executar o seguinte comando:
+<b>```npm install```</b> e após este comando executar <b>```npm run dev```</b>
 
-```bash
-# development
-$ npm run start
+Após este passo a passo o <b>Frontend</b> estará rodando com sucesso localmente.
 
-# watch mode
-$ npm run start:dev
+### Configurações do Backend
+- Possuir <b>Node</b> na versão 20.19.1 ou superior.
+- Possuir o <b>NPM</b> (gerenciador de pacotes do Node) na versão 10.8.1 ou superior.
+- Possuir o <b>[Docker](https://hub.docker.com/welcome$0)</b> instalado, podendo ser apenas o o <b>DockerHub</b> na versão 29 ou superior.
+- Clonar o [repositório do Backend](https://github.com/GuilhermeMooser/AuauAoMiauAPI$0).
+- Executar o seguinte comando:
+<b>```npm install```</b>
 
-# production mode
-$ npm run start:prod
-```
+Após este passo a passo o <b>Backend</b> já está apto a rodar com sucesso localmente, porém ainda precisamos configurar o banco de dados.
 
-## Run tests
+### Configurações do Banco de dados
 
-```bash
-# unit tests
-$ npm run test
+Como citado anteriormente, primeiramente precisamos possuir o <b>[Docker](https://hub.docker.com/welcome$0)</b> instalado na máquina. Após realizado o download, seguimos com os passos:
+- O projeto possui um arquivo chamado <b>```docker-compose.yml```</b> e nele já temos tudo que precisamos (imagem do banco, container nomeado, volumes e as variáveis de ambiente do projeto)
+- Após isso precisamos configurar as variáveis de ambiente do banco de dados:
+    - Crie um arquivo chamado ```.env.development```
+    - Adicione as variáveis de ambiente local, exemplo:
+    ~~~javascript
+DB_USERNAME=postgres
+DB_PASSWORD=root
+DB_PORT=5432
+DB_NAME=postgres
+    ~~~
+- Por fim, rode o comando para executar <b>```npm run dev```</b>, agora temos o backend rodando localmente e o banco de dados já está no ar. Além disso, o projeto utiliza migrations, então as tabelas já serão criadas automaticamente após a inicialização do projeto.
 
-# e2e tests
-$ npm run test:e2e
+## Configurações de Deploy
+O projeto conta com esteiras de <b>CI/CD</b> através do <b>Github Actions</b> o que facilita o deploy.
 
-# test coverage
-$ npm run test:cov
-```
+### Deploy do Frontend
+- Acessar o arquivo em ```./github/main.yml```
+- Alterar o número da versão que consta em 4 lugares
+ - O primeiro em ```tags``` e outros 2 dentro de ```cd/steps/with/script```
+ - O último fica dentro do ```package.json```no campo de ```version```
 
-## Deployment
+ ### Deploy do Backend
+- Acessar o arquivo em ```./github/main.yml```
+- Alterar o número da versão que consta em 4 lugares
+ - O primeiro em ```tags``` e outros 2 dentro de ```cd/steps/with/script```
+ - O último fica dentro do ```package.json```no campo de ```version```
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Variáveis de ambiente padrão
+~~~javascript
+PORT=
+NODE_ENV=
+DB_HOST=
+DB_USERNAME=
+DB_PASSWORD=
+DB_PORT=
+DB_NAME=
+DB_LOGS=
+DB_SSL_ENABLED=
+DB_MAX_CONNECTIONS=
+DB_MIN_CONNECTIONS=
+DB_CONNECTION_TIMEOUT=
+DB_QUERY_TIMEOUT=
+DB_SYNCHRONIZE=
+ORIGINS=
+ALLOWED_METHODS=
+DB_MIGRATIONS_RUN=
+COOKIE_SECRET=
+ENCRYPTION_SALTS=
+JWT_EXPIRES_IN=
+JWT_SECRET=
+COOKIE_SECURE=
+COOKIE_SAME_SITE=
+COOKIE_DOMAIN=
+~~~
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Agradecimentos
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+A instituição <b>Campo Real</b> - Campus Guarapuava - PR. Ao professores <b>Giovane Galvão</b> e <b>Enrique Augusto da Roza</b> os quais fez parte de todo o processo desde a concepção do Software e foram muito importantes para esta entrega. Por fim, os agradecimentos finais são para a Clara que foi quem nos atendeu de prontidão para passar as necessidades do Software e aos desenvolvedores:
+ - ### Guilherme Moser Montes
+    - [Linkedin](https://www.linkedin.com/in/guilherme-moser-08292528b/$0)
+    - [Github](https://github.com/GuilhermeMooser$0)
+ - ### Ranilson F. Ribeiro
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+ ### Contatos:
+ - Email
+    - engs-ranilsonjunior@camporeal.edu.br
+    - engs-guilhermemontes@camporeal.edu.br
 
-## Resources
 
-Check out a few resources that may come in handy when working with NestJS:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
