@@ -59,4 +59,10 @@ export class AnimalController {
 
     return null;
   }
+
+  // @Roles(Role.Admin)
+  // @Delete('/:id')
+  // delete(@Param('id') id: string): Promise<void> {
+  //   return this.softDeleteAdopterUseCase.execute({ id });
+  // }
 }

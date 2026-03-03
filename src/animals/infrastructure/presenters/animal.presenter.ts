@@ -3,6 +3,7 @@ import { MinimalAdopterPresenter } from '@/adopter/infrastructure/presenters/min
 import { AnimalTypePresenter } from '@/animal-type/infrastructure/presenter/animal-type.presenter';
 import { MinimalExpensePresenter } from '@/expenses/infrastructure/presenters/minimal-expense.presenter';
 import { AnimalProcedurePresenter } from '@/procedures/animal-procedures/infrastructure/presenters/animal-procedure.presenter';
+import type { Audit } from '@/shared/domain/entity';
 import { TermPresenter } from '@/terms/infrastructure/presenters/term.presenter';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -63,4 +64,7 @@ export class AnimalPresenter {
 
   @ApiProperty({ description: 'terms' })
   terms?: TermPresenter[];
+
+  @ApiProperty({ description: 'audit' })
+  audit: Audit;
 }
