@@ -45,7 +45,7 @@ export class AnimalSchema extends UserAuditableSchema {
 
   @Column({ name: 'locationOfRescue', nullable: true })
   locationOfRescue: string;
-
+ 
   @JoinColumn({ name: 'adopter_id' })
   @ManyToOne(() => AdopterSchema, adopter => adopter.animals, {
     nullable: true,

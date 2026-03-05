@@ -7,10 +7,7 @@ import {
   AdopterContactOutputMapper,
 } from '@/adopter-contact/application/outputs/adopter-contact.output';
 import { Adopter, MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
-import {
-  AnimalOutput,
-  AnimalOutputMapper,
-} from '@/animals/application/outputs/animal.output';
+import { MinimalAnimalOutput, MinimalAnimalOutputMapper } from '@/animals/application/outputs/minimal-animal.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
 import { Audit } from '@/shared/domain/entity';
 import {
@@ -32,7 +29,7 @@ export type AdopterOutput = {
   addresses: AdopterAddressOutput[];
   activeNotification: boolean;
   dtToNotify?: Date;
-  animals?: AnimalOutput[];
+  animals?: MinimalAnimalOutput[];
   terms?: TermOutput[];
   audit: Audit;
 };
@@ -41,7 +38,7 @@ export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {
   constructor(
     private readonly contactMapper: AdopterContactOutputMapper,
     private readonly addressMapper: AdopterAddressOutputMapper,
-    private readonly animalMapper: AnimalOutputMapper,
+    private readonly animalMapper: MinimalAnimalOutputMapper,
     private readonly termMapper: TermOutputMapper,
   ) {
     super();

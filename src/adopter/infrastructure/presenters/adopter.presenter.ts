@@ -1,6 +1,6 @@
 import { AdopterAddressPresenter } from '@/adopter-address/infrastructure/presenters/adopter-address.presenter';
 import { AdopterContactPresenter } from '@/adopter-contact/infrastructure/presenters/adopter-contact.presenter';
-import { AnimalPresenter } from '@/animals/infrastructure/presenters/animal.presenter';
+import { MinimalAnimalPresenter } from '@/animals/infrastructure/presenters/minimal-animal.presenter';
 import type { Audit } from '@/shared/domain/entity';
 import { TermPresenter } from '@/terms/infrastructure/presenters/term.presenter';
 import { ApiProperty } from '@nestjs/swagger';
@@ -51,7 +51,7 @@ export class AdopterPresenter {
   dtToNotify?: Date;
 
   @ApiProperty({ description: 'Animals' })
-  animals?: AnimalPresenter[];
+  animals?: MinimalAnimalPresenter[];
 
   @ApiProperty({ description: 'Terms' })
   terms?: TermPresenter[];

@@ -127,6 +127,7 @@ export class AdopterRepositoryImpl implements AdopterRepository {
         'contacts',
         'terms',
         'animals',
+        'animals.type',
       ],
     });
     return AdopterMapper.instance.toEntity(adopter);
