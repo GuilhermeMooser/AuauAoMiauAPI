@@ -8,18 +8,20 @@ import { AnimalTypeMapper } from './mapper/animal-type.mapper';
 
 @Injectable()
 export class AnimalTypeRepositoryRepositoryImpl
-  implements AnimalTypeRepository {
+  implements AnimalTypeRepository
+{
   constructor(
     @InjectRepository(AnimalTypeSchema)
     private readonly animalTypeRepositoryRepository: Repository<AnimalTypeSchema>,
-  ) { }
+  ) {}
 
   create(entity: Partial<AnimalType>): Promise<AnimalType> {
     throw new Error('Method not implemented.');
   }
 
-  findAll(): Promise<AnimalType[]> {
-    throw new Error('Method not implemented.');
+  async findAll(): Promise<AnimalType[]> {
+    const animalTypes = await this.animalTypeRepositoryRepository.find();
+    return animalTypes;
   }
 
   deleteById(id: number): void {
