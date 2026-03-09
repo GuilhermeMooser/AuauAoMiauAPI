@@ -66,7 +66,7 @@ export class CreateAnimalDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['pequeno', 'médio', 'grande'])
+  @IsIn(['pequeno', 'medio', 'grande'])
   size: AnimalSize;
 
   @IsString()

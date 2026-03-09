@@ -24,7 +24,6 @@ export class AnimalProcedureFactory {
       Expenses.create({
         animal: animal,
         description: exp.description,
-        expenseType: exp.expenseType,
         paymentType: exp.paymentType,
         value: exp.value,
         // expenseAttachment: exp.expenseAttachment,

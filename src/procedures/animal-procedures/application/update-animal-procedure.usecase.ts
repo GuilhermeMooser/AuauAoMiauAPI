@@ -166,7 +166,6 @@ export class UpdateAnimalProcedureUseCase implements UseCase<Input, Output> {
         const newExpense = Expenses.create({
           animal,
           description: expDto.description,
-          expenseType: expDto.expenseType,
           paymentType: expDto.paymentType,
           value: expDto.value,
           createdByUserId: loggedUser.id,

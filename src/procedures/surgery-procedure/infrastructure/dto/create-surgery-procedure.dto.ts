@@ -9,11 +9,11 @@ export class CreateSurgeryProcedureDto {
 
   @IsString()
   @IsOptional()
-  surgeryType: string;
+  surgeryType?: string;
 
   @IsString()
   @IsOptional()
-  local: string;
+  local?: string;
 
   @IsString()
   @IsOptional()

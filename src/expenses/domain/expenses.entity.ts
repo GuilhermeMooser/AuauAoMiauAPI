@@ -7,7 +7,6 @@ import {
 import { Audit } from '@/shared/domain/entity';
 
 type ExpensesProps = {
-  expenseType: string;
   value: number;
   description: string;
   paymentType?: string;
@@ -58,9 +57,6 @@ export class Expenses extends UserAuditableEntity<ExpensesProps> {
       updatedByUserId?: string;
     },
   ) {
-    if (props.expenseType !== undefined) {
-      this.props.expenseType = props.expenseType;
-    }
     if (props.value !== undefined) {
       this.props.value = props.value;
     }

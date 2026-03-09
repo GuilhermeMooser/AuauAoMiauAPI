@@ -13,14 +13,14 @@ export class CreateVaccineProcedureDto {
 
   @IsString()
   @IsOptional()
-  batch: string;
+  batch?: string;
 
   @IsString()
   @IsOptional()
-  manufacturer: string;
+  manufacturer?: string;
 
   @IsOptional()
   @IsDate()
   @Type(() => Date)
-  dtOfExpiration: Date;
+  dtOfExpiration?: Date;
 }

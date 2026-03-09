@@ -3,7 +3,6 @@
 // import { Injectable } from "@nestjs/common";
 
 // export type ExpensesOutput = {
-//   expenseType: string;
 //   value: number;
 //   description: string;
 //   paymentType: string;

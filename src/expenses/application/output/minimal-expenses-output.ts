@@ -5,7 +5,6 @@ import { Injectable } from '@nestjs/common';
 
 export type MinimalExpensesOutput = {
   id: string;
-  expenseType: string;
   value: number;
   description: string;
   paymentType: string;
@@ -20,7 +19,6 @@ export class MinimalExpensesOutputMapper extends OutputMapper<
   toOutput(entity: Expenses): MinimalExpensesOutput {
     return {
       id: entity.id,
-      expenseType: entity.props.expenseType,
       value: entity.props.value,
       description: entity.props.description,
       paymentType: entity.props.paymentType,

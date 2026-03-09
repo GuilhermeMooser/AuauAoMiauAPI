@@ -2,10 +2,6 @@ import { IsInt, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-valida
 
 export class CreateExpenseDto {
 
-  @IsString()
-  @IsNotEmpty()
-  expenseType: string;
-
   @IsInt()
   @IsNotEmpty()
   value: number;

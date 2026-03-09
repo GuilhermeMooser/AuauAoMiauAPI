@@ -6,7 +6,7 @@ import { UserAuditableEntity } from '@/shared/domain/auditable.entity';
 import { Audit } from '@/shared/domain/entity';
 import { Term } from '@/terms/domain/term.entity';
 
-export type AnimalSize = 'pequeno' | 'médio' | 'grande';
+export type AnimalSize = 'pequeno' | 'medio' | 'grande';
 
 export type AnimalGender = 'M' | 'F';
 

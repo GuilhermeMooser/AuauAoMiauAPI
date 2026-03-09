@@ -5,9 +5,6 @@ export class MinimalExpensePresenter {
   @ApiProperty({ description: 'ID' })
   id: string;
 
-  @ApiProperty({ description: 'Expense type' })
-  expenseType: string;
-
   @ApiProperty({ description: 'Value of expense' })
   value: number;
 

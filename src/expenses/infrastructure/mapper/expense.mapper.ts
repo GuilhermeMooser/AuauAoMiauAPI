@@ -22,7 +22,6 @@ export class ExpenseMapper extends RepositoryBaseMapper<
     return new Expenses({
       id: schema.id,
       description: schema.description,
-      expenseType: schema.expenseType,
       paymentType: schema?.paymentType,
       value: schema.value,
       animalProcedure: schema.animalProcedure

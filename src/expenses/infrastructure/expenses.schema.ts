@@ -26,9 +26,6 @@ export class ExpensesSchema extends UserAuditableSchema {
   @JoinColumn({ name: 'animal_procedure_id' })
   animalProcedure: AnimalProcedureSchema;
 
-  @Column({ name: 'expenseType', length: 100 })
-  expenseType: string;
-
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   value: number;
 
