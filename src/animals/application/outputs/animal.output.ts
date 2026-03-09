@@ -59,9 +59,9 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
       dtOfAdoption: entity.props.dtOfAdoption,
       locationOfRescue: entity.props.locationOfRescue,
       adopter: {
-        id: entity.props.adopter.id,
-        name: entity.props.adopter.name,
-        cpf: entity.props.adopter.cpf,
+        id: entity.props?.adopter?.id,
+        name: entity.props?.adopter?.name,
+        cpf: entity.props?.adopter?.cpf,
       } as MinimalAdopterOutput,
       terms: entity.props.terms,
       type: entity.props.type,

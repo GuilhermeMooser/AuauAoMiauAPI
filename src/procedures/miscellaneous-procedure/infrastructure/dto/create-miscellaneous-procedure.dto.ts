@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
-
+//TODO Remove
 export class CreateMiscellaneousProcedureDto {
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(400)
   reason: string;
 
