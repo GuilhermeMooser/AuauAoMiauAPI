@@ -12,7 +12,7 @@ import { AnimalProcedureModule } from '@/procedures/animal-procedures/infrastruc
 import { AnimalOutputMapper } from '../application/outputs/animal.output';
 import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
 import { UpdateAnimalUseCase } from '../application/update-animal.usecase';
-import { DeleteAnimalUseCase } from '../application/delete-animal.usecase';
+import { SoftDeleteAnimalUseCase } from '../application/soft-delete-animal.usecase';
 import { FindAllAnimalsPaginatedUseCase } from '../application/find-all-animals-paginated.usecase';
 import { FindAnimalByIdUseCase } from '../application/find-animal-by-id.usecase';
 import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
@@ -31,9 +31,9 @@ import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
   providers: [
     CreateAnimalUseCase,
     UpdateAnimalUseCase,
-    DeleteAnimalUseCase,
     FindAllAnimalsPaginatedUseCase,
     FindAnimalByIdUseCase,
+    SoftDeleteAnimalUseCase,
     {
       provide: 'AnimalRepository',
       useClass: AnimalRepositoryImpl,

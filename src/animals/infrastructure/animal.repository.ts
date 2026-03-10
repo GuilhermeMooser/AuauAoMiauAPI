@@ -97,10 +97,6 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     return AnimalMapper.instance.toEntityMany(animals);
   }
 
-  softDeleteByUserId(id: string, userId: string): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
   async findById(id: string): Promise<Animal> {
     const animal = await this.animalRepository.findOne({
       where: { id },
@@ -155,5 +151,13 @@ export class AnimalRepositoryImpl implements AnimalRepository {
 
   softDeleteById(id: string): Promise<void> {
     throw new Error('Method not implemented.');
+  }
+
+  async softDeleteByUserId(id: string, userId: string): Promise<void> {
+    await this.animalRepository.update(id, {
+      deletedByUserId: userId,
+    });
+
+    await this.animalRepository.softDelete(id);
   }
 }

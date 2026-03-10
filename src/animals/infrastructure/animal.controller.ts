@@ -2,6 +2,7 @@ import { AuthGuard } from '@/auth/infrastructure/auth.guard';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -19,6 +20,9 @@ import { PaginationPresenter } from '@/shared/infrastructure/presenters/paginati
 import { FindAllAnimalsPaginatedUseCase } from '../application/find-all-animals-paginated.usecase';
 import { MinimalAnimalPresenter } from './presenters/minimal-animal.presenter';
 import { AnimalFilterDto } from './dto/animal-filter.dto';
+import { Roles } from '@/shared/infrastructure/decorators/roles.decorator';
+import { Role } from '@/auth/domain/roles';
+import { SoftDeleteAnimalUseCase } from '../application/soft-delete-animal.usecase';
 
 @UseGuards(AuthGuard)
 @Controller('/api/animal/v1')
@@ -28,6 +32,7 @@ export class AnimalController {
     private readonly updateAnimalUseCase: UpdateAnimalUseCase,
     private readonly findAnimalByIdUseCase: FindAnimalByIdUseCase,
     private readonly findAllAnimalsPaginatedUseCase: FindAllAnimalsPaginatedUseCase,
+    private readonly softDeleteAnimalUseCase: SoftDeleteAnimalUseCase,
   ) {}
 
   @Post()
@@ -58,9 +63,9 @@ export class AnimalController {
     });
   }
 
-  // @Roles(Role.Admin)
-  // @Delete('/:id')
-  // delete(@Param('id') id: string): Promise<void> {
-  //   return this.softDeleteAdopterUseCase.execute({ id });
-  // }
+  @Roles(Role.Admin)
+  @Delete('/:id')
+  delete(@Param('id') id: string): Promise<void> {
+    return this.softDeleteAnimalUseCase.execute({ id });
+  }
 }
