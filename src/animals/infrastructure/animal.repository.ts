@@ -43,7 +43,7 @@ export class AnimalRepositoryImpl implements AnimalRepository {
           createdAt: filters.createdAt,
         });
       }
-      if (filters.createdAt) {
+      if (filters.dtOfAdoption) {
         queryBuilder.andWhere('DATE(a.dtOfAdoption) = :dtOfAdoption', {
           dtOfAdoption: filters.dtOfAdoption,
         });
