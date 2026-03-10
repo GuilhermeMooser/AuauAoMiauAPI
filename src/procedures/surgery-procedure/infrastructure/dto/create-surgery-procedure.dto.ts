@@ -1,8 +1,13 @@
-import { Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import { Type } from 'class-transformer';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateSurgeryProcedureDto {
-
   @IsString()
   @IsNotEmpty()
   surgeryName: string;
@@ -24,9 +29,4 @@ export class CreateSurgeryProcedureDto {
   @IsDate()
   @Type(() => Date)
   dtOfDuration: Date;
-
-  @IsString()
-  @IsOptional()
-  @MaxLength(400)
-  recomendations: string;
 }

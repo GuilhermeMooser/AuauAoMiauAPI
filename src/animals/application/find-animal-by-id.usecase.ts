@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { AnimalRepository } from '../domain/animal.repository';
 import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
 import { NotFoundError } from '@/shared/application/errors/not-found-error';
+import { Animal } from '../domain/animal.entity';
 
 type Input = {
   id: string;
@@ -25,6 +26,8 @@ export class FindAnimalByIdUseCase implements UseCase<Input, Output> {
       throw new NotFoundError('Animal não encontrado!');
     }
 
-    return this.animalOutputMapper.toOutput(animal);
+    return this.animalOutputMapper.toOutput(
+      animal.getExpensesWithoutAnimalProcedure(),
+    );
   }
 }

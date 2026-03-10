@@ -1,7 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 //TODO Remove
 export class CreateMiscellaneousProcedureDto {
-
   @IsString()
   @IsOptional()
   @MaxLength(400)

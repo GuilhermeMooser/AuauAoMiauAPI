@@ -46,6 +46,10 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     super(props);
   }
 
+  get expenses() {
+    return this.props.expenses;
+  }
+
   static create(
     props: AnimalProps & {
       createdByUserId?: string;
@@ -66,6 +70,12 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     if (animalProcedures !== undefined && animalProcedures.length > 0) {
       this.props.animalProcedures = animalProcedures;
     }
+    return this;
+  }
+
+  getExpensesWithoutAnimalProcedure(): this {
+    this.props.expenses =
+      this.props.expenses?.filter(e => !e.props.animalProcedure) ?? [];
     return this;
   }
 
