@@ -20,4 +20,20 @@ export class Term extends UserAuditableEntity<TermProps> {
   ) {
     super(props);
   }
+
+  static create(
+    props: TermProps & {
+      createdByUserId?: string;
+    },
+  ): Term {
+    return new Term({
+      ...props,
+      createdByUserId: props.createdByUserId,
+      audit: {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+      },
+    });
+  }
 }

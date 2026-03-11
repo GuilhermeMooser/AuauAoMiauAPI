@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Term } from '../domain/term.entity';
-import { TermRepository } from '../domain/term.repository';
+import { TermFilters, TermRepository } from '../domain/term.repository';
 import { TermMapper } from './mapper/term.mapper';
 import { TermSchema } from './term.schema';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Pagination } from '@/shared/application/pagination/pagination';
+import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
+import { paginate } from 'nestjs-typeorm-paginate';
+import {
+  MetaPresenter,
+  PaginationPresenter,
+} from '@/shared/infrastructure/presenters/pagination.presenter';
 
 @Injectable()
 export class TermRepositoryImpl implements TermRepository {
@@ -13,6 +20,50 @@ export class TermRepositoryImpl implements TermRepository {
     private readonly termRepository: Repository<TermSchema>,
   ) {}
 
+  //TODO N TEM PESQUISA POR TEXTO
+  async search(
+    pagination: PaginationDto,
+    search?: string,
+    filters?: TermFilters,
+  ): Promise<Pagination<Term>> {
+    const queryBuilder = this.termRepository
+      .createQueryBuilder('t')
+      .leftJoinAndSelect('t.animal', 'a')
+      .leftJoinAndSelect('t.adopter', 'ad');
+
+    // if (search) {
+    //   queryBuilder.where(`LOWER(a.name) LIKE LOWER(:search)`, {
+    //     search: `%${search}%`,
+    //   });
+    // }
+    
+    if (filters) {
+      if (filters.createdAt) {
+        queryBuilder.andWhere('DATE(t.createdAt) = :createdAt', {
+          createdAt: filters.createdAt,
+        });
+      }
+    }
+
+    /** Pagination */
+    const termsDb = await paginate<TermSchema>(queryBuilder, pagination);
+    const termssPaginated = new PaginationPresenter<TermSchema>(
+      termsDb.items,
+      new MetaPresenter(
+        termsDb.meta.totalItems,
+        termsDb.meta.itemCount,
+        termsDb.meta.itemsPerPage,
+        termsDb.meta.totalPages,
+        termsDb.meta.currentPage,
+      ),
+    );
+
+    return {
+      items: TermMapper.instance.toEntityMany(termssPaginated.items),
+      meta: termssPaginated.meta,
+    };
+  }
+
   async findAllByIds(ids: string[]): Promise<Term[]> {
     const terms = await this.termRepository.find({
       where: { id: In(ids) },
@@ -20,19 +71,35 @@ export class TermRepositoryImpl implements TermRepository {
 
     return TermMapper.instance.toEntityMany(terms);
   }
-  findById(id: string): Promise<Term> {
-    throw new Error('Method not implemented.');
+
+  async findById(id: string): Promise<Term> {
+    const term = await this.termRepository.findOne({
+      where: { id },
+      relations: ['animal', 'adopter'],
+    });
+
+    return TermMapper.instance.toEntity(term);
   }
-  create(entity: Partial<Term>): Promise<Term> {
-    throw new Error('Method not implemented.');
+
+  async create(entity: Term): Promise<Term> {
+    const term = await this.termRepository.save(entity);
+    return term;
   }
-  update(entity: Term): Promise<Term> {
-    throw new Error('Method not implemented.');
+
+  async update(entity: Term): Promise<Term> {
+    const term = await this.termRepository.save(entity);
+    return term;
   }
-  softDeleteById(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async softDeleteById(id: string): Promise<void> {
+    await this.termRepository.softDelete({ id });
   }
-  softDeleteByUserId(id: string, userId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async softDeleteByUserId(id: string, userId: string): Promise<void> {
+    await this.termRepository.update(id, {
+      deletedByUserId: userId,
+    });
+
+    await this.termRepository.softDelete(id);
   }
 }

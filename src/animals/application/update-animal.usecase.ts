@@ -168,7 +168,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     } else {
       /** Exclude procedures (SoftDelete) */
       const oldProceduresIds =
-        animal.props.animalProcedures.map(p => p.id) || [];
+        animal.props.animalProcedures?.map(p => p.id) || [];
       if (oldProceduresIds.length > 0) {
         const oldExpenseIds =
           animal.props.animalProcedures?.flatMap(

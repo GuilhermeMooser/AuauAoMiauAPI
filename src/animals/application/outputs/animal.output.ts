@@ -11,7 +11,10 @@ import {
 } from '@/procedures/animal-procedures/application/outputs/animal-procedure.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
 import { Audit } from '@/shared/domain/entity';
-import { TermOutput } from '@/terms/application/outputs/term.output';
+import {
+  TermOutput,
+  TermOutputMapper,
+} from '@/terms/application/outputs/term.output';
 import { Injectable } from '@nestjs/common';
 
 export type AnimalOutput = {
@@ -42,6 +45,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
   constructor(
     private readonly animalProcedureMapper: AnimalProcedureOutputMapper,
     private readonly minimalExpensesOutputMapper: MinimalExpensesOutputMapper,
+    // private readonly termOutputMapper: TermOutputMapper,
   ) {
     super();
   }
@@ -63,7 +67,14 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
         name: entity.props?.adopter?.name,
         cpf: entity.props?.adopter?.cpf,
       } as MinimalAdopterOutput,
-      terms: entity.props.terms,
+      terms:
+        entity.props?.terms?.length > 0
+          ? (entity.props.terms.map(term => {
+              return {
+                id: term.id,
+              };
+            }) as TermOutput[])
+          : undefined,
       type: entity.props.type,
       size: entity.props.size,
       gender: entity.props.gender,
