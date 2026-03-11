@@ -7,6 +7,7 @@ import {
   MinimalAnimalOutputMapper,
 } from '@/animals/application/outputs/minimal-animal.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
+import { Audit } from '@/shared/domain/entity';
 import { Term } from '@/terms/domain/term.entity';
 import { Injectable } from '@nestjs/common';
 
@@ -14,6 +15,7 @@ export type TermOutput = {
   id: string;
   animal: MinimalAnimalOutput;
   adopter: MinimalAdopterOutput;
+  audit: Audit;
 };
 
 @Injectable()
@@ -30,6 +32,7 @@ export class TermOutputMapper extends OutputMapper<Term, TermOutput> {
       id: entity.id,
       animal: this.animalMapper.toOutput(entity.props.animal),
       adopter: this.adopterMapper.toOutput(entity.props.adopter),
+      audit: entity.props.audit,
     };
   }
 }
