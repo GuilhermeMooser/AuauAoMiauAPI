@@ -91,7 +91,7 @@ COOKIE_DOMAIN=
 
 ## Agradecimentos
 
-A instituição <b>Campo Real</b> - Campus Guarapuava - PR. Ao professores <b>Giovane Galvão</b> e <b>Enrique Augusto da Roza</b> os quais fez parte de todo o processo desde a concepção do Software e foram muito importantes para esta entrega. Por fim, os agradecimentos finais são para a Clara que foi quem nos atendeu de prontidão para passar as necessidades do Software e aos desenvolvedores:
+A instituição <b>Campo Real</b> - Campus Guarapuava - PR. Ao professores <b>Giovane Galvão</b> e <b>Enrique Augusto da Roza</b> os quais fizeram parte de todo o processo desde a concepção do Software e foram muito importantes para esta entrega. Por fim, os agradecimentos finais são para a Clara que foi quem nos atendeu de prontidão para passar as necessidades do Software e aos desenvolvedores:
  - ### Guilherme Moser Montes
     - [Linkedin](https://www.linkedin.com/in/guilherme-moser-08292528b/$0)
     - [Github](https://github.com/GuilhermeMooser$0)
