@@ -20,6 +20,7 @@ export class CreateAdopterDto {
   name: string;
 
   @IsDate()
+  @IsNotEmpty()
   @Type(() => Date)
   dtOfBirth: Date;
 

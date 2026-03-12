@@ -7,7 +7,10 @@ import {
   AdopterContactOutputMapper,
 } from '@/adopter-contact/application/outputs/adopter-contact.output';
 import { Adopter, MaritalStatusUnion } from '@/adopter/domain/adopter.entity';
-import { MinimalAnimalOutput, MinimalAnimalOutputMapper } from '@/animals/application/outputs/minimal-animal.output';
+import {
+  MinimalAnimalOutput,
+  MinimalAnimalOutputMapper,
+} from '@/animals/application/outputs/minimal-animal.output';
 import { OutputMapper } from '@/shared/application/outputs/output-mapper';
 import { Audit } from '@/shared/domain/entity';
 import {
@@ -58,8 +61,17 @@ export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {
       dtToNotify: entity.props.dtToNotify,
       contacts: this.toOutputArray(entity.props.contacts, this.contactMapper),
       addresses: this.toOutputArray(entity.props.addresses, this.addressMapper),
-      animals: this.toOutputArray(entity.props.animals, this.animalMapper),
-      terms: this.toOutputArray(entity.props.terms, this.termMapper),
+      animals: entity.props?.animals
+        ? this.toOutputArray(entity.props.animals, this.animalMapper)
+        : null,
+      terms:
+        entity.props?.terms?.length > 0
+          ? (entity.props.terms.map(term => {
+              return {
+                id: term.id,
+              };
+            }) as TermOutput[])
+          : undefined,
       audit: entity.props.audit,
     };
   }
