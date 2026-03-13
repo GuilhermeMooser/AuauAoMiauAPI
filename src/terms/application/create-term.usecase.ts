@@ -7,6 +7,7 @@ import { NotFoundError } from '@/shared/application/errors/not-found-error';
 import { Term } from '../domain/term.entity';
 import type { LoggedUserService } from '@/shared/application/user-service/logged-user';
 import { TermOutput, TermOutputMapper } from './outputs/term.output';
+import { ConflictError } from '@/shared/application/errors/conflict-error';
 
 type Input = {
   animalId: string;
@@ -37,6 +38,10 @@ export class CreateTermUseCase implements UseCase<Input, Output> {
       );
     }
 
+    if (animal.props.terms.length > 0) {
+      throw new ConflictError('O animal selecionado já possui um termo ativo.');
+    }
+
     const adopter = await this.adopterRepository.findById(input.adopterId);
 
     if (!adopter) {
@@ -52,6 +57,9 @@ export class CreateTermUseCase implements UseCase<Input, Output> {
       adopter,
       createdByUserId: loggedUser.id,
     });
+
+    animal.updateAnimalAdoter(adopter);
+    await this.animalRepository.update(animal);
 
     await this.termRepository.create(term.toJSON());
 

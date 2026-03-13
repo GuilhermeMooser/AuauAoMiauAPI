@@ -73,6 +73,18 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     return this;
   }
 
+  updateAnimalAdoter(adopter: Adopter): this {
+    if (adopter !== undefined) {
+      this.props.adopter = adopter;
+    }
+    return this;
+  }
+
+  removeAnimalAdoter(): this {
+    this.props.adopter = null;
+    return this;
+  }
+
   getExpensesWithoutAnimalProcedure(): this {
     this.props.expenses =
       this.props.expenses?.filter(e => !e.props.animalProcedure) ?? [];
