@@ -38,7 +38,7 @@ export class CreateTermUseCase implements UseCase<Input, Output> {
       );
     }
 
-    if (animal.props.terms.length > 0) {
+    if (animal.props?.terms?.length > 0) {
       throw new ConflictError('O animal selecionado já possui um termo ativo.');
     }
 

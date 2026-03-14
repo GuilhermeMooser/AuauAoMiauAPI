@@ -1,5 +1,6 @@
 import { AnimalTypePresenter } from '@/animal-type/infrastructure/presenter/animal-type.presenter';
 import type { Audit } from '@/shared/domain/entity';
+import { TermPresenter } from '@/terms/infrastructure/presenters/term.presenter';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MinimalAnimalPresenter {
@@ -35,4 +36,7 @@ export class MinimalAnimalPresenter {
 
   @ApiProperty({ description: 'Auditable' })
   audit?: Audit;
+
+  @ApiProperty({ description: 'Termos do animal' })
+  terms?: TermPresenter[];
 }

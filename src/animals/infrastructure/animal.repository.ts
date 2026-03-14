@@ -29,7 +29,8 @@ export class AnimalRepositoryImpl implements AnimalRepository {
   ): Promise<Pagination<Animal>> {
     const queryBuilder = this.animalRepository
       .createQueryBuilder('a')
-      .leftJoinAndSelect('a.type', 'at');
+      .leftJoinAndSelect('a.type', 'at')
+      .leftJoinAndSelect('a.terms', 't');
 
     if (search) {
       queryBuilder.where(`LOWER(a.name) LIKE LOWER(:search)`, {
