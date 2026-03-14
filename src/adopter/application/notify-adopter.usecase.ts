@@ -15,11 +15,11 @@ export class NotifyAdopterUseCase implements UseCase<Input, Output> {
   constructor(
     @Inject('AdopterRepository')
     private readonly adopterRepository: AdopterRepository,
-    private readonly notificationUseCase: NotificationUseCase, // ← adicionar
+    private readonly notificationUseCase: NotificationUseCase,
   ) {}
 
-  // @Cron('0 7 * * *')
-  @Cron('*/1 * * * *') //TODO TESTE
+  @Cron('0 7 * * *')
+  // @Cron('*/1 * * * *') //TODO TESTE
   async execute(): Promise<void> {
     this.logger.log('Verificando adotantes para notificar...');
 
