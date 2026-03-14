@@ -12,9 +12,10 @@ import { TermModule } from '@/terms/infrastructure/term.module';
 import { UpdateAdopterUseCase } from '../application/update-adopter.usecase';
 import { FindAllAdoptersPaginatedUseCase } from '../application/find-all-adopters-paginated.usecase';
 import { FindAdopterByIdUseCase } from '../application/find-adopter-by-id.usecase';
-import { MinimalAdopterOutputMapper } from '../application/outputs/minimal-adopter.output';
 import { AnimalRepositoryModule } from '@/animals/infrastructure/animal-repository.module';
 import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mapper.module';
+import { NotifyAdopterUseCase } from '../application/notify-adopter.usecase';
+import { NotificationModule } from '@/notification/infrastructure/notification.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mappe
     TermModule,
     AdopterAddressModule,
     MapperModule,
+    NotificationModule
   ],
   controllers: [AdopterController],
   providers: [
@@ -33,6 +35,7 @@ import { MapperModule } from '@/shared/infrastructure/global-mapper/global-mappe
     UpdateAdopterUseCase,
     FindAllAdoptersPaginatedUseCase,
     FindAdopterByIdUseCase,
+    NotifyAdopterUseCase,
     {
       provide: 'AdopterRepository',
       useClass: AdopterRepositoryImpl,

@@ -20,11 +20,14 @@ import { AnimalModule } from './animals/infrastructure/animal.module';
 import { AdopterRepositoryModule } from './adopter/infrastructure/adopter-repository.module';
 import { AnimalRepositoryModule } from './animals/infrastructure/animal-repository.module';
 import { MapperModule } from './shared/infrastructure/global-mapper/global-mapper.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { NotificationModule } from './notification/infrastructure/notification.module';
 
 @Module({
   imports: [
     EnvConfigModule,
     DatabaseModule,
+    ScheduleModule.forRoot(),
     AdopterModule,
     AdopterContactModule,
     AdopterAddressModule,
@@ -44,6 +47,7 @@ import { MapperModule } from './shared/infrastructure/global-mapper/global-mappe
     AnimalRepositoryModule,
     AdopterRepositoryModule,
     MapperModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}

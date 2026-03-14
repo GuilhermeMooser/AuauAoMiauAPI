@@ -19,4 +19,5 @@ export interface AdopterRepository extends Repository<Adopter> {
     search?: string,
     filters?: FiltersAdopter,
   ): Promise<Pagination<Adopter>>;
+  findAdoptersByDtNotification(startOfDay: Date, endOfDay: Date): Promise<Adopter[]>;
 }

@@ -5,7 +5,7 @@ import {
 } from '../domain/adopter.repository';
 import { Adopter } from '../domain/adopter.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { AdopterSchema } from './adopter.schema';
 import { AdopterMapper } from './mapper/adopter.mapper';
 import { Pagination } from '@/shared/application/pagination/pagination';
@@ -153,5 +153,20 @@ export class AdopterRepositoryImpl implements AdopterRepository {
     });
 
     await this.adopterRepository.softDelete(id);
+  }
+
+  async findAdoptersByDtNotification(
+    startOfDay: Date,
+    endOfDay: Date,
+  ): Promise<Adopter[]> {
+    const adoptersSchema = await this.adopterRepository.find({
+      where: {
+        activeNotification: true,
+        dtToNotify: Between(startOfDay, endOfDay),
+      },
+      relations: ['contacts'],
+    });
+
+    return AdopterMapper.instance.toEntityMany(adoptersSchema);
   }
 }
