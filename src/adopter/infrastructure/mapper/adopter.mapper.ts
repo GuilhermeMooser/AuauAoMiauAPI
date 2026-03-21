@@ -39,7 +39,7 @@ export class AdopterMapper extends RepositoryBaseMapper<
       email: schema.email,
       name: schema.name,
       profession: schema.profession,
-      rg: schema.rg,
+      rg: schema?.rg,
       animals:
         schema.animals && schema.animals.length > 0
           ? AnimalMapper.instance.toEntityMany(schema.animals)

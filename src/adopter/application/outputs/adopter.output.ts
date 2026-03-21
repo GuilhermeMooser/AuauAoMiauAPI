@@ -23,7 +23,7 @@ export type AdopterOutput = {
   id: string;
   name: string;
   dtOfBirth: Date;
-  rg: string;
+  rg?: string;
   cpf: string;
   email: string;
   contacts: AdopterContactOutput[];
@@ -52,7 +52,7 @@ export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {
       id: entity.id,
       name: entity.props.name,
       dtOfBirth: entity.props.dtOfBirth,
-      rg: entity.props.rg,
+      rg: entity.props?.rg,
       cpf: entity.props.cpf,
       email: entity.props.email,
       profession: entity.props.profession,

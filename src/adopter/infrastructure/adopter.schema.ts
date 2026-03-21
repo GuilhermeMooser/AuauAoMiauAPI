@@ -16,8 +16,8 @@ export class AdopterSchema extends UserAuditableSchema {
   @Column({ name: 'dtOfBirth' })
   dtOfBirth: Date;
 
-  @Column({ name: 'rg' })
-  rg: string;
+  @Column({ name: 'rg', nullable: true })
+  rg?: string;
 
   @Column({ name: 'cpf', unique: true, length: 14 })
   cpf: string;

@@ -46,7 +46,7 @@ type Input = {
   id: string;
   name: string;
   dtOfBirth: Date;
-  rg: string;
+  rg?: string;
   cpf: string;
   email: string;
   contacts: AdopterContactDto[];
@@ -140,7 +140,7 @@ export class UpdateAdopterUseCase implements UseCase<Input, Output> {
     adopter.update({
       name: input.name,
       dtOfBirth: input.dtOfBirth,
-      rg: input.rg,
+      rg: input?.rg,
       cpf: input.cpf,
       email: input.email,
       profession: input.profession,

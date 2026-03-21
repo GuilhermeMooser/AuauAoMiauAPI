@@ -16,7 +16,7 @@ export type MaritalStatusUnion =
 type AdopterProps = {
   name: string;
   dtOfBirth: Date;
-  rg: string;
+  rg?: string;
   cpf: string;
   email: string;
   contacts: AdopterContact[];
@@ -119,9 +119,9 @@ export class Adopter extends UserAuditableEntity<AdopterProps> {
     if (props.dtOfBirth !== undefined) {
       this.props.dtOfBirth = props.dtOfBirth;
     }
-    if (props.rg !== undefined) {
+    // if (props.rg !== undefined) {
       this.props.rg = props.rg;
-    }
+    // }
     if (props.cpf !== undefined) {
       this.props.cpf = props.cpf;
     }

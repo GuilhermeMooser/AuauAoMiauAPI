@@ -24,7 +24,7 @@ export class AdopterPresenter {
   dtOfBirth: Date;
 
   @ApiProperty({ description: 'Register' })
-  rg: string;
+  rg?: string;
 
   @ApiProperty({ description: 'Brazilian Tax ID' })
   cpf: string;

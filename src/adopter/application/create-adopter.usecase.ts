@@ -41,7 +41,7 @@ type AdopterAddressDto = {
 type Input = {
   name: string;
   dtOfBirth: Date;
-  rg: string;
+  rg?: string;
   cpf: string;
   email: string;
   contacts: AdopterContactDto[];
@@ -106,7 +106,7 @@ export class CreateAdopterUseCase implements UseCase<Input, Output> {
       dtOfBirth: input.dtOfBirth,
       email: input.email,
       name: input.name,
-      rg: input.rg,
+      rg: input?.rg !== '' ? input.rg : null,
       profession: input.profession,
       createdByUserId: loggedUser.id,
       addresses: addresses,

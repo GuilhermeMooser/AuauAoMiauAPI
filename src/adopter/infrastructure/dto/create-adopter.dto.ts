@@ -25,8 +25,8 @@ export class CreateAdopterDto {
   dtOfBirth: Date;
 
   @IsString()
-  @IsNotEmpty()
-  rg: string;
+  @IsOptional()
+  rg?: string;
 
   @IsString()
   @IsNotEmpty()
