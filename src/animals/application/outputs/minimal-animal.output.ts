@@ -18,6 +18,7 @@ export type MinimalAnimalOutput = {
   castrated?: boolean;
   audit: Audit;
   terms: TermOutput[];
+  totalCost?: number;
 };
 
 @Injectable()
@@ -25,7 +26,7 @@ export class MinimalAnimalOutputMapper extends OutputMapper<
   Animal,
   MinimalAnimalOutput
 > {
-  toOutput(entity: Animal): MinimalAnimalOutput {
+  toOutput(entity: Animal, totalCost?: number): MinimalAnimalOutput {
     return {
       id: entity.props.id,
       name: entity.props.name,
@@ -43,6 +44,7 @@ export class MinimalAnimalOutputMapper extends OutputMapper<
           id: t.id,
         } as TermOutput;
       }),
+      totalCost: totalCost,
     };
   }
 }

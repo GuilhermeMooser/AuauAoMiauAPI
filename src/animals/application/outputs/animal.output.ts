@@ -38,6 +38,7 @@ export type AnimalOutput = {
   animalProcedures?: AnimalProcedureOutput[];
   expenses?: MinimalExpensesOutput[];
   audit: Audit;
+  totalCost?: number;
 };
 
 @Injectable()
@@ -50,7 +51,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
     super();
   }
 
-  toOutput(entity: Animal): AnimalOutput {
+  toOutput(entity: Animal, totalCost?: number): AnimalOutput {
     return {
       id: entity.props.id,
       name: entity.props.name,
@@ -89,6 +90,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
         this.animalProcedureMapper,
       ),
       audit: entity.props.audit,
+      totalCost: totalCost,
     };
   }
 }

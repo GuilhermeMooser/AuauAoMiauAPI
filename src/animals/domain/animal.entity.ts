@@ -29,6 +29,7 @@ type AnimalProps = {
   castrated?: boolean;
   expenses?: Expenses[];
   animalProcedures?: AnimalProcedures[];
+  totalCost?: number;
 
   // animalPhotos: AnimalPhotos[]
 };

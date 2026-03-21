@@ -28,6 +28,13 @@ export class FindAnimalByIdUseCase implements UseCase<Input, Output> {
 
     return this.animalOutputMapper.toOutput(
       animal.getExpensesWithoutAnimalProcedure(),
+      this.calculateTotalCost(animal),
     );
+  }
+
+  private calculateTotalCost(animal: Animal): number {
+    return animal.expenses?.reduce((total, e) => {
+      return total + Number(e.props.value || 0);
+    }, 0);
   }
 }

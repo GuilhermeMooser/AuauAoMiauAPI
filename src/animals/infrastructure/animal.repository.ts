@@ -30,6 +30,7 @@ export class AnimalRepositoryImpl implements AnimalRepository {
       .createQueryBuilder('a')
       .leftJoinAndSelect('a.type', 'at')
       .leftJoinAndSelect('a.terms', 't')
+      .leftJoinAndSelect('a.expenses', 'e')
       .take(pagination.limit)
       .skip((pagination.page - 1) * pagination.limit);
 

@@ -12,6 +12,7 @@ import {
   MinimalAnimalOutput,
   MinimalAnimalOutputMapper,
 } from './outputs/minimal-animal.output';
+import { Animal } from '../domain/animal.entity';
 
 type Input = {
   paginate: PaginationInput;
@@ -37,9 +38,18 @@ export class FindAllAnimalsPaginatedUseCase implements UseCase<Input, Output> {
 
     return {
       items: animalsPagination.items.map(animal => {
-        return this.minimalAnimalOutputMapper.toOutput(animal);
+        return this.minimalAnimalOutputMapper.toOutput(
+          animal,
+          this.calculateTotalCost(animal),
+        );
       }),
       meta: animalsPagination.meta,
     };
+  }
+
+  private calculateTotalCost(animal: Animal): number {
+    return animal.expenses?.reduce((total, e) => {
+      return total + Number(e.props.value || 0);
+    }, 0);
   }
 }
