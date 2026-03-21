@@ -13,7 +13,7 @@ export type MaritalStatusUnion =
   | 'separado'
   | 'uniao_estavel';
 
-type AdopterProps = {
+export type AdopterProps = {
   name: string;
   dtOfBirth: Date;
   rg?: string;

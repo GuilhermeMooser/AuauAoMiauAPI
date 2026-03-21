@@ -46,6 +46,7 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       meta: adoptersPaginated.meta,
     };
   }
+
   async search(
     pagination: PaginationDto,
     search?: string,
@@ -58,7 +59,9 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       .leftJoinAndSelect('add.city', 'c')
       .leftJoinAndSelect('c.stateUf', 's')
       .leftJoin('a.animals', 'an')
-      .addSelect(['an.name']);
+      .addSelect(['an.name'])
+      .take(pagination.limit)
+      .skip((pagination.page - 1) * pagination.limit);
 
     if (search) {
       queryBuilder.where(
@@ -90,16 +93,19 @@ export class AdopterRepositoryImpl implements AdopterRepository {
       }
     }
 
+    const [adoptersDb, totalItems] = await queryBuilder.getManyAndCount();
+
+    const totalPages = Math.ceil(totalItems / pagination.limit);
+
     /** Pagination */
-    const adoptersDb = await paginate<AdopterSchema>(queryBuilder, pagination);
     const adoptersPaginated = new PaginationPresenter<AdopterSchema>(
-      adoptersDb.items,
+      adoptersDb,
       new MetaPresenter(
-        adoptersDb.meta.totalItems,
-        adoptersDb.meta.itemCount,
-        adoptersDb.meta.itemsPerPage,
-        adoptersDb.meta.totalPages,
-        adoptersDb.meta.currentPage,
+        totalItems,
+        adoptersDb.length,
+        pagination.limit,
+        totalPages,
+        +pagination.page,
       ),
     );
 

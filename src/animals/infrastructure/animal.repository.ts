@@ -9,7 +9,6 @@ import { AdopterSchema } from '@/adopter/infrastructure/adopter.schema';
 import { AnimalTypeSchema } from '@/animal-type/infrastructure/animal-type.schema';
 import { Pagination } from '@/shared/application/pagination/pagination';
 import { PaginationDto } from '@/shared/infrastructure/dto/pagination.dto';
-import { paginate } from 'nestjs-typeorm-paginate';
 import {
   MetaPresenter,
   PaginationPresenter,
@@ -30,7 +29,9 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     const queryBuilder = this.animalRepository
       .createQueryBuilder('a')
       .leftJoinAndSelect('a.type', 'at')
-      .leftJoinAndSelect('a.terms', 't');
+      .leftJoinAndSelect('a.terms', 't')
+      .take(pagination.limit)
+      .skip((pagination.page - 1) * pagination.limit);
 
     if (search) {
       queryBuilder.where(`LOWER(a.name) LIKE LOWER(:search)`, {
@@ -61,16 +62,19 @@ export class AnimalRepositoryImpl implements AnimalRepository {
       }
     }
 
+    const [animalsDb, totalItems] = await queryBuilder.getManyAndCount();
+
+    const totalPages = Math.ceil(totalItems / pagination.limit);
+
     /** Pagination */
-    const animalsDb = await paginate<AnimalSchema>(queryBuilder, pagination);
     const animalsPaginated = new PaginationPresenter<AnimalSchema>(
-      animalsDb.items,
+      animalsDb,
       new MetaPresenter(
-        animalsDb.meta.totalItems,
-        animalsDb.meta.itemCount,
-        animalsDb.meta.itemsPerPage,
-        animalsDb.meta.totalPages,
-        animalsDb.meta.currentPage,
+        totalItems,
+        animalsDb.length,
+        pagination.limit,
+        totalPages,
+        +pagination.page,
       ),
     );
 
