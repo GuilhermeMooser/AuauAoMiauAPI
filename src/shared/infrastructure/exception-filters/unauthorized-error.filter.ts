@@ -8,9 +8,9 @@ export class UnauthorizedErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<FastifyReply>();
 
-    response.status(400).send({
-      statusCode: 400,
-      error: 'Bad Request',
+    response.status(401).send({
+      statusCode: 401,
+      error: 'Unauthorized',
       message: exception.message,
     });
   }
