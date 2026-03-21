@@ -16,6 +16,7 @@ import { SoftDeleteAnimalUseCase } from '../application/soft-delete-animal.useca
 import { FindAllAnimalsPaginatedUseCase } from '../application/find-all-animals-paginated.usecase';
 import { FindAnimalByIdUseCase } from '../application/find-animal-by-id.usecase';
 import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
+import { HandleImagesModule } from '@/shared/infrastructure/images/handle-images.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ExpensesModule } from '@/expenses/infrastructure/expenses.module';
     AnimalProcedureModule,
     ExpensesModule,
     MapperModule,
+    HandleImagesModule
   ],
   controllers: [AnimalController],
   providers: [

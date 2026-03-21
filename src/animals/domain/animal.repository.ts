@@ -11,6 +11,7 @@ export type AnimalFilters = {
 };
 
 export interface AnimalRepository extends Repository<Animal> {
+  updateImage(entity: Partial<Animal>): Promise<Animal>;
   findAllByIds(ids: string[]): Promise<Animal[]>;
   removeAdopterReference(ids: string[]): Promise<void>;
   search(

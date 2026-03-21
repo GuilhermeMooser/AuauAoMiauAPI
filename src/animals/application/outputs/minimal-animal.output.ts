@@ -20,6 +20,7 @@ export type MinimalAnimalOutput = {
   terms: TermOutput[];
   size: string;
   totalCost?: number;
+  imageUrl?: string;
 };
 
 @Injectable()
@@ -47,6 +48,7 @@ export class MinimalAnimalOutputMapper extends OutputMapper<
         } as TermOutput;
       }),
       totalCost: totalCost,
+      imageUrl: entity.props?.imageUrl,
     };
   }
 }

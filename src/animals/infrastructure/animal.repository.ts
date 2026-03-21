@@ -125,6 +125,11 @@ export class AnimalRepositoryImpl implements AnimalRepository {
     return AnimalMapper.instance.toEntity(animal);
   }
 
+  async updateImage(entity: Animal): Promise<Animal> {
+    const animal = await this.animalRepository.save(entity);
+    return AnimalMapper.instance.toEntity(animal);
+  }
+
   async update(entity: Animal): Promise<Animal> {
     await this.animalRepository
       .createQueryBuilder()
@@ -143,6 +148,7 @@ export class AnimalRepositoryImpl implements AnimalRepository {
         locationOfRescue: entity.props.locationOfRescue,
         additionalInfo: entity.props.additionalInfo,
         castrated: entity.props.castrated,
+        imageUrl: entity.props?.imageUrl,
         adopter: entity.props.adopter
           ? ({ id: entity.props.adopter.id } as AdopterSchema)
           : null,

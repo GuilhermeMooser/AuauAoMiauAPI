@@ -23,6 +23,8 @@ import type { ExpensesRepository } from '@/expenses/domain/expenses.repository';
 import { AnimalType } from '@/animal-type/domain/animal-type.entity';
 import { Expenses } from '@/expenses/domain/expenses.entity';
 import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
+import { FileInput } from '@/shared/infrastructure/inputs/file';
+import type { ImageService } from '@/shared/application/images/image.service';
 
 type Input = {
   id: string;
@@ -55,6 +57,7 @@ type Input = {
       | UpdateMedicineProcedureDto
       | UpdateMiscellaneousProcedureDto;
   }[];
+  imageFile?: FileInput | null;
 };
 
 type Output = AnimalOutput;
@@ -74,6 +77,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
     private readonly animalProceduresRepository: AnimalProceduresRepository,
     @Inject('LoggedUserService')
     private readonly loggedUserService: LoggedUserService,
+    @Inject('ImageService') private readonly imageService: ImageService,
     private readonly updateAnimalProcedureUseCase: UpdateAnimalProcedureUseCase,
     private readonly createAnimalProcedureUseCase: CreateAnimalProcedureUseCase,
     private readonly animalOutputMapper: AnimalOutputMapper,
@@ -189,6 +193,8 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       }
     }
 
+    const imageUrl = await this.handleImageUpdate(input.imageFile, animal);
+
     animal.update({
       name: input.name,
       age: input.age,
@@ -206,6 +212,7 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       additionalInfo: input.additionalInfo,
       castrated: input.castrated,
       updatedByUserId: loggedUser.id,
+      ...(imageUrl !== undefined && { imageUrl }),
     });
 
     const updatedAnimal = await this.animalRepository.update(animal);
@@ -344,5 +351,36 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
         expensesEntities.push(created);
       }
     }
+  }
+
+  private async handleImageUpdate(
+    imageFile: FileInput | null | undefined,
+    animal: Animal,
+  ): Promise<string | null | undefined> {
+    // Nova imagem — deleta antiga e salva nova
+    if (imageFile) {
+      if (animal.props.imageUrl) {
+        await this.imageService.deleteByPath(
+          animal.props.imageUrl.replace('/storage/', ''),
+        );
+      }
+      const path = `animals/${animal.id}/${animal.id}${imageFile.extension}`;
+      const imageUrl = await this.imageService.uploadImage(
+        imageFile.buffer,
+        path,
+      );
+      return `/storage/${imageUrl}`;
+    }
+
+    // null — remove imagem existente
+    if (imageFile === null && animal.props.imageUrl) {
+      await this.imageService.deleteByPath(
+        animal.props.imageUrl.replace('/storage/', ''),
+      );
+      return null;
+    }
+
+    // undefined — não mexe
+    return undefined;
   }
 }

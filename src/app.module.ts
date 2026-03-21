@@ -22,6 +22,7 @@ import { AnimalRepositoryModule } from './animals/infrastructure/animal-reposito
 import { MapperModule } from './shared/infrastructure/global-mapper/global-mapper.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { NotificationModule } from './notification/infrastructure/notification.module';
+import { HandleImagesModule } from './shared/infrastructure/images/handle-images.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { NotificationModule } from './notification/infrastructure/notification.m
     AdopterRepositoryModule,
     MapperModule,
     NotificationModule,
+    HandleImagesModule
   ],
 })
 export class AppModule {}

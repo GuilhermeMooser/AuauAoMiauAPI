@@ -115,4 +115,8 @@ export class EnvConfigService implements EnvConfig {
   getCookieSameSite(): CookiesSameSite {
     return this.configService.get<CookiesSameSite>('COOKIE_SAME_SITE');
   }
+
+  getImageStorageBaseUrl(): string {
+    return this.configService.get<string>('IMAGES_STORAGE_BASE_URL');
+  }
 }

@@ -39,6 +39,7 @@ export type AnimalOutput = {
   expenses?: MinimalExpensesOutput[];
   audit: Audit;
   totalCost?: number;
+  imageUrl?: string;
 };
 
 @Injectable()
@@ -91,6 +92,7 @@ export class AnimalOutputMapper extends OutputMapper<Animal, AnimalOutput> {
       ),
       audit: entity.props.audit,
       totalCost: totalCost,
+      imageUrl: entity.props?.imageUrl,
     };
   }
 }

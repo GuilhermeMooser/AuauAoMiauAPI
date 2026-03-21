@@ -15,6 +15,8 @@ import { CreateMiscellaneousProcedureDto } from '@/procedures/miscellaneous-proc
 import { AnimalOutput, AnimalOutputMapper } from './outputs/animal.output';
 import { AnimalProcedures } from '@/procedures/animal-procedures/domain/animal-procedures.entity';
 import { Expenses } from '@/expenses/domain/expenses.entity';
+import { FileInput } from '@/shared/infrastructure/inputs/file';
+import type { ImageService } from '@/shared/application/images/image.service';
 
 type Input = {
   name: string;
@@ -46,6 +48,7 @@ type Input = {
       | CreateMedicineProcedureDto
       | CreateMiscellaneousProcedureDto;
   }[];
+  imageFile?: FileInput;
 };
 
 type Output = AnimalOutput;
@@ -61,6 +64,7 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     private readonly animalTypeRepository: AnimalTypeRepository,
     @Inject('LoggedUserService')
     private readonly loggedUserService: LoggedUserService,
+    @Inject('ImageService') private readonly imageService: ImageService,
     private readonly createAnimalProcedureUseCase: CreateAnimalProcedureUseCase,
     private readonly animalOutputMapper: AnimalOutputMapper,
   ) {}
@@ -129,6 +133,20 @@ export class CreateAnimalUseCase implements UseCase<Input, Output> {
     }
 
     animal.updateAnimalProcedure(animalProcedureOutputList);
+
+    /**
+     * Imagem
+     */
+    if (input.imageFile) {
+      const path = `animals/${animal.id}/${animal.id}${input.imageFile.extension}`;
+      const imageUrl = await this.imageService.uploadImage(
+        input.imageFile.buffer,
+        path,
+      );
+
+      animal.updateAnimalImageUrl(`/storage/${imageUrl}`);
+      await this.animalRepository.update(animal);
+    }
 
     const animalMapped = this.animalOutputMapper.toOutput(animal);
 

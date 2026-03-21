@@ -14,6 +14,7 @@ import {
 } from 'class-validator';
 import { CreateAnimalProcedureDispatcherDto } from './create-animal-procedure-dispatcher.dto';
 import { CreateExpenseDto } from '@/expenses/infrastructure/dto/create-expenses.dto';
+import { FileDto } from '@/shared/infrastructure/dto/file.dto';
 
 export class CreateAnimalDto {
   @IsString()
@@ -93,4 +94,7 @@ export class CreateAnimalDto {
   @ValidateNested({ each: true })
   @Type(() => CreateAnimalProcedureDispatcherDto)
   animalProcedures?: CreateAnimalProcedureDispatcherDto[];
+
+  @IsOptional()
+  imageFile?: FileDto | null;
 }

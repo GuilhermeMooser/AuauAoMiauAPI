@@ -45,7 +45,7 @@ export class AnimalSchema extends UserAuditableSchema {
 
   @Column({ name: 'locationOfRescue', nullable: true })
   locationOfRescue: string;
- 
+
   @JoinColumn({ name: 'adopter_id' })
   @ManyToOne(() => AdopterSchema, adopter => adopter.animals, {
     nullable: true,
@@ -83,6 +83,9 @@ export class AnimalSchema extends UserAuditableSchema {
     cascade: true,
   })
   expenses: ExpensesSchema[];
+
+  @Column({ name: 'imageUrl', nullable: true })
+  imageUrl?: string;
 
   // photos
   //historicOfProcedures

@@ -46,6 +46,7 @@ export class AnimalMapper extends RepositoryBaseMapper<AnimalSchema, Animal> {
       locationOfRescue: schema.locationOfRescue,
       additionalInfo: schema.additionalInfo,
       castrated: schema.castrated,
+      imageUrl: schema.imageUrl,
       animalProcedures:
         schema.animalProcedure && schema.animalProcedure.length > 0
           ? AnimalProcedureMapper.instance.toEntityMany(schema.animalProcedure)

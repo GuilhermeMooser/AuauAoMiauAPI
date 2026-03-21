@@ -30,6 +30,7 @@ type AnimalProps = {
   expenses?: Expenses[];
   animalProcedures?: AnimalProcedures[];
   totalCost?: number;
+  imageUrl?: string;
 
   // animalPhotos: AnimalPhotos[]
 };
@@ -81,6 +82,13 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
     return this;
   }
 
+  updateAnimalImageUrl(imageUrl: string): this {
+    if (imageUrl !== undefined) {
+      this.props.imageUrl = imageUrl;
+    }
+    return this;
+  }
+
   removeAnimalAdoter(): this {
     this.props.adopter = null;
     return this;
@@ -119,6 +127,10 @@ export class Animal extends UserAuditableEntity<AnimalProps> {
 
     if (props.gender !== undefined) {
       this.props.gender = props.gender;
+    }
+
+    if (props.imageUrl !== undefined) {
+      this.props.imageUrl = props.imageUrl;
     }
 
     this.props.dtOfBirth = props?.dtOfBirth ?? null;

@@ -39,4 +39,7 @@ export class MinimalAnimalPresenter {
 
   @ApiProperty({ description: 'Termos do animal' })
   terms?: TermPresenter[];
+
+  @ApiProperty({ description: 'imageUrl' })
+  imageUrl?: string;
 }

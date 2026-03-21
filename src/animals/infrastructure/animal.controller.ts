@@ -23,6 +23,7 @@ import { AnimalFilterDto } from './dto/animal-filter.dto';
 import { Roles } from '@/shared/infrastructure/decorators/roles.decorator';
 import { Role } from '@/auth/domain/roles';
 import { SoftDeleteAnimalUseCase } from '../application/soft-delete-animal.usecase';
+import { Multipart } from '@/shared/infrastructure/decorators/multipart.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('/api/animal/v1')
@@ -35,11 +36,13 @@ export class AnimalController {
     private readonly softDeleteAnimalUseCase: SoftDeleteAnimalUseCase,
   ) {}
 
+  @Multipart()
   @Post()
   create(@Body() createAnimalDto: CreateAnimalDto): Promise<AnimalPresenter> {
     return this.createAnimalUseCase.execute(createAnimalDto);
   }
 
+  @Multipart()
   @Put()
   update(@Body() updateAnimalDto: UpdateAnimalDto): Promise<AnimalPresenter> {
     return this.updateAnimalUseCase.execute(updateAnimalDto);

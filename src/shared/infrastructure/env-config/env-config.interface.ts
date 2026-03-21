@@ -31,4 +31,6 @@ export interface EnvConfig {
   getCookieSecure(): boolean;
   getCookieDomain(): string;
   getCookieSameSite(): CookiesSameSite;
+
+  getImageStorageBaseUrl(): string;
 }

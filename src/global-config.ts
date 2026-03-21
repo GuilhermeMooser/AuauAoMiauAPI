@@ -12,6 +12,10 @@ import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import { EnvConfigService } from './shared/infrastructure/env-config/env-config.service';
 import fastifyCookie from '@fastify/cookie';
 import { UnauthorizedErrorFilter } from './shared/infrastructure/exception-filters/unauthorized-error.filter';
+import { join } from 'path';
+import multipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
+import { StorageConstants } from './shared/application/constants/storage-constants';
 
 export async function applyGlobalConfig(
   app: NestFastifyApplication,
@@ -47,4 +51,19 @@ export async function applyGlobalConfig(
   await app.register(fastifyCookie, {
     secret: envConfigService.getCookieSecret(),
   });
+
+  console.log('Static root:', StorageConstants.dirPath);
+  console.log('dirPath:', StorageConstants.dirPath);
+
+  await app.register(multipart, {
+    limits: {
+      fileSize: 5 * 1024 * 1024, // 5 MB
+    },
+  });
+
+  await app.register(fastifyStatic, {
+    root: StorageConstants.dirPath,
+    prefix: '/storage',
+  });
+
 }

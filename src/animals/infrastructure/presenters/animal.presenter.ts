@@ -67,4 +67,7 @@ export class AnimalPresenter {
 
   @ApiProperty({ description: 'audit' })
   audit: Audit;
+
+  @ApiProperty({ description: 'imageUrl' })
+  imageUrl?: string;
 }
