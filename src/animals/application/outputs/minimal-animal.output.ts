@@ -18,6 +18,7 @@ export type MinimalAnimalOutput = {
   castrated?: boolean;
   audit: Audit;
   terms: TermOutput[];
+  size: string;
   totalCost?: number;
 };
 
@@ -38,6 +39,7 @@ export class MinimalAnimalOutputMapper extends OutputMapper<
       type: entity.props.type,
       gender: entity.props.gender,
       castrated: entity.props.castrated,
+      size: entity.props.size,
       audit: entity.props.audit,
       terms: entity.props?.terms?.map(t => {
         return {

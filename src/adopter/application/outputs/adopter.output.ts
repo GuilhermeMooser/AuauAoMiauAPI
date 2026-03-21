@@ -42,7 +42,6 @@ export class AdopterOutputMapper extends OutputMapper<Adopter, AdopterOutput> {
     private readonly contactMapper: AdopterContactOutputMapper,
     private readonly addressMapper: AdopterAddressOutputMapper,
     private readonly animalMapper: MinimalAnimalOutputMapper,
-    private readonly termMapper: TermOutputMapper,
   ) {
     super();
   }

@@ -20,7 +20,6 @@ export class TermRepositoryImpl implements TermRepository {
     private readonly termRepository: Repository<TermSchema>,
   ) {}
 
-  //TODO N TEM PESQUISA POR TEXTO
   async search(
     pagination: PaginationDto,
     search?: string,
@@ -29,14 +28,13 @@ export class TermRepositoryImpl implements TermRepository {
     const queryBuilder = this.termRepository
       .createQueryBuilder('t')
       .leftJoinAndSelect('t.animal', 'a')
-      .leftJoinAndSelect('t.adopter', 'ad');
+      .leftJoinAndSelect('a.type', 'at')
+      .leftJoinAndSelect('t.adopter', 'ad')
+      .leftJoinAndSelect('ad.addresses', 'ada')
+      .leftJoinAndSelect('ada.city', 'c')
+      .leftJoinAndSelect('c.stateUf', 's')
+      .leftJoinAndSelect('ad.contacts', 'adc');
 
-    // if (search) {
-    //   queryBuilder.where(`LOWER(a.name) LIKE LOWER(:search)`, {
-    //     search: `%${search}%`,
-    //   });
-    // }
-    
     if (filters) {
       if (filters.createdAt) {
         queryBuilder.andWhere('DATE(t.createdAt) = :createdAt', {

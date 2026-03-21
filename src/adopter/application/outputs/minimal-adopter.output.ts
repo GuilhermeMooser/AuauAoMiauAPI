@@ -26,6 +26,8 @@ export type MinimalAdopterOutput = {
   dtToNotify?: Date;
   animals?: (Partial<AnimalOutput> & Pick<AnimalOutput, 'name'>)[];
   audit: Audit;
+  civilState: string;
+  dtOfBirth: Date;
 };
 @Injectable()
 export class MinimalAdopterOutputMapper extends OutputMapper<
@@ -34,7 +36,6 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
 > {
   constructor(
     private readonly addressMapper: AdopterAddressOutputMapper,
-    private readonly animalMapper: AnimalOutputMapper,
     private readonly contactMapper: AdopterContactOutputMapper,
   ) {
     super();
@@ -57,6 +58,8 @@ export class MinimalAdopterOutputMapper extends OutputMapper<
         };
       }),
       audit: entity.props.audit,
+      civilState: entity.props.civilState,
+      dtOfBirth: entity.props.dtOfBirth,
     };
   }
 }
