@@ -5,6 +5,7 @@ import type { LoggedUserService } from '@/shared/application/user-service/logged
 import { NotFoundError } from '@/shared/application/errors/not-found-error';
 import type { ExpensesRepository } from '@/expenses/domain/expenses.repository';
 import type { AnimalProceduresRepository } from '@/procedures/animal-procedures/domain/animal-procedures.repository';
+import type { ImageService } from '@/shared/application/images/image.service';
 
 type Input = {
   id: string;
@@ -22,6 +23,8 @@ export class SoftDeleteAnimalUseCase implements UseCase<Input, Output> {
     private readonly expensesRepository: ExpensesRepository,
     @Inject('AnimalProceduresRepository')
     private readonly animalProceduresRepository: AnimalProceduresRepository,
+    @Inject('ImageService')
+    private readonly imageService: ImageService,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -52,6 +55,11 @@ export class SoftDeleteAnimalUseCase implements UseCase<Input, Output> {
         loggedUser.id,
       );
     }
+
+    // Exclude image
+    await this.imageService.deleteByPath(
+      animal.props.imageUrl.replace('/storage/', ''),
+    );
 
     await this.animalRepository.softDeleteByUserId(input.id, loggedUser.id);
   }

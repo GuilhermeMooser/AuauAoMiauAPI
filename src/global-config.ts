@@ -52,9 +52,6 @@ export async function applyGlobalConfig(
     secret: envConfigService.getCookieSecret(),
   });
 
-  console.log('Static root:', StorageConstants.dirPath);
-  console.log('dirPath:', StorageConstants.dirPath);
-
   await app.register(multipart, {
     limits: {
       fileSize: 5 * 1024 * 1024, // 5 MB
@@ -63,7 +60,9 @@ export async function applyGlobalConfig(
 
   await app.register(fastifyStatic, {
     root: StorageConstants.dirPath,
-    prefix: '/storage',
+    prefix:
+      envConfigService.getNodeEnv() === 'production'
+        ? '/storage'
+        : '/api/storage',
   });
-
 }
