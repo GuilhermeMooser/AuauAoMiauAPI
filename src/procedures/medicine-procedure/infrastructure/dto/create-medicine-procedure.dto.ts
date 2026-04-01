@@ -8,7 +8,7 @@ export class CreateMedicineProcedureDto {
   medicineName: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(400)
   reason: string;
 
