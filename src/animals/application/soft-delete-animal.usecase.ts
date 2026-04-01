@@ -57,9 +57,11 @@ export class SoftDeleteAnimalUseCase implements UseCase<Input, Output> {
     }
 
     // Exclude image
-    await this.imageService.deleteByPath(
-      animal.props.imageUrl.replace('/storage/', ''),
-    );
+    if (animal.props.imageUrl) {
+      await this.imageService.deleteByPath(
+        animal.props.imageUrl.replace('/storage/', ''),
+      );
+    }
 
     await this.animalRepository.softDeleteByUserId(input.id, loggedUser.id);
   }
