@@ -118,18 +118,22 @@ export class UpdateAnimalUseCase implements UseCase<Input, Output> {
       animalType = newAnimalType;
     }
 
-    let adopter: Adopter | null = animal.props.adopter;
-    if (!input.adopterId) {
-      adopter = null;
-    } else if (input.adopterId !== adopter?.id) {
-      adopter = await this.adopterRepository.findById(input.adopterId);
+    const adopter: Adopter | null = animal.props.adopter;
 
-      if (!adopter) {
-        throw new NotFoundError(
-          `O adotante com o identificador ${input.adopterId} não foi encontrado.`,
-        );
-      }
-    }
+    /**
+     * This dont make sense, because the relation between animal and adopter is the term
+     */
+    // if (!input.adopterId) {
+    //   adopter = null;
+    // } else if (input.adopterId !== adopter?.id) {
+    //   adopter = await this.adopterRepository.findById(input.adopterId);
+
+    //   if (!adopter) {
+    //     throw new NotFoundError(
+    //       `O adotante com o identificador ${input.adopterId} não foi encontrado.`,
+    //     );
+    //   }
+    // }
 
     /**
      * Animal Expenses without procedures */
